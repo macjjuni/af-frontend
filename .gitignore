@@ -1,15 +1,24 @@
-# Learn more https://docs.github.com/en/get-started/getting-started-with-git/ignoring-files
-
-# dependencies
+# ─── Dependencies ────────────────────────────────────────────────────────────
 node_modules/
 
-# Expo
+# ─── Expo ────────────────────────────────────────────────────────────────────
 .expo/
 dist/
 web-build/
 expo-env.d.ts
 
-# Native
+# ─── EAS Build outputs ───────────────────────────────────────────────────────
+*.tar.gz
+*.ipa
+*.apk
+*.aab
+*.app
+
+# ─── Generated native projects (managed workflow) ────────────────────────────
+/ios
+/android
+
+# ─── Native artifacts ────────────────────────────────────────────────────────
 .kotlin/
 *.orig.*
 *.jks
@@ -18,24 +27,29 @@ expo-env.d.ts
 *.key
 *.mobileprovision
 
-# Metro
+# ─── Metro ───────────────────────────────────────────────────────────────────
 .metro-health-check*
 
-# debug
+# ─── Environment & secrets ───────────────────────────────────────────────────
+.env
+.env.*
+!.env.example
+
+# ─── Package manager ─────────────────────────────────────────────────────────
+.npmrc
 npm-debug.*
 yarn-debug.*
 yarn-error.*
+pnpm-debug.log*
 
-# macOS
-.DS_Store
-*.pem
-
-# local env files
-.env*.local
-
-# typescript
+# ─── TypeScript ──────────────────────────────────────────────────────────────
 *.tsbuildinfo
 
-# generated native folders
-/ios
-/android
+# ─── IDE ─────────────────────────────────────────────────────────────────────
+.idea/
+.vscode/
+*.iml
+
+# ─── macOS ───────────────────────────────────────────────────────────────────
+.DS_Store
+*.pem

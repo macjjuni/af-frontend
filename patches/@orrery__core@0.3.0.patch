@@ -1,0 +1,41 @@
+diff --git a/dist/chunk-6BKZDAMP.js b/dist/chunk-6BKZDAMP.js
+index bdeefe267f4ae004c51bea6711c001d721f0f6a3..1ca14a784e8b15ae339687022d875087b737a9f9 100644
+--- a/dist/chunk-6BKZDAMP.js
++++ b/dist/chunk-6BKZDAMP.js
+@@ -41936,14 +41936,30 @@ function findHouse(planetLon, cusps) {
+   return 1;
+ }
+ function getTimezoneOffsetMinutes(date, timezone) {
+-  const utcStr = date.toLocaleString("en-US", { timeZone: "UTC" });
+-  const tzStr = date.toLocaleString("en-US", { timeZone: timezone });
+-  return (new Date(tzStr).getTime() - new Date(utcStr).getTime()) / 6e4;
++  const fmt = new Intl.DateTimeFormat("en", {
++    timeZone: timezone,
++    year: "numeric", month: "numeric", day: "numeric",
++    hour: "numeric", minute: "numeric", second: "numeric",
++    hour12: false
++  });
++  const parts = {};
++  fmt.formatToParts(date).forEach(function(p) { if (p.type !== "literal") parts[p.type] = Number(p.value); });
++  const h = parts.hour === 24 ? 0 : parts.hour;
++  const localMs = Date.UTC(parts.year, parts.month - 1, parts.day, h, parts.minute, parts.second);
++  return (localMs - date.getTime()) / 6e4;
+ }
+ function getSeoulUtcOffsetHours(year, month, day, hour, minute) {
+-  const guessUtcMs = Date.UTC(year, month - 1, day, hour, minute) - 9 * 36e5;
+-  const offsetMin = getTimezoneOffsetMinutes(new Date(guessUtcMs), "Asia/Seoul");
+-  return offsetMin / 60;
++  // Korea timezone history (no Intl required — avoids iOS JS-thread block):
++  // ~1908:       UTC+8:27 (Seoul LMT)
++  // 1908-1911:   UTC+8:30
++  // 1912-1954:   UTC+9   (JST under Japanese rule)
++  // 1954-1961:   UTC+8:30 (KST restored)
++  // 1961-present: UTC+9  (modern KST; DST existed 1987-88 but <1h error acceptable)
++  if (year < 1908) return 8.5;
++  if (year < 1912) return 8.5;
++  if (year < 1954) return 9;
++  if (year < 1961) return 8.5;
++  return 9;
+ }
+ function calculateAspects(planets) {
+   const aspects = [];
