@@ -3,7 +3,7 @@ import { View, Text, ScrollView, TouchableOpacity, Switch, useColorScheme } from
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 import type { City, Gender } from '@orrery/core';
-import { SelectPicker, CityPicker } from '@/components';
+import { SelectPicker, CityPicker } from '@/components'
 import type { SelectOption } from '@/components';
 import useAppStore from '@/store/useAppStore';
 
@@ -76,14 +76,22 @@ export default function BirthInputScreen() {
   // endregion
 
   return (
-    <View className="flex-1 bg-white dark:bg-gray-900">
-      <ScrollView contentContainerStyle={{ padding: 20, paddingTop: insets.top, paddingBottom: 16 }}>
-        <Text className="text-2xl font-bold text-gray-900 dark:text-white mb-1">AI 사주 분석</Text>
-        <Text className="text-sm text-gray-500 dark:text-gray-400 mb-8">생년월일시와 성별을 입력하세요</Text>
+    <View className="flex-1 bg-gray-50 dark:bg-gray-900">
+
+      <ScrollView contentContainerStyle={{ padding: 20, paddingTop: insets.top + 8, paddingBottom: 16 }}>
+
+        {/* 헤더 */}
+        <View className="mb-6">
+          <Text className="text-3xl font-bold text-gray-900 dark:text-white">AI 사주 분석</Text>
+          <Text className="text-sm text-gray-400 dark:text-gray-500 mt-1">생년월일시와 성별을 입력하세요</Text>
+        </View>
 
         {/* 생년월일 */}
-        <View className="mb-6">
-          <Text className="text-lg font-semibold text-gray-500 dark:text-gray-400 mb-4">생년월일 (양력)</Text>
+        <View className="bg-white dark:bg-gray-800 rounded-2xl p-5 mb-4 border border-gray-100 dark:border-gray-700">
+          <View className="flex-row items-center mb-4">
+            <View style={{ width: 4, height: 4, backgroundColor: '#7c3aed', borderRadius: 2, marginRight: 6 }} />
+            <Text className="text-lg font-bold text-gray-700 dark:text-gray-200">생년월일 (양력)</Text>
+          </View>
           <View className="flex-row gap-2">
             <SelectPicker
               label="년도"
@@ -106,10 +114,13 @@ export default function BirthInputScreen() {
           </View>
         </View>
 
-        {/* 시간 */}
-        <View className="mb-6">
-          <View className="flex-row items-center justify-between mb-2">
-            <Text className="text-lg font-semibold text-gray-500 dark:text-gray-400">태어난 시간</Text>
+        {/* 태어난 시간 */}
+        <View className="bg-white dark:bg-gray-800 rounded-2xl p-5 mb-4 border border-gray-100 dark:border-gray-700">
+          <View className="flex-row items-center justify-between mb-4">
+            <View className="flex-row items-center">
+              <View style={{ width: 4, height: 4, backgroundColor: '#7c3aed', borderRadius: 2, marginRight: 6 }} />
+              <Text className="text-lg font-bold text-gray-700 dark:text-gray-200">태어난 시간</Text>
+            </View>
             <View className="flex-row items-center gap-2">
               <Text className="text-md text-gray-500 dark:text-gray-400">모름</Text>
               <Switch
@@ -121,7 +132,6 @@ export default function BirthInputScreen() {
               />
             </View>
           </View>
-
           <View className="flex-row gap-2">
             <SelectPicker
               label="시"
@@ -141,20 +151,24 @@ export default function BirthInputScreen() {
         </View>
 
         {/* 성별 */}
-        <View className="mb-6">
-          <Text className="text-lg font-semibold text-gray-500 dark:text-gray-400 mb-4">성별</Text>
+        <View className="bg-white dark:bg-gray-800 rounded-2xl p-5 mb-4 border border-gray-100 dark:border-gray-700">
+          <View className="flex-row items-center mb-4">
+            <View style={{ width: 4, height: 4, backgroundColor: '#7c3aed', borderRadius: 2, marginRight: 6 }} />
+            <Text className="text-lg font-bold text-gray-700 dark:text-gray-200">성별</Text>
+          </View>
           <View className="flex-row gap-3">
             {([['M', '남성'], ['F', '여성']] as [Gender, string][]).map(([val, label]) => (
               <TouchableOpacity
                 key={val}
                 onPress={() => setBirthForm({ gender: val })}
-                className={`flex-1 justify-center items-center py-3 rounded-xl border ${
+                className={`flex-1 flex-row justify-center items-center gap-2 py-3 rounded-xl border ${
                   birthForm.gender === val
                     ? 'bg-purple-600 border-purple-600'
-                    : 'bg-white border-gray-200 dark:bg-gray-800 dark:border-gray-600'
+                    : 'bg-gray-50 border-gray-200 dark:bg-gray-700 dark:border-gray-600'
                 }`}
+                activeOpacity={0.8}
               >
-                <Text className={`font-semibold ${birthForm.gender === val ? 'text-white' : 'text-gray-700 dark:text-gray-200'}`}>
+                <Text className={`text-md font-bold ${birthForm.gender === val ? 'text-white' : 'text-gray-700 dark:text-gray-200'}`}>
                   {label}
                 </Text>
               </TouchableOpacity>
@@ -163,12 +177,13 @@ export default function BirthInputScreen() {
         </View>
 
         {/* 출생 위치 */}
-        <View className="mb-6">
+        <View className="bg-white dark:bg-gray-800 rounded-2xl p-5 mb-4 border border-gray-100 dark:border-gray-700">
           <CityPicker
             selectedCity={{ name: birthForm.cityName, lat: birthForm.latitude, lon: birthForm.longitude }}
             onChange={onSelectCity}
           />
         </View>
+
       </ScrollView>
 
       {/* 분석 버튼 - 하단 고정 */}
@@ -176,14 +191,15 @@ export default function BirthInputScreen() {
         paddingHorizontal: 20,
         paddingBottom: insets.bottom + 16,
         paddingTop: 12,
-        backgroundColor: isDark ? '#111827' : '#ffffff',
+        backgroundColor: isDark ? '#111827' : '#f9fafb',
       }}>
         <TouchableOpacity
           onPress={onPressAnalyze}
-          className="flex justify-center items-center bg-purple-600 py-3 rounded-xl"
+          className="flex-row justify-center items-center bg-purple-600 py-4 rounded-2xl"
           activeOpacity={0.85}
         >
-          <Text className="text-white text-base font-bold">만세력 확인하기</Text>
+          <Text className="text-base text-white font-bold">만세력 확인하기</Text>
+          <Text className="text-base text-white ml-2">→</Text>
         </TouchableOpacity>
       </View>
     </View>

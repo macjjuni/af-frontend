@@ -21,7 +21,7 @@ interface SewoonGroup {
 
 // 레이아웃 상수
 const ITEM_W = 40;    // 아이템 너비 (패딩 포함: 32 content + 4+4)
-const ITEM_GAP = 4;   // 아이템 간격
+const ITEM_GAP = 0;   // 아이템 간격
 const GROUP_GAP = 8;  // 그룹 간격
 const BORDER_PAD = 9; // borderLeftWidth(1) + paddingLeft(8)
 
@@ -113,7 +113,7 @@ export default function SewoonList({ birthYear, daewoon, dayStem, yearBranch }: 
 
   return (
     <View>
-      <Text className="text-xl font-semibold text-gray-700 dark:text-gray-200 mb-4">세운</Text>
+      <Text className="text-[18px] font-semibold text-gray-700 dark:text-gray-200 mb-4">세운</Text>
       <ScrollView
         ref={scrollRef}
         horizontal
@@ -131,13 +131,7 @@ export default function SewoonList({ birthYear, daewoon, dayStem, yearBranch }: 
               }}
             >
               {/* 대운 구간 레이블 */}
-              <Text style={{
-                fontSize: 10,
-                color: '#9ca3af',
-                textAlign: 'center',
-                marginBottom: 4,
-                fontWeight: '600',
-              }}>
+              <Text className="text-xl text-center font-semibold text-[#9ca3af] mb-4">
                 {group.daewoonGanzi || '대운 전'}
               </Text>
 
@@ -165,36 +159,36 @@ export default function SewoonList({ birthYear, daewoon, dayStem, yearBranch }: 
                         backgroundColor: isDark ? '#292012' : '#fffbeb',
                       } : { borderRadius: 8, padding: 4 }}
                     >
-                      <Text style={{ fontSize: 10, color: secondaryTextColor, textAlign: 'center' }}>{age}세</Text>
-                      <Text style={{ fontSize: 11, color: stemColor(stem), textAlign: 'center' }}>
+                      <Text className="text-lg text-center mb-2" style={{ color: secondaryTextColor }}>{age}세</Text>
+                      <Text className="text-lg text-center mb-1" style={{ color: stemColor(stem)}}>
                         {stemSipsin}
                       </Text>
                       {/* 천간 박스 */}
                       <View style={{
-                        width: 32, height: 32, borderRadius: 4, marginVertical: 2,
+                        width: 44, height: 44, borderRadius: 4, marginVertical: 6,
                         backgroundColor: stemStyle.bg, alignItems: 'center', justifyContent: 'center',
                         borderWidth: stemStyle.border ? 1 : 0, borderColor: stemStyle.border ?? 'transparent',
                       }}>
-                        <Text style={{ color: stemStyle.text, fontSize: 16, fontWeight: 'bold' }}>
+                        <Text className="text-[24px] font-bold" style={{ color: stemStyle.text }}>
                           {stem}
                         </Text>
                       </View>
                       {/* 지지 박스 */}
                       <View style={{
-                        width: 32, height: 32, borderRadius: 4, marginBottom: 2,
+                        width: 44, height: 44, borderRadius: 4, marginBottom: 2,
                         backgroundColor: branchStyle.bg, alignItems: 'center', justifyContent: 'center',
                         borderWidth: branchStyle.border ? 1 : 0, borderColor: branchStyle.border ?? 'transparent',
                       }}>
-                        <Text style={{ color: branchStyle.text, fontSize: 16, fontWeight: 'bold' }}>
+                        <Text className="text-[24px] font-bold" style={{ color: branchStyle.text }}>
                           {branch}
                         </Text>
                       </View>
-                      <Text style={{ fontSize: 11, color: branchColor(branch), textAlign: 'center' }}>
+                      <Text className="text-lg text-center mt-1" style={{ color: branchColor(branch) }}>
                         {branchSipsin}
                       </Text>
-                      <Text style={{ fontSize: 10, color: secondaryTextColor, textAlign: 'center' }}>{unseong}</Text>
-                      <Text style={{ fontSize: 10, color: secondaryTextColor, textAlign: 'center' }}>{sinsal}</Text>
-                      <Text style={{ fontSize: 9, color: '#9ca3af', textAlign: 'center' }}>{year}</Text>
+                      <Text className="text-lg text-center mt-2" style={{ color: secondaryTextColor }}>{unseong}</Text>
+                      <Text className="text-lg text-center -mt-1" style={{ color: secondaryTextColor }}>{sinsal}</Text>
+                      <Text className="text-md text-center text-[#9ca3af] mt-1.5">{year}</Text>
                     </View>
                   );
                 })}

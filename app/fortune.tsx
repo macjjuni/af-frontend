@@ -40,11 +40,10 @@ export default function FortuneScreen() {
       <View className="px-4 pt-3 pb-10 bg-white dark:bg-gray-900 border-t border-gray-100 dark:border-gray-800">
         <TouchableOpacity
           onPress={() => router.back()}
-          className="bg-gray-100 dark:bg-gray-800 py-2 rounded-xl items-center"
+          className="bg-gray-100 dark:bg-gray-800 py-3 rounded-xl items-center"
           activeOpacity={0.85}
         >
           <Text className="text-black dark:text-white font-semibold text-lg">뒤로가기</Text>
-          <Text className="text-purple-400 text-xs">남은 횟수 {fortuneResult.remainingQuota}회</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -55,25 +54,25 @@ function getMarkdownStyles(isDark: boolean) {
   return {
     body: {
       color: isDark ? '#d1d5db' : '#374151',
-      fontSize: 14,
+      fontSize: 16,
       lineHeight: 24,
     },
     heading1: {
-      fontSize: 22,
+      fontSize: 24,
       fontWeight: '700' as const,
       color: isDark ? '#f9fafb' : '#1f2937',
       marginTop: 8,
       marginBottom: 6,
     },
     heading2: {
-      fontSize: 20,
+      fontSize: 22,
       fontWeight: '700' as const,
       color: isDark ? '#a5b4fc' : '#3730a3',
       marginTop: 16,
       marginBottom: 4,
     },
     heading3: {
-      fontSize: 18,
+      fontSize: 20,
       fontWeight: '600' as const,
       color: isDark ? '#9ca3af' : '#4b5563',
       marginTop: 12,
@@ -88,12 +87,12 @@ function getMarkdownStyles(isDark: boolean) {
       color: isDark ? '#9ca3af' : '#6b7280',
     },
     paragraph: {
-      fontSize: 16,
+      fontSize: 18,
       marginTop: 4,
       marginBottom: 6,
     },
     bullet_list: {
-      fontSize: 15,
+      fontSize: 16,
       marginVertical: 4,
     },
     ordered_list: {
@@ -121,7 +120,7 @@ function getMarkdownStyles(isDark: boolean) {
       color: isDark ? '#c4b5fd' : '#7c3aed',
       borderRadius: 4,
       paddingHorizontal: 4,
-      fontSize: 13,
+      fontSize: 16,
     },
   }
 }

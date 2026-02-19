@@ -46,22 +46,22 @@ export default function DaewoonList({ daewoon, unknownTime }: DaewoonListProps) 
     return (
       <View>
         <Text className="text-xl font-semibold text-gray-700 dark:text-gray-200 mb-4">대운</Text>
-        <Text className="text-sm text-gray-400">대운 데이터가 없습니다.</Text>
+        <Text className="text-md text-gray-400">대운 데이터가 없습니다.</Text>
       </View>
     );
   }
 
   return (
     <View>
-      <Text className="text-xl font-semibold text-gray-700 dark:text-gray-200 mb-4">대운</Text>
+      <Text className="text-[18px] font-semibold text-gray-700 dark:text-gray-200 mb-4">대운</Text>
       {unknownTime && (
-        <Text className="text-sm text-amber-600 mb-2">
+        <Text className="text-md text-amber-600 mb-2">
           출생 시간 없이 정오(12:00) 기준으로 계산하여 대운 시작 시기에 수개월 오차가 있을 수 있습니다.
         </Text>
       )}
       <ScrollView ref={scrollRef} horizontal showsHorizontalScrollIndicator={false}>
         {/* 역순으로 표시 (orrery 웹앱 flex-row-reverse 동일) */}
-        <View className="flex-row-reverse gap-2 py-1">
+        <View className="flex-row-reverse gap-0 py-1">
           {daewoon.map((dw, i) => {
             const isActive = i === activeIdx;
             const stemStyle = stemSolidStyle(dw.ganzi[0], isDark);
@@ -75,35 +75,35 @@ export default function DaewoonList({ daewoon, unknownTime }: DaewoonListProps) 
                   backgroundColor: isDark ? '#292012' : '#fffbeb',
                 } : { borderRadius: 8, padding: 4 }}
               >
-                <Text style={{ fontSize: 10, color: secondaryTextColor, textAlign: 'center' }}>{dw.age}세</Text>
-                <Text style={{ fontSize: 11, color: stemColor(dw.ganzi[0]), textAlign: 'center' }}>
+                <Text className="text-lg text-center mb-2" style={{ color: secondaryTextColor }}>{dw.age}세</Text>
+                <Text className="text-lg text-center mb-1" style={{ color: stemColor(dw.ganzi[0]) }}>
                   {dw.stemSipsin}
                 </Text>
                 {/* 천간 박스 */}
                 <View style={{
-                  width: 32, height: 32, borderRadius: 4, marginVertical: 2,
+                  width: 44, height: 44, borderRadius: 4, marginVertical: 6,
                   backgroundColor: stemStyle.bg, alignItems: 'center', justifyContent: 'center',
                   borderWidth: stemStyle.border ? 1 : 0, borderColor: stemStyle.border ?? 'transparent',
                 }}>
-                  <Text style={{ color: stemStyle.text, fontSize: 16, fontWeight: 'bold' }}>
+                  <Text className="text-[24px] font-bold" style={{ color: stemStyle.text }}>
                     {dw.ganzi[0]}
                   </Text>
                 </View>
                 {/* 지지 박스 */}
                 <View style={{
-                  width: 32, height: 32, borderRadius: 4, marginBottom: 2,
+                  width: 44, height: 44, borderRadius: 4, marginBottom: 4,
                   backgroundColor: branchStyle.bg, alignItems: 'center', justifyContent: 'center',
                   borderWidth: branchStyle.border ? 1 : 0, borderColor: branchStyle.border ?? 'transparent',
                 }}>
-                  <Text style={{ color: branchStyle.text, fontSize: 16, fontWeight: 'bold' }}>
+                  <Text className="text-[24px] font-bold" style={{ color: branchStyle.text }}>
                     {dw.ganzi[1]}
                   </Text>
                 </View>
-                <Text style={{ fontSize: 11, color: branchColor(dw.ganzi[1]), textAlign: 'center' }}>
+                <Text className="text-lg text-center mb-2" style={{ color: branchColor(dw.ganzi[1]) }}>
                   {dw.branchSipsin}
                 </Text>
-                <Text style={{ fontSize: 10, color: secondaryTextColor, textAlign: 'center' }}>{dw.unseong}</Text>
-                <Text style={{ fontSize: 10, color: secondaryTextColor, textAlign: 'center' }}>{dw.sinsal}</Text>
+                <Text className="text-lg text-center" style={{ color: secondaryTextColor }}>{dw.unseong}</Text>
+                <Text className="text-lg text-center -mt-1" style={{ color: secondaryTextColor }}>{dw.sinsal}</Text>
               </View>
             );
           })}

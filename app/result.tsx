@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useEffect } from 'react'
-import { View, Text, ScrollView, TouchableOpacity, ActivityIndicator, Modal } from 'react-native'
+import { View, Text, ScrollView, TouchableOpacity, ActivityIndicator } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useRouter } from 'expo-router'
 import { useFocusEffect } from '@react-navigation/native'
@@ -8,7 +8,7 @@ import { useSaju, useFortune, useTemplates, useRewardedAd } from '@/hooks'
 import type { PromptTemplate } from '@/hooks'
 import useAppStore from '@/store/useAppStore'
 import {
-  BottomSheet, PillarTable, RelationList, SinsalList, DaewoonList, SewoonList,
+  BottomSheet, PillarTable, RelationList, SinsalList, DaewoonList, SewoonList, LoadingView, LoadingOverlay,
 } from '@/components'
 import { sajuToText, ziweiToText, natalToText } from '@/utils/textExport'
 
@@ -115,6 +115,9 @@ export default function ResultScreen() {
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{ paddingHorizontal: 16, paddingTop: 8, paddingBottom: 32, gap: 12 }}
         >
+          <View className="py-4">
+            <Text className="text-[20px] font-bold text-center text-gray-900 dark:text-gray-100">만세력 결과</Text>
+          </View>
           <SajuContent
             saju={saju}
             unknownTime={birthForm.unknownTime}
@@ -130,15 +133,7 @@ export default function ResultScreen() {
       )}
 
       {/* 전역 로딩 오버레이 */}
-      <Modal visible={isPending} transparent animationType="fade">
-        <View className="flex-1 items-center justify-center" style={{ backgroundColor: 'rgba(0,0,0,0.55)' }}>
-          <View className="bg-white dark:bg-gray-800 rounded-2xl p-8 items-center" style={{ minWidth: 200 }}>
-            <ActivityIndicator size="large" color="#7c3aed"/>
-            <Text className="text-gray-800 dark:text-gray-100 text-lg font-medium mt-4">운세 분석 중...</Text>
-            <Text className="text-gray-400 text-md mt-1">잠시만 기다려주세요</Text>
-          </View>
-        </View>
-      </Modal>
+      <LoadingOverlay visible={isPending} title="운세 분석 중..." subtitle="잠시만 기다려주세요"/>
 
       {/* DEV: Chart Data 미리보기 */}
       {__DEV__ && (
@@ -188,8 +183,8 @@ function SajuContent({
   return (
     <>
       <View
-        className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-4 flex flex-row justify-between">
-        <Text className="text-xl font-semibold text-gray-700 dark:text-gray-200">기본정보</Text>
+        className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-4 flex flex-row items-center justify-between">
+        <Text className="text-[18px] font-semibold text-gray-700 dark:text-gray-200">기본정보</Text>
         <Text className="text-lg text-gray-800 dark:text-gray-100" numberOfLines={1}>
           {formatBirthDate()}
         </Text>
@@ -197,7 +192,7 @@ function SajuContent({
 
       {/* 사주팔자 */}
       <View className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-4">
-        <Text className="text-xl font-semibold text-gray-700 dark:text-gray-200 mb-4">사주팔자</Text>
+        <Text className="text-[18px] font-semibold text-gray-700 dark:text-gray-200 mb-4">사주팔자</Text>
         <PillarTable pillars={saju.pillars} unknownTime={unknownTime}/>
       </View>
 
@@ -300,8 +295,7 @@ function TemplateButtons({ templates, isLoading, onPress }: TemplateButtonsProps
           className="bg-purple-600 border-purple-600 py-3 rounded-xl items-center"
           activeOpacity={0.85}
         >
-          <Text className="text-white font-bold text-md">{t.buttonText}</Text>
-          <Text className="text-gray-200 text-sm">하루 5회 제한</Text>
+          <Text className="text-white font-bold text-lg">{t.buttonText}</Text>
         </TouchableOpacity>
       ))}
     </View>
@@ -311,14 +305,6 @@ function TemplateButtons({ templates, isLoading, onPress }: TemplateButtonsProps
 // endregion
 
 // region [Sub Components - 공통]
-function LoadingView() {
-  return (
-    <View className="flex-1 items-center justify-center">
-      <ActivityIndicator size="large" color="#6b7280"/>
-    </View>
-  )
-}
-
 function ErrorView({ message }: { message: string }) {
   return (
     <View className="flex-1 items-center justify-center">

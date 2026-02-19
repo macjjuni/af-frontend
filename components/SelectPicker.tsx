@@ -42,20 +42,20 @@ export default function SelectPicker<T extends string | number>({
   return (
     <>
       <View className="flex-1">
-        <Text className="text-md text-gray-500 dark:text-gray-400 mb-1">{label}</Text>
+        <Text className="text-md text-gray-400 dark:text-gray-500 mb-1">{label}</Text>
         <TouchableOpacity
           onPress={() => !disabled && setOpen(true)}
-          className={`flex-row items-center justify-between py-2 px-3 rounded-lg border ${
+          className={`flex-row items-center justify-between py-3 px-3 rounded-xl border ${
             disabled
-              ? 'bg-gray-50 border-gray-100 dark:bg-gray-800 dark:border-gray-700'
-              : 'bg-white border-gray-200 dark:bg-gray-800 dark:border-gray-600'
+              ? 'bg-gray-50 border-gray-100 dark:bg-gray-700/50 dark:border-gray-700'
+              : 'bg-gray-50 border-gray-200 dark:bg-gray-700 dark:border-gray-600'
           }`}
           activeOpacity={disabled ? 1 : 0.7}
         >
-          <Text className={`text-lg ${disabled ? 'text-gray-300 dark:text-gray-600' : 'text-gray-800 dark:text-gray-100'}`}>
+          <Text className={`text-md font-medium ${disabled ? 'text-gray-300 dark:text-gray-600' : 'text-gray-800 dark:text-gray-100'}`}>
             {selectedLabel}
           </Text>
-          <Text className={`text-lg ${disabled ? 'text-gray-300 dark:text-gray-600' : 'text-gray-400'}`}>▼</Text>
+          <Text className={`text-md ${disabled ? 'text-gray-300 dark:text-gray-600' : 'text-gray-400'}`}>▼</Text>
         </TouchableOpacity>
       </View>
 
@@ -70,7 +70,7 @@ export default function SelectPicker<T extends string | number>({
               onPress={() => onSelect(item.value)}
               className={`px-5 py-3 border-b border-gray-50 dark:border-gray-700 ${item.value === value ? 'bg-purple-50 dark:bg-purple-900/30' : ''}`}
             >
-              <Text className={`text-lg ${item.value === value ? 'text-purple-600 dark:text-purple-400 font-semibold' : 'text-gray-800 dark:text-gray-100'}`}>
+              <Text className={`text-xl ${item.value === value ? 'text-purple-600 dark:text-purple-400 font-semibold' : 'text-gray-800 dark:text-gray-100'}`}>
                 {item.label}
               </Text>
             </TouchableOpacity>

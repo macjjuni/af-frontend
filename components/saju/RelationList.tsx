@@ -57,14 +57,14 @@ export default function RelationList({ relations, pillars }: RelationListProps) 
 
   return (
     <View>
-      <Text className="text-xl font-semibold text-gray-700 dark:text-gray-200 mb-4">팔자관계</Text>
+      <Text className="text-[18px] font-semibold text-gray-700 dark:text-gray-200 mb-4">팔자관계</Text>
       <View className="gap-1">
         {lines.map((line, i) => (
           <View key={i} className="flex-row flex-wrap">
             {line.label ? (
-              <Text className="text-md text-gray-400 dark:text-gray-500 mr-2">{line.label}:</Text>
+              <Text className="text-lg text-gray-400 dark:text-gray-500 mr-2">{line.label}:</Text>
             ) : null}
-            <Text className="text-md text-gray-600 dark:text-gray-300">{line.parts.join(', ')}</Text>
+            <Text className="text-lg text-gray-600 dark:text-gray-300">{line.parts.join(', ')}</Text>
           </View>
         ))}
       </View>

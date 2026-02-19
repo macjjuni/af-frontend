@@ -1,6 +1,9 @@
 import { useEffect } from 'react';
+import { Platform } from 'react-native';
 import { Stack } from 'expo-router';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import * as SplashScreen from 'expo-splash-screen';
+import { requestTrackingPermissionsAsync } from 'expo-tracking-transparency';
 import useAppStore from '@/store/useAppStore';
 import '../global.css';
 
@@ -9,6 +12,8 @@ export { ErrorBoundary } from 'expo-router';
 export const unstable_settings = {
   initialRouteName: 'index',
 };
+
+SplashScreen.preventAutoHideAsync();
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -24,7 +29,15 @@ export default function RootLayout() {
 
   // region [Life Cycles]
   useEffect(() => {
-    initDeviceId();
+    const initialize = async () => {
+      if (Platform.OS === 'ios') {
+        await requestTrackingPermissionsAsync();
+      }
+      await initDeviceId();
+      SplashScreen.hideAsync();
+    };
+
+    initialize();
   }, []);
   // endregion
 

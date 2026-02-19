@@ -75,9 +75,9 @@ export default function BottomSheet({
           <SafeAreaView edges={['bottom']} className="bg-white dark:bg-gray-800 rounded-t-3xl h-full">
             {/* 헤더 */}
             <View className="flex-row items-center justify-between px-5 pt-4 pb-2 border-b border-gray-100 dark:border-gray-700">
-              <Text className="text-base font-bold text-gray-900 dark:text-white">{title}</Text>
+              <Text className="text-xl font-bold text-gray-900 dark:text-white">{title}</Text>
               <TouchableOpacity onPress={handleClose} className="p-1">
-                <Text className="text-gray-400 text-lg">✕</Text>
+                <Text className="text-gray-600 dark:text-gray-400 font-bold text-[20px]">✕</Text>
               </TouchableOpacity>
             </View>
             {children}

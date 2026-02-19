@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { View, Text, TouchableOpacity, FlatList, TextInput } from 'react-native';
+import { View, Text, TouchableOpacity, FlatList, TextInput, StyleSheet } from 'react-native';
 import { KOREAN_CITIES, type City } from '@orrery/core';
 import BottomSheet from '@/components/BottomSheet';
 
@@ -49,14 +49,17 @@ export default function CityPicker({ selectedCity, onChange }: CityPickerProps) 
   return (
     <>
       <View>
-        <Text className="text-lg font-semibold text-gray-500 dark:text-gray-400 mb-4">출생 위치</Text>
+        <View className="flex-row items-center mb-4">
+          <View style={styles.accentBar} />
+          <Text className="text-lg font-bold text-gray-700 dark:text-gray-200">출생 위치</Text>
+        </View>
         <TouchableOpacity
           onPress={() => setOpen(true)}
-          className="flex-row items-center justify-between py-2 px-3 rounded-lg border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800"
+          className="flex-row items-center justify-between py-3 px-3 rounded-xl border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700"
           activeOpacity={0.7}
         >
-          <Text className="text-lg text-gray-800 dark:text-gray-100">{formatCityLabel(selectedCity)}</Text>
-          <Text className="text-lg text-gray-400">▼</Text>
+          <Text className="text-base font-medium text-gray-800 dark:text-gray-100">{formatCityLabel(selectedCity)}</Text>
+          <Text className="text-xs text-gray-400">▼</Text>
         </TouchableOpacity>
       </View>
 
@@ -111,3 +114,7 @@ export default function CityPicker({ selectedCity, onChange }: CityPickerProps) 
     </>
   );
 }
+
+const styles = StyleSheet.create({
+  accentBar: { width: 4, height: 4, backgroundColor: '#7c3aed', borderRadius: 2, marginRight: 6 },
+});

@@ -23,8 +23,8 @@ export default function SinsalList({ sals }: SinsalListProps) {
 
   return (
     <View>
-      <Text className="text-lg font-semibold text-gray-700 dark:text-gray-200 mb-4">신살</Text>
-      <Text className="text-sm text-gray-600 dark:text-gray-300">{items.join(' · ')}</Text>
+      <Text className="text-[18px] font-semibold text-gray-700 dark:text-gray-200 mb-4">신살</Text>
+      <Text className="text-lg text-gray-600 dark:text-gray-300">{items.join(' · ')}</Text>
     </View>
   );
 }
