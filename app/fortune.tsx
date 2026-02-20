@@ -17,7 +17,9 @@ export default function FortuneScreen() {
 
   // region [Privates]
   const fixBoldAroundQuotes = (text: string) =>
-    text.replace(/\*\*"/g, '"**').replace(/"\*\*/g, '**"')
+    text
+      .replace(/\*\*"/g, '"**').replace(/"\*\*/g, '**"')
+      .replace(/\*\*'/g, '\'**').replace(/'\*\*/g, '**\'')
   // endregion
 
   if (!fortuneResult) return null

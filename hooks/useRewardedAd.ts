@@ -16,6 +16,7 @@ export function useRewardedAd() {
   const [adLoaded, setAdLoaded] = useState(false)
   const [adError, setAdError] = useState<Error | null>(null)
   const onRewardedRef = useRef<(() => void) | null>(null)
+  const loadTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   // endregion
 
   // region [Privates]
@@ -29,10 +30,28 @@ export function useRewardedAd() {
   // region [Events]
   function showAd(onRewarded: () => void) {
     onRewardedRef.current = onRewarded
+
     if (adLoaded) {
+      console.log('[useRewardedAd] 광고 표시')
       adRef.current.show()
+    } else if (adError) {
+      // 광고 로드 실패 시에도 콜백 실행 (광고 없이 기능 작동)
+      console.warn('[useRewardedAd] 광고 로드 실패, 광고 없이 진행:', adError.message)
+      onRewarded()
+      onRewardedRef.current = null
     } else {
+      console.log('[useRewardedAd] 광고 로딩 시작')
       loadAd()
+
+      // 5초 타임아웃: 광고 로드가 너무 오래 걸리면 광고 없이 진행
+      if (loadTimeoutRef.current) clearTimeout(loadTimeoutRef.current)
+      loadTimeoutRef.current = setTimeout(() => {
+        if (!adLoaded && onRewardedRef.current) {
+          console.warn('[useRewardedAd] 광고 로드 타임아웃, 광고 없이 진행')
+          onRewardedRef.current()
+          onRewardedRef.current = null
+        }
+      }, 5000)
     }
   }
   // endregion
@@ -40,25 +59,42 @@ export function useRewardedAd() {
   // region [Life Cycles]
   useEffect(() => {
     const unsubscribeLoaded = adRef.current.addAdEventListener(RewardedAdEventType.LOADED, () => {
+      console.log('[useRewardedAd] 광고 로드 완료')
       setAdLoaded(true)
       setAdError(null)
+      if (loadTimeoutRef.current) {
+        clearTimeout(loadTimeoutRef.current)
+        loadTimeoutRef.current = null
+      }
     })
 
     const unsubscribeEarned = adRef.current.addAdEventListener(RewardedAdEventType.EARNED_REWARD, () => {
+      console.log('[useRewardedAd] 보상 획득')
       onRewardedRef.current?.()
       onRewardedRef.current = null
+      if (loadTimeoutRef.current) {
+        clearTimeout(loadTimeoutRef.current)
+        loadTimeoutRef.current = null
+      }
     })
 
     const unsubscribeClosed = adRef.current.addAdEventListener(AdEventType.CLOSED, () => {
+      console.log('[useRewardedAd] 광고 닫힘, 재로딩')
       setAdLoaded(false)
       loadAd()
     })
 
     const unsubscribeError = adRef.current.addAdEventListener(AdEventType.ERROR, (error: Error) => {
+      console.error('[useRewardedAd] 광고 에러:', error.message)
       setAdError(error)
       setAdLoaded(false)
+      if (loadTimeoutRef.current) {
+        clearTimeout(loadTimeoutRef.current)
+        loadTimeoutRef.current = null
+      }
     })
 
+    console.log('[useRewardedAd] 초기 광고 로드')
     loadAd()
 
     return () => {
@@ -66,12 +102,20 @@ export function useRewardedAd() {
       unsubscribeEarned()
       unsubscribeClosed()
       unsubscribeError()
+      if (loadTimeoutRef.current) {
+        clearTimeout(loadTimeoutRef.current)
+      }
     }
   }, [])
 
   useEffect(() => {
     if (adLoaded && onRewardedRef.current !== null) {
+      console.log('[useRewardedAd] 광고 로드 완료 후 자동 표시')
       adRef.current.show()
+      if (loadTimeoutRef.current) {
+        clearTimeout(loadTimeoutRef.current)
+        loadTimeoutRef.current = null
+      }
     }
   }, [adLoaded])
   // endregion

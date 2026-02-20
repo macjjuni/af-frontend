@@ -2,6 +2,7 @@ import React, { useMemo } from 'react';
 import { View, Text, ScrollView, TouchableOpacity, Switch, useColorScheme } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
+import { Ionicons } from '@expo/vector-icons';
 import type { City, Gender } from '@orrery/core';
 import { SelectPicker, CityPicker } from '@/components'
 import type { SelectOption } from '@/components';
@@ -81,9 +82,17 @@ export default function BirthInputScreen() {
       <ScrollView contentContainerStyle={{ padding: 20, paddingTop: insets.top + 8, paddingBottom: 16 }}>
 
         {/* 헤더 */}
-        <View className="mb-6">
-          <Text className="text-3xl font-bold text-gray-900 dark:text-white">AI 사주 분석</Text>
-          <Text className="text-sm text-gray-400 dark:text-gray-500 mt-1">생년월일시와 성별을 입력하세요</Text>
+        <View className="mb-6 flex-row items-start justify-between">
+          <View className="flex-1">
+            <Text className="text-3xl font-bold text-gray-900 dark:text-white">AI 운세 분석</Text>
+            <Text className="text-md text-gray-400 dark:text-gray-500 mt-1">생년월일시와 성별을 입력하세요</Text>
+          </View>
+          <TouchableOpacity
+            onPress={() => router.push('/privacy')}
+            activeOpacity={0.7}
+          >
+            <Ionicons name="information-circle-outline" size={28} color={isDark ? '#9ca3af' : '#6b7280'} />
+          </TouchableOpacity>
         </View>
 
         {/* 생년월일 */}
@@ -198,8 +207,7 @@ export default function BirthInputScreen() {
           className="flex-row justify-center items-center bg-purple-600 py-4 rounded-2xl"
           activeOpacity={0.85}
         >
-          <Text className="text-base text-white font-bold">만세력 확인하기</Text>
-          <Text className="text-base text-white ml-2">→</Text>
+          <Text className="text-lg text-white font-bold">만세력 확인하기</Text>
         </TouchableOpacity>
       </View>
     </View>

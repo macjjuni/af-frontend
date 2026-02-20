@@ -3,13 +3,15 @@
   "main": "expo-router/entry",
   "version": "1.0.0",
   "scripts": {
+    "prestart": "node scripts/generate-privacy-policy.js",
     "start": "expo start -c",
     "android": "expo run:android",
     "ios": "expo run:ios",
     "web": "expo start --web -c",
     "prebuild": "expo prebuild",
     "prebuild:ios": "expo prebuild --platform ios --clean",
-    "prebuild:android": "expo prebuild --platform android --clean"
+    "prebuild:android": "expo prebuild --platform android --clean",
+    "generate:privacy": "node scripts/generate-privacy-policy.js"
   },
   "dependencies": {
     "@expo/vector-icons": "^15.0.3",

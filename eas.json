@@ -20,7 +20,9 @@
     "production": {
       "autoIncrement": true,
       "env": {
-        "APP_ENV": "production"
+        "APP_ENV": "production",
+        "EXPO_PUBLIC_ADMOB_REWARDED_IOS": "ca-app-pub-7285750037307016/6544872097",
+        "EXPO_PUBLIC_ADMOB_REWARDED_ANDROID": "ca-app-pub-7285750037307016/2908879410"
       }
     }
   },
