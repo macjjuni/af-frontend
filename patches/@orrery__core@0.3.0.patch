@@ -39,3 +39,16 @@ index bdeefe267f4ae004c51bea6711c001d721f0f6a3..1ca14a784e8b15ae339687022d875087
  }
  function calculateAspects(planets) {
    const aspects = [];
+diff --git a/dist/chunk-ETDERV6C.js b/dist/chunk-ETDERV6C.js
+index 0000000000000000000000000000000000000000..1111111111111111111111111111111111111111 100644
+--- a/dist/chunk-ETDERV6C.js
++++ b/dist/chunk-ETDERV6C.js
+@@ -48,7 +48,7 @@ function calculateSaju(input) {
+       jigang
+     };
+   });
+-  const rawDaewoon = input.unknownTime ? [] : getDaewoon(isMale, year, month, day, hour, minute);
++  const rawDaewoon = getDaewoon(isMale, year, month, day, hour, minute);
+   const yearBranch = yp[1];
+   const daewoon = rawDaewoon.map((dw, i) => {
+     const age = dw.startDate.getFullYear() - year;

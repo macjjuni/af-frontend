@@ -6,7 +6,7 @@ settings:
 
 patchedDependencies:
   '@orrery/core@0.3.0':
-    hash: dede9c49c50ec03e6d6a3072a6091d424d449d34bc86500212a9a255aa539a1f
+    hash: d043411edea9889899c1f506b977537ed8b67f6226f3bdb92bd8fb76e748fde8
     path: patches/@orrery__core@0.3.0.patch
 
 importers:
@@ -18,7 +18,7 @@ importers:
         version: 15.0.3(expo-font@14.0.11(expo@54.0.33)(react-native@0.81.5(@babel/core@7.29.0)(@types/react@19.1.17)(react@19.1.0))(react@19.1.0))(react-native@0.81.5(@babel/core@7.29.0)(@types/react@19.1.17)(react@19.1.0))(react@19.1.0)
       '@orrery/core':
         specifier: ^0.3.0
-        version: 0.3.0(patch_hash=dede9c49c50ec03e6d6a3072a6091d424d449d34bc86500212a9a255aa539a1f)
+        version: 0.3.0(patch_hash=d043411edea9889899c1f506b977537ed8b67f6226f3bdb92bd8fb76e748fde8)
       '@react-navigation/native':
         specifier: ^7.1.8
         version: 7.1.28(react-native@0.81.5(@babel/core@7.29.0)(@types/react@19.1.17)(react@19.1.0))(react@19.1.0)
@@ -4615,7 +4615,7 @@ snapshots:
       '@nodelib/fs.scandir': 2.1.5
       fastq: 1.20.1
 
-  '@orrery/core@0.3.0(patch_hash=dede9c49c50ec03e6d6a3072a6091d424d449d34bc86500212a9a255aa539a1f)':
+  '@orrery/core@0.3.0(patch_hash=d043411edea9889899c1f506b977537ed8b67f6226f3bdb92bd8fb76e748fde8)':
     dependencies:
       lunar-javascript: 1.7.7
 
