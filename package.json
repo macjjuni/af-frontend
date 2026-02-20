@@ -11,7 +11,12 @@
     "prebuild": "expo prebuild",
     "prebuild:ios": "expo prebuild --platform ios --clean",
     "prebuild:android": "expo prebuild --platform android --clean",
-    "generate:privacy": "node scripts/generate-privacy-policy.js"
+    "generate:privacy": "node scripts/generate-privacy-policy.js",
+    "build:ios": "eas build --platform ios --profile production",
+    "build:android": "eas build --platform android --profile production",
+    "submit:ios": "eas submit --platform ios --profile production",
+    "submit:android": "eas submit --platform android --profile production",
+    "testflight": "eas build --platform ios --profile production --auto-submit"
   },
   "dependencies": {
     "@expo/vector-icons": "^15.0.3",
