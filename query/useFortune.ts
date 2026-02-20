@@ -1,4 +1,5 @@
 import { useMutation } from '@tanstack/react-query';
+import Constants from 'expo-constants';
 
 // region [types]
 interface FortunePayload {
@@ -13,7 +14,14 @@ interface FortuneResponse {
 }
 // endregion
 
-const API_URL = process.env.EXPO_PUBLIC_API_URL ?? 'http://localhost:8080';
+// 환경변수에서 API URL 가져오기 (빌드 시점에 주입됨)
+// 우선순위: EXPO_PUBLIC_API_URL > Constants.extra.apiUrl > 폴백
+const API_URL =
+  process.env.EXPO_PUBLIC_API_URL ||
+  Constants.expoConfig?.extra?.apiUrl ||
+  'https://af-fortune-api-301118051125.asia-northeast3.run.app';
+
+console.log('[Fortune API] API_URL:', API_URL);
 
 // region [Transactions]
 async function fetchFortune(payload: FortunePayload): Promise<FortuneResponse> {

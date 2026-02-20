@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "AI 운세 분석",
-    "slug": "ai-fortune",
+    "slug": "af-frontend",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -59,7 +59,8 @@
       "router": {},
       "eas": {
         "projectId": "99d06956-8c8f-4f2f-8e95-00a797d88019"
-      }
+      },
+      "apiUrl": "https://af-fortune-api-301118051125.asia-northeast3.run.app"
     }
   }
 }

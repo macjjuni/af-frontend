@@ -11,8 +11,19 @@ const ADMOB_PROD_IOS_APP_ID = 'ca-app-pub-7285750037307016~8209732584';
 const androidAppId = IS_PROD ? ADMOB_PROD_ANDROID_APP_ID : ADMOB_TEST_ANDROID_APP_ID;
 const iosAppId = IS_PROD ? ADMOB_PROD_IOS_APP_ID : ADMOB_TEST_IOS_APP_ID;
 
+// API URL (환경변수 또는 기본값)
+const API_URL = process.env.EXPO_PUBLIC_API_URL || 'https://af-fortune-api-301118051125.asia-northeast3.run.app';
+
+console.log('[app.config.js] APP_ENV:', process.env.APP_ENV);
+console.log('[app.config.js] EXPO_PUBLIC_API_URL:', process.env.EXPO_PUBLIC_API_URL);
+console.log('[app.config.js] API_URL:', API_URL);
+
 module.exports = ({ config }) => ({
   ...config,
+  extra: {
+    ...config.extra,
+    apiUrl: API_URL,
+  },
   plugins: [
     'expo-router',
     [

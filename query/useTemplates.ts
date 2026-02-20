@@ -1,4 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
+import Constants from 'expo-constants';
 
 // region [types]
 export interface PromptTemplate {
@@ -12,7 +13,13 @@ interface TemplateListResponse {
 }
 // endregion
 
-const API_URL = process.env.EXPO_PUBLIC_API_URL ?? 'http://localhost:8080';
+// 환경변수에서 API URL 가져오기 (빌드 시점에 주입됨)
+const API_URL =
+  process.env.EXPO_PUBLIC_API_URL ||
+  Constants.expoConfig?.extra?.apiUrl ||
+  'https://af-fortune-api-301118051125.asia-northeast3.run.app';
+
+console.log('[Templates API] API_URL:', API_URL);
 
 // region [Transactions]
 async function fetchTemplates(): Promise<TemplateListResponse> {
