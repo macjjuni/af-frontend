@@ -1,6 +1,6 @@
 import React, { useRef, useEffect } from 'react';
 import { View, Text, ScrollView, useColorScheme } from 'react-native';
-import type { DaewoonItem } from '@orrery/core';
+import type { DaewoonItem, toHangul } from '@orrery/core';
 import { stemSolidStyle, branchSolidStyle, stemColor, branchColor } from '@/utils/format';
 
 // region [types]
@@ -56,11 +56,10 @@ export default function DaewoonList({ daewoon, unknownTime }: DaewoonListProps) 
       <Text className="text-[18px] font-semibold text-gray-700 dark:text-gray-200 mb-4">대운</Text>
       {unknownTime && (
         <Text className="text-md text-amber-600 mb-2">
-          출생 시간 없이 정오(12:00) 기준으로 계산하여 대운 시작 시기에 수개월 오차가 있을 수 있습니다.
+          출생 시간이 없어 정오(12:00) 기준으로 계산하여 대운 시작 시기에 수개월 오차가 있을 수 있습니다.
         </Text>
       )}
       <ScrollView ref={scrollRef} horizontal showsHorizontalScrollIndicator={false}>
-        {/* 역순으로 표시 (orrery 웹앱 flex-row-reverse 동일) */}
         <View className="flex-row-reverse gap-0 py-1">
           {daewoon.map((dw, i) => {
             const isActive = i === activeIdx;
@@ -76,7 +75,7 @@ export default function DaewoonList({ daewoon, unknownTime }: DaewoonListProps) 
                 } : { borderRadius: 8, padding: 4 }}
               >
                 <Text className="text-lg text-center mb-2" style={{ color: secondaryTextColor }}>{dw.age}세</Text>
-                <Text className="text-lg text-center mb-1" style={{ color: stemColor(dw.ganzi[0]) }}>
+                <Text className="text-lg text-center" style={{ color: stemColor(dw.ganzi[0]) }}>
                   {dw.stemSipsin}
                 </Text>
                 {/* 천간 박스 */}

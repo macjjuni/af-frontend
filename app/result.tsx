@@ -144,7 +144,7 @@ export default function ResultScreen() {
           maxHeight="80%"
         >
           <ScrollView className="p-4">
-            <Text selectable style={{ fontFamily: 'monospace', fontSize: 11, lineHeight: 17, color: '#374151' }}>
+            <Text selectable className="text-gray-900 dark:text-gray-200" style={{ fontFamily: 'monospace', fontSize: 14, lineHeight: 18 }}>
               {devChartText}
             </Text>
           </ScrollView>

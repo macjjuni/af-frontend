@@ -125,13 +125,13 @@ export default function SewoonList({ birthYear, daewoon, dayStem, yearBranch }: 
             <View
               key={gi}
               style={{
-                borderLeftWidth: gi < groups.length - 1 ? 1 : 0,
-                borderLeftColor: groupBorderColor,
-                paddingLeft: gi < groups.length - 1 ? 8 : 0,
+                borderRightWidth: gi < groups.length - 1 ? 1 : 0,
+                borderRightColor: groupBorderColor,
+                paddingRight: gi < groups.length - 1 ? GROUP_GAP : 0,
               }}
             >
               {/* 대운 구간 레이블 */}
-              <Text className="text-xl text-center font-semibold text-[#9ca3af] mb-4">
+              <Text className="text-xl text-center font-semibold text-gray-600 dark:text-gray-300 mb-4">
                 {group.daewoonGanzi || '대운 전'}
               </Text>
 
@@ -160,7 +160,7 @@ export default function SewoonList({ birthYear, daewoon, dayStem, yearBranch }: 
                       } : { borderRadius: 8, padding: 4 }}
                     >
                       <Text className="text-lg text-center mb-2" style={{ color: secondaryTextColor }}>{age}세</Text>
-                      <Text className="text-lg text-center mb-1" style={{ color: stemColor(stem)}}>
+                      <Text className="text-lg text-center" style={{ color: stemColor(stem)}}>
                         {stemSipsin}
                       </Text>
                       {/* 천간 박스 */}
@@ -188,7 +188,7 @@ export default function SewoonList({ birthYear, daewoon, dayStem, yearBranch }: 
                       </Text>
                       <Text className="text-lg text-center mt-2" style={{ color: secondaryTextColor }}>{unseong}</Text>
                       <Text className="text-lg text-center -mt-1" style={{ color: secondaryTextColor }}>{sinsal}</Text>
-                      <Text className="text-md text-center text-[#9ca3af] mt-1.5">{year}</Text>
+                      <Text className="text-lg text-center text-[#9ca3af] mt-1.5">{year}</Text>
                     </View>
                   );
                 })}
