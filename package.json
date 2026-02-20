@@ -52,7 +52,7 @@
     "tailwindcss": "^3.4.19",
     "typescript": "~5.9.2"
   },
-  "private": true,
+  "private": false,
   "pnpm": {
     "patchedDependencies": {
       "@orrery/core@0.3.0": "patches/@orrery__core@0.3.0.patch"
