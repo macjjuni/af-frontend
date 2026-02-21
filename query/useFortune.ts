@@ -19,6 +19,7 @@ async function fetchFortune(payload: FortunePayload): Promise<FortuneResponse> {
   return apiFetch<FortuneResponse>('/api/v1/fortune', {
     method: 'POST',
     body: JSON.stringify(payload),
+    timeout: 180000, // 3분 (LLM 응답 대기)
   });
 }
 // endregion
