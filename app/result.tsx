@@ -149,7 +149,7 @@ export default function ResultScreen() {
       )}
 
       {/* 전역 로딩 오버레이 */}
-      <LoadingOverlay visible={isPending} title="AI 분석 중..." subtitle="잠시만 기다려주세요"/>
+      <LoadingOverlay visible={isPending} title="AI 분석 중..." subtitle="최적의 분석 결과를 도출하고 있습니다." thirdtitle="(약 1~2분 소요)"/>
 
       {/* DEV: Chart Data 미리보기 */}
       {__DEV__ && (

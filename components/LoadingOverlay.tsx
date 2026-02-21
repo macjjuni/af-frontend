@@ -6,9 +6,10 @@ interface LoadingOverlayProps {
   visible: boolean;
   title?: string;
   subtitle?: string;
+  thirdtitle?: string;
 }
 
-export default function LoadingOverlay({ visible, title, subtitle }: LoadingOverlayProps) {
+export default function LoadingOverlay({ visible, title, subtitle, thirdtitle }: LoadingOverlayProps) {
   return (
     <Modal visible={visible} transparent animationType="fade">
       <View className="flex-1 items-center justify-center" style={{ backgroundColor: 'rgba(0,0,0,0.55)' }}>
@@ -19,6 +20,9 @@ export default function LoadingOverlay({ visible, title, subtitle }: LoadingOver
           )}
           {subtitle && (
             <Text className="text-gray-400 text-md mt-1">{subtitle}</Text>
+          )}
+          {thirdtitle && (
+            <Text className="text-gray-400 text-md mt-1">{thirdtitle}</Text>
           )}
         </View>
       </View>

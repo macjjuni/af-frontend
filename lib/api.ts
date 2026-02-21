@@ -23,7 +23,7 @@ export async function apiFetch<T>(endpoint: string, options?: RequestInit): Prom
 
   if (!response.ok) {
     if (response.status === 429) {
-      throw new Error('일일 이용 한도(5회)를 초과했습니다.');
+      throw new Error('일일 이용 한도(10회)를 초과했습니다.');
     }
     throw new Error(`서버 오류 (${response.status})`);
   }
