@@ -18,7 +18,7 @@ export function useShouldShowAds() {
   const query = useQuery({
     queryKey: ['ads', 'should-show'],
     queryFn: fetchShouldShowAds,
-    staleTime: 1000 * 60 * 5, // 5분 캐싱 (자주 변하지 않음)
+    staleTime: 0, // 캐싱 없이 항상 최신 상태 확인 (광고는 수익에 직결)
   });
   // endregion
 
