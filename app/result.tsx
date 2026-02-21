@@ -149,7 +149,7 @@ export default function ResultScreen() {
       )}
 
       {/* 전역 로딩 오버레이 */}
-      <LoadingOverlay visible={isPending} title="운세 분석 중..." subtitle="잠시만 기다려주세요"/>
+      <LoadingOverlay visible={isPending} title="AI 분석 중..." subtitle="잠시만 기다려주세요"/>
 
       {/* DEV: Chart Data 미리보기 */}
       {__DEV__ && (
