@@ -4,8 +4,8 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useRouter } from 'expo-router'
 import { useFocusEffect } from '@react-navigation/native'
 import { calculateSaju, createChart, calculateNatal, type SajuResult } from '@orrery/core'
-import { useSaju, useFortune, useTemplates, useRewardedAd } from '@/hooks'
-import type { PromptTemplate } from '@/hooks'
+import { useSaju, useRewardedAd } from '@/hooks'
+import { useShouldShowAds, useTemplates, useFortune, type PromptTemplate } from '@/query'
 import useAppStore from '@/store/useAppStore'
 import {
   BottomSheet, PillarTable, RelationList, SinsalList, DaewoonList, SewoonList, LoadingView, LoadingOverlay,
@@ -20,6 +20,7 @@ export default function ResultScreen() {
   const { saju, error: sajuError } = useSaju(birthForm)
   const fortune = useFortune()
   const { data: templatesData, isLoading: templatesLoading } = useTemplates()
+  const shouldShowAds = useShouldShowAds()
   const { showAd } = useRewardedAd()
   const [isBuilding, setIsBuilding] = useState(false)
   const [devChartText, setDevChartText] = useState<string | null>(null)
@@ -64,7 +65,13 @@ export default function ResultScreen() {
 
   function onPressFortune(templateId: number) {
     if (!saju) return
-    showAd(async () => {
+
+    // shouldShowAds API 로딩 중이면 대기
+    if (shouldShowAds.isLoading) return
+
+    const showAds = shouldShowAds.data?.isShowAds ?? false
+
+    const executeFortuneAnalysis = async () => {
       setIsBuilding(true)
       try {
         const chartData = await buildChartData()
@@ -72,7 +79,15 @@ export default function ResultScreen() {
       } finally {
         setIsBuilding(false)
       }
-    })
+    }
+
+    if (showAds) {
+      // 광고를 보여야 하는 경우: 기존 로직 유지
+      showAd(executeFortuneAnalysis)
+    } else {
+      // 광고를 보여지 않아야 하는 경우: 바로 실행
+      executeFortuneAnalysis()
+    }
   }
 
   async function onPressDebugChart() {
@@ -124,6 +139,7 @@ export default function ResultScreen() {
             fortune={fortune}
             templates={templatesData?.templates}
             templatesLoading={templatesLoading}
+            shouldShowAds={shouldShowAds}
             onPressFortune={onPressFortune}
             onPressBack={onPressBack}
             onPressDebugChart={onPressDebugChart}
@@ -161,6 +177,7 @@ interface SajuContentProps {
   fortune: ReturnType<typeof useFortune>;
   templates: PromptTemplate[] | undefined;
   templatesLoading: boolean;
+  shouldShowAds: ReturnType<typeof useShouldShowAds>;
   onPressFortune: (templateId: number) => void;
   onPressBack: () => void;
   onPressDebugChart: () => void;
@@ -173,6 +190,7 @@ function SajuContent({
                        fortune,
                        templates,
                        templatesLoading,
+                       shouldShowAds,
                        onPressFortune,
                        onPressBack,
                        onPressDebugChart,
@@ -239,7 +257,7 @@ function SajuContent({
         <View>
           <TemplateButtons
             templates={templates}
-            isLoading={templatesLoading}
+            isLoading={templatesLoading || shouldShowAds.isLoading}
             onPress={onPressFortune}
           />
         </View>
