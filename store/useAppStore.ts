@@ -43,7 +43,7 @@ function getDefaultBirthForm(): BirthForm {
     year: now.getFullYear(),
     month: now.getMonth() + 1,
     day: now.getDate(),
-    hour: 0,
+    hour: 12,
     minute: 0,
     gender: 'M',
     unknownTime: false,

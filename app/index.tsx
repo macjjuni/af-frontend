@@ -98,7 +98,7 @@ export default function BirthInputScreen() {
         {/* 생년월일 */}
         <View className="bg-white dark:bg-gray-800 rounded-2xl p-5 mb-4 border border-gray-100 dark:border-gray-700">
           <View className="flex-row items-center mb-4">
-            <View style={{ width: 4, height: 4, backgroundColor: '#7c3aed', borderRadius: 2, marginRight: 6 }} />
+            <View style={{ width: 6, height: 6, backgroundColor: '#7c3aed', borderRadius: 3, marginRight: 8 }} />
             <Text className="text-lg font-bold text-gray-700 dark:text-gray-200">생년월일 (양력)</Text>
           </View>
           <View className="flex-row gap-2">
@@ -127,7 +127,7 @@ export default function BirthInputScreen() {
         <View className="bg-white dark:bg-gray-800 rounded-2xl p-5 mb-4 border border-gray-100 dark:border-gray-700">
           <View className="flex-row items-center justify-between mb-4">
             <View className="flex-row items-center">
-              <View style={{ width: 4, height: 4, backgroundColor: '#7c3aed', borderRadius: 2, marginRight: 6 }} />
+              <View style={{ width: 6, height: 6, backgroundColor: '#7c3aed', borderRadius: 3, marginRight: 8 }} />
               <Text className="text-lg font-bold text-gray-700 dark:text-gray-200">태어난 시간</Text>
             </View>
             <View className="flex-row items-center gap-2">
@@ -162,7 +162,7 @@ export default function BirthInputScreen() {
         {/* 성별 */}
         <View className="bg-white dark:bg-gray-800 rounded-2xl p-5 mb-4 border border-gray-100 dark:border-gray-700">
           <View className="flex-row items-center mb-4">
-            <View style={{ width: 4, height: 4, backgroundColor: '#7c3aed', borderRadius: 2, marginRight: 6 }} />
+            <View style={{ width: 6, height: 6, backgroundColor: '#7c3aed', borderRadius: 3, marginRight: 8 }} />
             <Text className="text-lg font-bold text-gray-700 dark:text-gray-200">성별</Text>
           </View>
           <View className="flex-row gap-3">
