@@ -4,6 +4,7 @@ import { Stack } from 'expo-router';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import * as SplashScreen from 'expo-splash-screen';
 import useAppStore from '@/store/useAppStore';
+import { GlobalLoadingOverlay } from '@/components';
 import '../global.css';
 
 export { ErrorBoundary } from 'expo-router';
@@ -24,6 +25,7 @@ const queryClient = new QueryClient({
 export default function RootLayout() {
   // region [hooks]
   const initDeviceId = useAppStore((s) => s.initDeviceId);
+  const initOnboarding = useAppStore((s) => s.initOnboarding);
   // endregion
 
   // region [Life Cycles]
@@ -34,6 +36,7 @@ export default function RootLayout() {
         await requestTrackingPermissionsAsync();
       }
       await initDeviceId();
+      await initOnboarding();
       SplashScreen.hideAsync();
     };
 
@@ -44,12 +47,29 @@ export default function RootLayout() {
   return (
     <QueryClientProvider client={queryClient}>
       <Stack>
+        <Stack.Screen
+          name="onboarding"
+          options={{
+            headerShown: false,
+            gestureEnabled: false,
+          }}
+        />
+        <Stack.Screen
+          name="consent"
+          options={{
+            headerShown: false,
+            gestureEnabled: false,
+          }}
+        />
         <Stack.Screen name="index" options={{ headerShown: false, title: 'AI 운세 분석' }} />
         <Stack.Screen name="result" options={{ headerShown: false }} />
         <Stack.Screen name="fortune" options={{ headerShown: false }} />
-        <Stack.Screen name="privacy" options={{ headerShown: true, title: '개인정보처리방침' }} />
+        <Stack.Screen name="terms" options={{ headerShown: false }} />
+        <Stack.Screen name="privacy" options={{ headerShown: false }} />
+        <Stack.Screen name="ai-notice" options={{ headerShown: false }} />
         <Stack.Screen name="+not-found" />
       </Stack>
+      <GlobalLoadingOverlay />
     </QueryClientProvider>
   );
 }

@@ -1,23 +1,21 @@
-import React from 'react'
-import { ScrollView, useColorScheme, View, Text, TouchableOpacity } from 'react-native'
-import { useRouter } from 'expo-router'
-import { useSafeAreaInsets } from 'react-native-safe-area-context'
-import { Ionicons } from '@expo/vector-icons'
-import Markdown from 'react-native-markdown-display'
-import { PRIVACY_POLICY_TEXT } from '@/constants/privacyPolicy'
+import { View, Text, ScrollView, TouchableOpacity, useColorScheme } from 'react-native';
+import { useRouter } from 'expo-router';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { Ionicons } from '@expo/vector-icons';
+import Markdown from 'react-native-markdown-display';
+import { TERMS_TEXT } from '@/constants/terms';
 
-export default function PrivacyPolicy() {
-
+export default function TermsScreen() {
   // region [hooks]
-  const router = useRouter()
-  const insets = useSafeAreaInsets()
-  const colorScheme = useColorScheme()
-  const isDark = colorScheme === 'dark'
+  const router = useRouter();
+  const insets = useSafeAreaInsets();
+  const colorScheme = useColorScheme();
+  const isDark = colorScheme === 'dark';
   // endregion
 
   // region [Events]
   function onPressBack() {
-    router.back()
+    router.back();
   }
   // endregion
 
@@ -32,7 +30,7 @@ export default function PrivacyPolicy() {
           <TouchableOpacity onPress={onPressBack} activeOpacity={0.7}>
             <Ionicons name="chevron-back" size={28} color="#7c3aed" />
           </TouchableOpacity>
-          <Text className="text-xl font-bold text-gray-900 dark:text-white">개인정보처리방침</Text>
+          <Text className="text-xl font-bold text-gray-900 dark:text-white">서비스 이용약관</Text>
           <View style={{ width: 28 }} />
         </View>
       </View>
@@ -43,11 +41,11 @@ export default function PrivacyPolicy() {
         contentContainerStyle={{ paddingBottom: insets.bottom + 16, paddingTop: 16 }}
       >
         <View className="bg-white dark:bg-gray-800 rounded-xl p-4 border border-gray-100 dark:border-gray-700">
-          <Markdown style={getMarkdownStyles(isDark)}>{PRIVACY_POLICY_TEXT}</Markdown>
+          <Markdown style={getMarkdownStyles(isDark)}>{TERMS_TEXT}</Markdown>
         </View>
       </ScrollView>
     </View>
-  )
+  );
 }
 
 function getMarkdownStyles(isDark: boolean) {
@@ -109,38 +107,9 @@ function getMarkdownStyles(isDark: boolean) {
       height: 1,
       marginVertical: 16,
     },
-    table: {
-      borderWidth: 1,
-      borderColor: isDark ? '#374151' : '#e5e7eb',
-      borderRadius: 8,
-      marginVertical: 12,
-    },
-    thead: {
-      backgroundColor: isDark ? '#1f2937' : '#f9fafb',
-    },
-    tbody: {},
-    th: {
-      fontSize: 14,
-      fontWeight: '600' as const,
-      color: isDark ? '#f9fafb' : '#1f2937',
-      padding: 8,
-      borderWidth: 1,
-      borderColor: isDark ? '#374151' : '#e5e7eb',
-    },
-    tr: {
-      borderBottomWidth: 1,
-      borderColor: isDark ? '#374151' : '#e5e7eb',
-    },
-    td: {
-      fontSize: 14,
-      color: isDark ? '#d1d5db' : '#374151',
-      padding: 8,
-      borderWidth: 1,
-      borderColor: isDark ? '#374151' : '#e5e7eb',
-    },
     blockquote: {
-      backgroundColor: isDark ? '#1e1b4b' : '#f5f3ff',
-      borderLeftColor: '#7c3aed',
+      backgroundColor: isDark ? '#78350f' : '#fef3c7',
+      borderLeftColor: '#f59e0b',
       borderLeftWidth: 4,
       paddingHorizontal: 12,
       paddingVertical: 8,
@@ -154,5 +123,5 @@ function getMarkdownStyles(isDark: boolean) {
       paddingHorizontal: 4,
       fontSize: 14,
     },
-  }
+  };
 }
