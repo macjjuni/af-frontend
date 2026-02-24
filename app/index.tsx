@@ -26,8 +26,7 @@ export default function HomeScreen() {
 
   // region [Events]
   function onPressCategory(categoryId: string) {
-    // 나중에 각 카테고리별 페이지로 라우팅
-    console.log('Selected category:', categoryId);
+    router.push(`/category/${categoryId}`);
   }
   // endregion
 
@@ -38,6 +37,11 @@ export default function HomeScreen() {
     }
   }, [isOnboardingChecked, hasSeenOnboarding]);
   // endregion
+
+  // 온보딩 체크 중이거나 온보딩 미완료 시 아무것도 렌더링하지 않음
+  if (!isOnboardingChecked || !hasSeenOnboarding) {
+    return null;
+  }
 
   return (
     <View className="flex-1 bg-gray-50 dark:bg-gray-900">

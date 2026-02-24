@@ -62,6 +62,7 @@ export default function RootLayout() {
           }}
         />
         <Stack.Screen name="index" options={{ headerShown: false, title: 'AI 운세 분석' }} />
+        <Stack.Screen name="category/[id]" options={{ headerShown: false }} />
         <Stack.Screen name="result" options={{ headerShown: false }} />
         <Stack.Screen name="fortune" options={{ headerShown: false }} />
         <Stack.Screen name="terms" options={{ headerShown: false }} />

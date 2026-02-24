@@ -8,7 +8,7 @@ import { useSaju, useRewardedAd } from '@/hooks'
 import { useShouldShowAds, useTemplates, useFortune, type PromptTemplate } from '@/query'
 import useAppStore from '@/store/useAppStore'
 import {
-  BottomSheet, PillarTable, RelationList, SinsalList, DaewoonList, SewoonList, LoadingView, LoadingOverlay,
+  BottomSheet, PillarTable, RelationList, SinsalList, DaewoonList, SewoonList, LoadingView,
 } from '@/components'
 import { sajuToText, ziweiToText, natalToText } from '@/utils/textExport'
 
@@ -22,7 +22,6 @@ export default function ResultScreen() {
   const { data: templatesData, isLoading: templatesLoading } = useTemplates()
   const shouldShowAds = useShouldShowAds()
   const { showAd } = useRewardedAd()
-  const [isBuilding, setIsBuilding] = useState(false)
   const [devChartText, setDevChartText] = useState<string | null>(null)
   const router = useRouter()
   const insets = useSafeAreaInsets()
@@ -72,13 +71,8 @@ export default function ResultScreen() {
     const showAds = shouldShowAds.data?.isShowAds ?? false
 
     const executeFortuneAnalysis = async () => {
-      setIsBuilding(true)
-      try {
-        const chartData = await buildChartData()
-        fortune.mutate({ chartData, deviceID: deviceId, promptTemplateId: templateId })
-      } finally {
-        setIsBuilding(false)
-      }
+      const chartData = await buildChartData()
+      fortune.mutate({ chartData, deviceID: deviceId, promptTemplateId: templateId })
     }
 
     if (showAds) {
@@ -117,8 +111,6 @@ export default function ResultScreen() {
   }, []))
   // endregion
 
-  const isPending = isBuilding || fortune.isPending
-
   return (
     <View className="flex-1 bg-gray-50 dark:bg-gray-950" style={{ paddingTop: insets.top }}>
       {sajuError ? (
@@ -147,9 +139,6 @@ export default function ResultScreen() {
           />
         </ScrollView>
       )}
-
-      {/* 전역 로딩 오버레이 */}
-      <LoadingOverlay visible={isPending} title="AI 분석 중..." subtitle="최적의 분석 결과를 도출하고 있습니다." thirdtitle="(약 1~2분 소요)"/>
 
       {/* DEV: Chart Data 미리보기 */}
       {__DEV__ && (
@@ -313,7 +302,7 @@ function TemplateButtons({ templates, isLoading, onPress }: TemplateButtonsProps
           className="bg-purple-600 border-purple-600 py-3 rounded-xl items-center"
           activeOpacity={0.85}
         >
-          <Text className="text-white font-bold text-lg">{t.buttonText}</Text>
+          <Text className="text-white font-bold text-lg">{t.title}</Text>
         </TouchableOpacity>
       ))}
     </View>

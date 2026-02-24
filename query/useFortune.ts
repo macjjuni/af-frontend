@@ -1,5 +1,7 @@
+import { useEffect } from 'react';
 import { useMutation } from '@tanstack/react-query';
 import { apiFetch } from '@/lib/api';
+import useAppStore from '@/store/useAppStore';
 
 // region [types]
 interface FortunePayload {
@@ -26,9 +28,21 @@ async function fetchFortune(payload: FortunePayload): Promise<FortuneResponse> {
 
 export function useFortune() {
   // region [hooks]
+  const showGlobalLoading = useAppStore((s) => s.showGlobalLoading);
+  const hideGlobalLoading = useAppStore((s) => s.hideGlobalLoading);
   const mutation = useMutation({
     mutationFn: fetchFortune,
   });
+  // endregion
+
+  // region [Life Cycles]
+  useEffect(() => {
+    if (mutation.isPending) {
+      showGlobalLoading('AI 분석 중... (약 1~2분 소요)');
+    } else {
+      hideGlobalLoading();
+    }
+  }, [mutation.isPending, showGlobalLoading, hideGlobalLoading]);
   // endregion
 
   return mutation;

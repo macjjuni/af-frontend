@@ -4,8 +4,8 @@ import { apiFetch } from '@/lib/api';
 // region [types]
 export interface PromptTemplate {
   promptTemplateId: number;
-  buttonText: string;
-  template: string;
+  title: string;
+  parentId: string;
 }
 
 interface TemplateListResponse {
@@ -14,19 +14,16 @@ interface TemplateListResponse {
 // endregion
 
 // region [Transactions]
-async function fetchTemplates(): Promise<TemplateListResponse> {
-  return apiFetch<TemplateListResponse>('/api/v1/templates');
+async function fetchTemplates(categoryId?: string): Promise<TemplateListResponse> {
+  const url = categoryId ? `/api/v1/fortune/templates?c=${categoryId}` : '/fortune/templates';
+  return apiFetch<TemplateListResponse>(url);
 }
 // endregion
 
-export function useTemplates() {
-  // region [hooks]
-  const query = useQuery({
-    queryKey: ['templates'],
-    queryFn: fetchTemplates,
+export function useTemplates(categoryId?: string) {
+  return useQuery({
+    queryKey: ['fortune', 'templates', categoryId],
+    queryFn: () => fetchTemplates(categoryId),
     staleTime: 1000 * 60 * 10,
   });
-  // endregion
-
-  return query;
 }

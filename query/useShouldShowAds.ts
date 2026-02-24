@@ -14,13 +14,9 @@ async function fetchShouldShowAds(): Promise<ShouldShowAdsResponse> {
 // endregion
 
 export function useShouldShowAds() {
-  // region [hooks]
-  const query = useQuery({
+  return useQuery({
     queryKey: ['ads', 'should-show'],
     queryFn: fetchShouldShowAds,
     staleTime: 0, // 캐싱 없이 항상 최신 상태 확인 (광고는 수익에 직결)
   });
-  // endregion
-
-  return query;
 }
