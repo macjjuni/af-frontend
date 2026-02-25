@@ -4,6 +4,7 @@ import { apiFetch } from '@/lib/api';
 // region [types]
 export interface PromptTemplate {
   promptTemplateId: number;
+  isSolo: boolean;
   title: string;
   description: string;
   parentId: string;

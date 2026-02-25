@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, ScrollView, TouchableOpacity, useColorScheme } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import BottomSheet from '../common/BottomSheet';
 import useProfileStore, { type Profile } from '@/store/useProfileStore';
@@ -20,6 +21,20 @@ type ProfileSelectSheetProps = {
   onAddProfile?: () => void;
 } & (SingleSelectProps | MultiSelectProps);
 
+// region [Helpers]
+function getProfileDisplayName(profile: Profile, index: number): string {
+  return profile.name ?? `프로필 ${index + 1}`;
+}
+
+function formatBirthSummary(profile: Profile): string {
+  const { year, month, day, hour, minute, unknownTime, gender, cityName } = profile.birthForm;
+  const date = `${year}.${String(month).padStart(2, '0')}.${String(day).padStart(2, '0')}`;
+  const time = unknownTime ? '-' : `${String(hour).padStart(2, '0')}:${String(minute).padStart(2, '0')}`;
+  const genderLabel = gender === 'M' ? '남성' : '여성';
+  return `${date} ${time} / ${genderLabel} / ${cityName}`;
+}
+// endregion
+
 export default function ProfileSelectSheet({
   visible,
   onClose,
@@ -30,44 +45,44 @@ export default function ProfileSelectSheet({
   // region [hooks]
   const colorScheme = useColorScheme();
   const isDark = colorScheme === 'dark';
+  const insets = useSafeAreaInsets();
   const profiles = useProfileStore((s) => s.profiles);
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
   // endregion
 
-  // region [Privates]
-  function getProfileDisplayName(profile: Profile, index: number): string {
-    return profile.name ?? `프로필 ${index + 1}`;
-  }
-
-  function formatBirthSummary(profile: Profile): string {
-    const { year, month, day, hour, minute, unknownTime, gender, cityName } = profile.birthForm;
-    const date = `${year}.${String(month).padStart(2, '0')}.${String(day).padStart(2, '0')}`;
-    const time = unknownTime ? '-' : `${String(hour).padStart(2, '0')}:${String(minute).padStart(2, '0')}`;
-    const genderLabel = gender === 'M' ? '남성' : '여성';
-    return `${date} ${time} / ${genderLabel} / ${cityName}`;
-  }
-  // endregion
-
   // region [Events]
   function onPressProfile(profile: Profile) {
-    if (multiple) {
-      setSelectedIds((prev) => {
-        const next = new Set(prev);
-        if (next.has(profile.id)) {
-          next.delete(profile.id);
-        } else {
-          next.add(profile.id);
+    setSelectedIds((prev) => {
+      const next = new Set(prev);
+      if (next.has(profile.id)) {
+        next.delete(profile.id);
+      } else {
+        // 단일 선택: 1명만, 복수 선택: 최대 2명
+        const maxSelection = multiple ? 2 : 1;
+        if (next.size >= maxSelection) {
+          // 단일 선택일 때는 기존 선택 해제하고 새로 선택
+          if (!multiple) {
+            next.clear();
+            next.add(profile.id);
+          }
+          return next;
         }
-        return next;
-      });
-    } else {
-      (onSelect as SingleSelectProps['onSelect'])(profile);
-    }
+        next.add(profile.id);
+      }
+      return next;
+    });
   }
 
   function onPressConfirm() {
     const selected = profiles.filter((p) => selectedIds.has(p.id));
-    (onSelect as MultiSelectProps['onSelect'])(selected);
+
+    if (multiple) {
+      (onSelect as (profiles: Profile[]) => void)(selected);
+    } else {
+      (onSelect as (profile: Profile) => void)(selected[0]);
+    }
+
+    onClose();
   }
 
   function onPressAdd() {
@@ -85,7 +100,12 @@ export default function ProfileSelectSheet({
   // endregion
 
   return (
-    <BottomSheet visible={visible} onClose={onClose} title="프로필 선택" maxHeight="50%">
+    <BottomSheet
+      visible={visible}
+      onClose={onClose}
+      title={multiple ? "프로필 선택 (최대 2명)" : "프로필 선택 (1명)"}
+      maxHeight="50%"
+    >
       {profiles.length === 0 ? (
         <View className="flex-1 items-center justify-center px-8 py-10">
           <Ionicons name="people-outline" size={48} color={isDark ? '#4b5563' : '#d1d5db'} />
@@ -103,78 +123,110 @@ export default function ProfileSelectSheet({
           )}
         </View>
       ) : (
-        <ScrollView
-          contentContainerStyle={{ padding: 16, gap: 10 }}
-          showsVerticalScrollIndicator={false}
-        >
-          {profiles.map((profile, index) => {
-            const isSelected = selectedIds.has(profile.id);
-            return (
-              <TouchableOpacity
-                key={profile.id}
-                onPress={() => onPressProfile(profile)}
-                activeOpacity={0.85}
-                className={`rounded-xl p-4 border ${
-                  multiple && isSelected
-                    ? 'bg-violet-50 dark:bg-violet-900/30 border-violet-400 dark:border-violet-500'
-                    : 'bg-gray-50 dark:bg-gray-700 border-gray-100 dark:border-gray-600'
-                }`}
-              >
-                <View className="flex-row items-center justify-between">
-                  <Text className="text-base font-bold text-gray-900 dark:text-white">
-                    {getProfileDisplayName(profile, index)}
-                  </Text>
-                  {multiple ? (
+        <View className="flex-1">
+          <ScrollView
+            contentContainerStyle={{
+              padding: 16,
+              gap: 10,
+              paddingBottom: insets.bottom,
+            }}
+            showsVerticalScrollIndicator={false}
+          >
+            {profiles.map((profile, index) => {
+              const isSelected = selectedIds.has(profile.id);
+              const isDisabled = multiple && !isSelected && selectedIds.size >= 2;
+              return (
+                <TouchableOpacity
+                  key={profile.id}
+                  onPress={() => onPressProfile(profile)}
+                  activeOpacity={isDisabled ? 1 : 0.85}
+                  disabled={isDisabled}
+                  className={`rounded-xl p-4 border ${
+                    isSelected
+                      ? 'bg-violet-50 dark:bg-violet-900/30 border-violet-400 dark:border-violet-500'
+                      : isDisabled
+                      ? 'bg-gray-100 dark:bg-gray-800 border-gray-200 dark:border-gray-700 opacity-50'
+                      : 'bg-gray-50 dark:bg-gray-700 border-gray-100 dark:border-gray-600'
+                  }`}
+                >
+                  <View className="flex-row items-center justify-between">
+                    <Text className={`text-lg font-bold ${
+                      isDisabled
+                        ? 'text-gray-400 dark:text-gray-500'
+                        : 'text-gray-900 dark:text-white'
+                    }`}>
+                      {getProfileDisplayName(profile, index)}
+                    </Text>
                     <Ionicons
                       name={isSelected ? 'checkbox' : 'square-outline'}
-                      size={20}
-                      color={isSelected ? (isDark ? '#c084fc' : '#7c3aed') : (isDark ? '#6b7280' : '#9ca3af')}
+                      size={24}
+                      color={
+                        isDisabled
+                          ? (isDark ? '#4b5563' : '#d1d5db')
+                          : isSelected
+                          ? (isDark ? '#c084fc' : '#7c3aed')
+                          : (isDark ? '#6b7280' : '#9ca3af')
+                      }
                     />
-                  ) : (
-                    <Ionicons name="chevron-forward" size={16} color={isDark ? '#6b7280' : '#9ca3af'} />
-                  )}
-                </View>
-                <Text className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                  {formatBirthSummary(profile)}
+                  </View>
+                  <Text className={`text-sm mt-1 ${
+                    isDisabled
+                      ? 'text-gray-400 dark:text-gray-600'
+                      : 'text-gray-500 dark:text-gray-400'
+                  }`}>
+                    {formatBirthSummary(profile)}
+                  </Text>
+                </TouchableOpacity>
+              );
+            })}
+
+            {onAddProfile && (
+              <TouchableOpacity
+                onPress={onPressAdd}
+                activeOpacity={0.7}
+                className="flex-row items-center justify-center py-3"
+              >
+                <Ionicons name="add-circle-outline" size={20} color={isDark ? '#c084fc' : '#7c3aed'} />
+                <Text className="text-md font-semibold text-violet-600 dark:text-violet-400 ml-1">
+                  새 프로필 추가
                 </Text>
               </TouchableOpacity>
-            );
-          })}
+            )}
+          </ScrollView>
 
-          {onAddProfile && (
-            <TouchableOpacity
-              onPress={onPressAdd}
-              activeOpacity={0.7}
-              className="flex-row items-center justify-center py-3 mb-4"
-            >
-              <Ionicons name="add-circle-outline" size={20} color={isDark ? '#c084fc' : '#7c3aed'} />
-              <Text className="text-md font-semibold text-violet-600 dark:text-violet-400 ml-1">
-                새 프로필 추가
-              </Text>
-            </TouchableOpacity>
-          )}
-
-          {multiple && (
+          <View
+            className="border-t border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 px-4"
+            style={{ paddingTop: 12 }}
+          >
             <TouchableOpacity
               onPress={onPressConfirm}
               activeOpacity={0.7}
-              disabled={selectedIds.size === 0}
-              className={`rounded-xl py-3.5 items-center mb-4 ${
-                selectedIds.size > 0
+              disabled={selectedIds.size === 0 || (multiple && selectedIds.size < 2)}
+              className={`rounded-xl py-3.5 items-center ${
+                (multiple && selectedIds.size === 2) || (!multiple && selectedIds.size === 1)
                   ? 'bg-violet-600'
                   : 'bg-gray-300 dark:bg-gray-600'
               }`}
             >
               <Text className={`font-bold text-base ${
-                selectedIds.size > 0
+                (multiple && selectedIds.size === 2) || (!multiple && selectedIds.size === 1)
                   ? 'text-white'
                   : 'text-gray-500 dark:text-gray-400'
               }`}>
-                {selectedIds.size > 0 ? `선택 완료 (${selectedIds.size})` : '프로필을 선택하세요'}
+                {selectedIds.size === 0
+                  ? multiple
+                    ? '프로필을 선택하세요 (2명 필수)'
+                    : '프로필을 선택하세요'
+                  : multiple && selectedIds.size < 2
+                  ? '1명 더 선택하세요 (2명 필수)'
+                  : multiple
+                  ? `분석하기 (${selectedIds.size}/2명)`
+                  : '분석하기'
+                }
               </Text>
             </TouchableOpacity>
-          )}
-        </ScrollView>
+          </View>
+        </View>
       )}
     </BottomSheet>
   );

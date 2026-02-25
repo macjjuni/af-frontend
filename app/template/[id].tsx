@@ -19,6 +19,7 @@ export default function TemplateDetailScreen() {
   const { data: templatesData, isLoading: templatesLoading, isError: templatesError } = useTemplates(id);
   const [profileSheetVisible, setProfileSheetVisible] = useState(false);
   const [selectedTemplateId, setSelectedTemplateId] = useState<number | null>(null);
+  const [isMultipleSelect, setIsMultipleSelect] = useState(false);
   // endregion
 
   // region [Privates]
@@ -27,15 +28,20 @@ export default function TemplateDetailScreen() {
   // endregion
 
   // region [Events]
-  function onPressTemplate(templateId: number) {
+  function onPressTemplate(templateId: number, isSolo: boolean) {
     setSelectedTemplateId(templateId);
+    setIsMultipleSelect(!isSolo); // isSolo가 false면 다중 선택
     setProfileSheetVisible(true);
   }
 
-  function onSelectProfile(profile: Profile) {
+  function onSelectProfile(profile: Profile | Profile[]) {
     setProfileSheetVisible(false);
     // TODO: 선택된 프로필(profile)과 템플릿(selectedTemplateId)으로 운세 분석 플로우 진행
-    console.log('Selected profile:', profile.id, 'template:', selectedTemplateId);
+    if (Array.isArray(profile)) {
+      console.log('Selected profiles:', profile.map(p => p.id), 'template:', selectedTemplateId);
+    } else {
+      console.log('Selected profile:', profile.id, 'template:', selectedTemplateId);
+    }
   }
 
   function onAddProfile() {
@@ -68,10 +74,10 @@ export default function TemplateDetailScreen() {
             <Text className="text-gray-500 dark:text-gray-400">등록된 템플릿이 없습니다.</Text>
           </View>
         ) : (
-          templatesData?.templates.map(({title, description, promptTemplateId}) => (
+          templatesData?.templates.map(({title, description, promptTemplateId, isSolo}) => (
             <TouchableOpacity
               key={promptTemplateId}
-              onPress={() => onPressTemplate(promptTemplateId)}
+              onPress={() => onPressTemplate(promptTemplateId, isSolo)}
               className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 px-5 justify-center"
               style={{
                 height: 100,
@@ -103,8 +109,9 @@ export default function TemplateDetailScreen() {
       <ProfileSelectSheet
         visible={profileSheetVisible}
         onClose={() => setProfileSheetVisible(false)}
-        onSelect={onSelectProfile}
+        onSelect={onSelectProfile as any}
         onAddProfile={onAddProfile}
+        multiple={isMultipleSelect}
       />
     </View>
   );

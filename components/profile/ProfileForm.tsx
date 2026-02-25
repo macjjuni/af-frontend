@@ -100,15 +100,14 @@ export default function ProfileForm({ initialName, initialBirthForm, submitLabel
             <Text className="text-lg font-bold text-gray-700 dark:text-gray-200">이름 (선택)</Text>
           </View>
           <TextInput
-            className="h-12 px-3 rounded-xl border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-lg text-gray-800 dark:text-gray-100"
+            className="h-12 px-3 py-0 rounded-xl border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-lg text-gray-800 dark:text-gray-100"
             placeholder="예: 본인, 배우자, 자녀 등"
             placeholderTextColor={isDark ? '#6b7280' : '#9ca3af'}
             value={name}
             onChangeText={setName}
+            maxLength={16}
             returnKeyType="done"
             style={{
-              paddingTop: 0,
-              paddingBottom: 0,
               lineHeight: 22,
               includeFontPadding: false,
               textAlignVertical: 'center',
