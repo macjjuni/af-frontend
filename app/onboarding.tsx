@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useMemo } from 'react'
 import { View, Text, ScrollView, TouchableOpacity, Dimensions, NativeSyntheticEvent, NativeScrollEvent } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -18,7 +18,7 @@ export default function Onboarding() {
   // endregion
 
   // region [Privates]
-  const isLastPage = currentPage === ONBOARDING_PAGES.length - 1;
+  const isLastPage = useMemo(() => currentPage === ONBOARDING_PAGES.length - 1, [currentPage]);
   // endregion
 
   // region [Events]
@@ -39,7 +39,7 @@ export default function Onboarding() {
     }
   }
 
-  function onScroll(event: NativeSyntheticEvent<NativeScrollEvent>) {
+  function onMomentumScrollEnd(event: NativeSyntheticEvent<NativeScrollEvent>) {
     const offsetX = event.nativeEvent.contentOffset.x;
     const page = Math.round(offsetX / SCREEN_WIDTH);
     setCurrentPage(page);
@@ -68,8 +68,7 @@ export default function Onboarding() {
         horizontal
         pagingEnabled
         showsHorizontalScrollIndicator={false}
-        onScroll={onScroll}
-        scrollEventThrottle={16}
+        onMomentumScrollEnd={onMomentumScrollEnd}
         bounces={false}
       >
         { ONBOARDING_PAGES.map((page) => (
@@ -94,9 +93,7 @@ export default function Onboarding() {
           className="flex-row justify-center items-center bg-purple-600 py-4 rounded-2xl mt-6"
           activeOpacity={0.85}
         >
-          <Text className="text-lg text-white font-bold">
-            {isLastPage ? '시작하기' : '다음'}
-          </Text>
+          <Text className="text-lg text-white font-bold">{isLastPage ? '시작하기' : '다음'}</Text>
         </TouchableOpacity>
       </View>
     </View>
