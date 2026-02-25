@@ -22,8 +22,8 @@ type ScreenConfig = {
 };
 
 const SCREEN_CONFIGS: ScreenConfig[] = [
-  { name: 'onboarding', options: { headerShown: false, gestureEnabled: false } },
-  { name: 'consent', options: { headerShown: false, gestureEnabled: false } },
+  { name: 'onboarding/index', options: { headerShown: false, gestureEnabled: false } },
+  { name: 'onboarding/consent', options: { headerShown: false, gestureEnabled: false } },
   { name: '(tabs)', options: { headerShown: false } },
   { name: 'template/[id]', options: { headerShown: false } },
   { name: 'result', options: { headerShown: false } },

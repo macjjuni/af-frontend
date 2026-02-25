@@ -163,11 +163,7 @@ export default function ConsentScreen() {
                     className="ml-2"
                     activeOpacity={0.7}
                   >
-                    <Ionicons
-                      name="chevron-forward"
-                      size={20}
-                      color="#9ca3af"
-                    />
+                    <Ionicons name="chevron-forward" size={20} color="#9ca3af" />
                   </TouchableOpacity>
                 )}
               </View>

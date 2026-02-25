@@ -23,12 +23,12 @@ export default function Onboarding() {
 
   // region [Events]
   function onPressSkip() {
-    router.push('/consent');
+    router.push('/onboarding/consent');
   }
 
   function onPressNext() {
     if (isLastPage) {
-      router.push('/consent');
+      router.push('/onboarding/consent');
     } else {
       const nextPage = currentPage + 1;
       scrollViewRef.current?.scrollTo({
