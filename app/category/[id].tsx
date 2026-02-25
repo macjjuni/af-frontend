@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, ScrollView, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useRouter, useLocalSearchParams } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { useCategories, useTemplates } from '@/query';
+import { ProfileSelectSheet } from '@/components';
+import type { Profile } from '@/store/useProfileStore';
 
 export default function CategoryDetailScreen() {
   // region [hooks]
@@ -12,6 +14,8 @@ export default function CategoryDetailScreen() {
   const insets = useSafeAreaInsets();
   const { data: categoriesData } = useCategories();
   const { data: templatesData, isLoading: templatesLoading, isError: templatesError } = useTemplates(id);
+  const [profileSheetVisible, setProfileSheetVisible] = useState(false);
+  const [selectedTemplateId, setSelectedTemplateId] = useState<number | null>(null);
   // endregion
 
   // region [Privates]
@@ -29,8 +33,18 @@ export default function CategoryDetailScreen() {
   }
 
   function onPressTemplate(templateId: number) {
-    // TODO: 템플릿 선택 후 플로우 구현 예정
-    console.log('Selected template:', templateId);
+    setSelectedTemplateId(templateId);
+    setProfileSheetVisible(true);
+  }
+
+  function onSelectProfile(profile: Profile) {
+    setProfileSheetVisible(false);
+    // TODO: 선택된 프로필(profile)과 템플릿(selectedTemplateId)으로 운세 분석 플로우 진행
+    console.log('Selected profile:', profile.id, 'template:', selectedTemplateId);
+  }
+
+  function onAddProfile() {
+    router.push('/profiles/new');
   }
   // endregion
 
@@ -89,6 +103,14 @@ export default function CategoryDetailScreen() {
           ))
         )}
       </ScrollView>
+
+      {/* 프로필 선택 시트 */}
+      <ProfileSelectSheet
+        visible={profileSheetVisible}
+        onClose={() => setProfileSheetVisible(false)}
+        onSelect={onSelectProfile}
+        onAddProfile={onAddProfile}
+      />
     </View>
   );
 }
