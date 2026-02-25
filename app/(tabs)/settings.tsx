@@ -98,6 +98,42 @@ export default function SettingsScreen() {
           </TouchableOpacity>
         </View>
 
+        {/* 개선 및 피드백 */}
+        <Text className="text-sm font-semibold text-gray-400 dark:text-gray-500 mt-8 mb-3 px-1">개선 및 피드백</Text>
+        <View
+          className="rounded-2xl overflow-hidden"
+          style={{
+            backgroundColor: isDark ? '#1f2937' : '#ffffff',
+            shadowColor: '#000',
+            shadowOffset: { width: 0, height: 2 },
+            shadowOpacity: 0.05,
+            shadowRadius: 8,
+            elevation: 2,
+          }}
+        >
+          <TouchableOpacity
+            onPress={() => Linking.openURL('mailto:macjjuni@gmail.com')}
+            activeOpacity={0.7}
+            className="flex-row items-center px-4 py-4"
+          >
+            <View className="w-9 h-9 rounded-xl items-center justify-center mr-3 bg-purple-100 dark:bg-purple-900">
+              <Ionicons
+                name="mail-outline"
+                size={20}
+                color={isDark ? '#c084fc' : '#7c3aed'}
+              />
+            </View>
+            <Text className="flex-1 text-base font-medium text-gray-800 dark:text-gray-100">
+              피드백 보내기
+            </Text>
+            <Ionicons
+              name="chevron-forward"
+              size={18}
+              color={isDark ? '#4b5563' : '#d1d5db'}
+            />
+          </TouchableOpacity>
+        </View>
+
         {/* 약관 및 안내 */}
         <Text className="text-sm font-semibold text-gray-400 dark:text-gray-500 mt-8 mb-3 px-1">약관 및 안내</Text>
         <View
