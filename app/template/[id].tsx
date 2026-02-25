@@ -7,7 +7,7 @@ import { useCategories, useTemplates } from '@/query';
 import { ProfileSelectSheet, ScreenHeader } from '@/components';
 import type { Profile } from '@/store/useProfileStore';
 
-export default function CategoryDetailScreen() {
+export default function TemplateDetailScreen() {
   // region [hooks]
   const router = useRouter();
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -20,7 +20,9 @@ export default function CategoryDetailScreen() {
 
   // region [Privates]
   const currentCategory = categoriesData?.categories.find((cat) => cat.id === id);
-  const categoryTitle = currentCategory?.title || '카테고리';
+  let categoryTitle: any
+  categoryTitle = currentCategory?.title || '카테고리'
+  console.log('currentCategory', currentCategory)
   // endregion
 
   // region [Events]

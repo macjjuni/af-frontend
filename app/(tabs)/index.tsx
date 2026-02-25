@@ -21,7 +21,7 @@ export default function HomeScreen() {
 
   // region [Events]
   function onPressCategory(categoryId: string) {
-    router.push(`/category/${categoryId}`);
+    router.push(`/template/${categoryId}`);
   }
   // endregion
 
