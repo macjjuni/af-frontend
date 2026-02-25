@@ -4,6 +4,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import useProfileStore from '@/store/useProfileStore';
+import { TabHeader } from '@/components/layout';
 
 type SettingItem = {
   id: string;
@@ -55,18 +56,13 @@ export default function SettingsScreen() {
 
   return (
     <View className="flex-1 bg-gray-50 dark:bg-gray-900">
+      <TabHeader title="설정" />
       <ScrollView
         contentContainerStyle={{
           padding: 20,
-          paddingTop: insets.top + 8,
           paddingBottom: insets.bottom + 20,
         }}
       >
-        {/* 헤더 */}
-        <View className="mb-6 py-2">
-          <Text className="text-2xl font-bold text-gray-900 dark:text-white">설정</Text>
-        </View>
-
         {/* 데이터 관리 */}
         <Text className="text-sm font-semibold text-gray-400 dark:text-gray-500 mb-3 px-1">데이터 관리</Text>
         <View

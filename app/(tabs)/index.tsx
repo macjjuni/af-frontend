@@ -1,19 +1,14 @@
 import React, { useEffect } from 'react';
-import { View, Text, ScrollView, TouchableOpacity, useColorScheme, Dimensions, ActivityIndicator } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { View, Text, ScrollView, TouchableOpacity, Dimensions, ActivityIndicator } from 'react-native';
 import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import useAppStore from '@/store/useAppStore';
 import { useCategories } from '@/query';
-
-// endregion
+import { TabHeader } from '@/components/layout';
 
 export default function HomeScreen() {
   // region [hooks]
   const router = useRouter();
-  const insets = useSafeAreaInsets();
-  const colorScheme = useColorScheme();
-  const isDark = colorScheme === 'dark';
   const hasSeenOnboarding = useAppStore((s) => s.hasSeenOnboarding);
   const isOnboardingChecked = useAppStore((s) => s.isOnboardingChecked);
   const { data: categoriesData, isLoading: categoriesLoading, isError: categoriesError } = useCategories();
@@ -45,22 +40,13 @@ export default function HomeScreen() {
 
   return (
     <View className="flex-1 bg-gray-50 dark:bg-gray-900">
+      <TabHeader title="🔮 궁금한 주제를 선택하세요" />
       <ScrollView
         contentContainerStyle={{
           padding: 20,
-          paddingTop: insets.top + 8,
-          paddingBottom: insets.bottom + 20,
+          paddingBottom: 20,
         }}
       >
-        {/* 헤더 */}
-        <View className="mb-4 flex-row items-start justify-between">
-          <View className="flex-1 py-2">
-            <Text className="text-2xl font-bold text-gray-900 dark:text-white">
-              🔮 궁금한 주제를 선택하세요
-            </Text>
-          </View>
-        </View>
-
         {/* 카테고리 그리드 */}
         {categoriesLoading ? (
           <View className="py-12 items-center">

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, FlatList } from 'react-native';
-import BottomSheet from '@/components/BottomSheet';
+import BottomSheet from './BottomSheet';
 
 // region [types]
 export interface SelectOption<T = string | number> {

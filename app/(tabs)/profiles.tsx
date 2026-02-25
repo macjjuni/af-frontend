@@ -5,6 +5,7 @@ import { useRouter } from 'expo-router';
 import { useFocusEffect } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
 import useProfileStore, { type Profile } from '@/store/useProfileStore';
+import { TabHeader } from '@/components/layout';
 
 export default function ProfilesScreen() {
   // region [hooks]
@@ -49,16 +50,14 @@ export default function ProfilesScreen() {
 
   return (
     <View className="flex-1 bg-gray-50 dark:bg-gray-900">
-      {/* 헤더 */}
-      <View
-        style={{ paddingTop: insets.top + 8 }}
-        className="px-5 pb-4 bg-gray-50 dark:bg-gray-900 flex-row items-center justify-between"
-      >
-        <Text className="text-2xl font-bold text-gray-900 dark:text-white">프로필 목록</Text>
-        <TouchableOpacity onPress={onPressAddProfile} activeOpacity={0.7}>
-          <Ionicons name="add" size={28} color={isDark ? '#c084fc' : '#7c3aed'}/>
-        </TouchableOpacity>
-      </View>
+      <TabHeader
+        title="프로필 목록"
+        rightAction={
+          <TouchableOpacity onPress={onPressAddProfile} activeOpacity={0.7}>
+            <Ionicons name="add" size={28} color={isDark ? '#c084fc' : '#7c3aed'}/>
+          </TouchableOpacity>
+        }
+      />
 
       {profiles.length === 0 ? (
         <View className="flex-1 items-center justify-center px-8">

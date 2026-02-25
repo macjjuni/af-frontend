@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, ScrollView, TouchableOpacity, useColorScheme } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import BottomSheet from './BottomSheet';
+import BottomSheet from '../common/BottomSheet';
 import useProfileStore, { type Profile } from '@/store/useProfileStore';
 
 interface SingleSelectProps {

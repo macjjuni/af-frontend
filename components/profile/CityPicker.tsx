@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { View, Text, TouchableOpacity, FlatList, TextInput, StyleSheet } from 'react-native';
 import { KOREAN_CITIES, type City } from '@orrery/core';
-import BottomSheet from '@/components/BottomSheet';
+import BottomSheet from '../common/BottomSheet';
 
 // region [types]
 interface CityPickerProps {

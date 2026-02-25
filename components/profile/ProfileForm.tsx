@@ -2,9 +2,9 @@ import React, { useState, useMemo } from 'react';
 import { View, Text, ScrollView, TouchableOpacity, Switch, TextInput, useColorScheme } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import type { City, Gender } from '@orrery/core';
-import SelectPicker from '@/components/SelectPicker';
-import CityPicker from '@/components/CityPicker';
-import type { SelectOption } from '@/components/SelectPicker';
+import SelectPicker from '../common/SelectPicker';
+import CityPicker from './CityPicker';
+import type { SelectOption } from '../common/SelectPicker';
 import type { BirthForm } from '@/store/useAppStore';
 
 // region [types]
