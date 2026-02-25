@@ -18,11 +18,6 @@ export interface BirthForm {
   cityName: string;
 }
 
-export interface FortuneResult {
-  result: string;
-  remainingQuota: number;
-}
-
 export interface GlobalLoadingState {
   visible: boolean;
   message?: string;
@@ -30,43 +25,16 @@ export interface GlobalLoadingState {
 
 interface AppState {
   deviceId: string;
-  birthForm: BirthForm;
-  fortuneResult: FortuneResult | null;
   hasSeenOnboarding: boolean;
   isOnboardingChecked: boolean;
   globalLoading: GlobalLoadingState;
   initDeviceId: () => Promise<void>;
-  setBirthForm: (form: Partial<BirthForm>) => void;
-  resetBirthForm: () => void;
-  setFortuneResult: (result: FortuneResult | null) => void;
   initOnboarding: () => Promise<void>;
   completeOnboarding: () => Promise<void>;
   showGlobalLoading: (message?: string) => void;
   hideGlobalLoading: () => void;
 }
 // endregion
-
-// 서울 기본값
-const SEOUL_LAT = 37.5665;
-const SEOUL_LON = 126.9780;
-
-function getDefaultBirthForm(): BirthForm {
-  const now = new Date();
-  return {
-    year: now.getFullYear(),
-    month: now.getMonth() + 1,
-    day: now.getDate(),
-    hour: 12,
-    minute: 0,
-    gender: 'M',
-    unknownTime: false,
-    latitude: SEOUL_LAT,
-    longitude: SEOUL_LON,
-    cityName: '서울',
-  };
-}
-
-const DEFAULT_BIRTH_FORM: BirthForm = getDefaultBirthForm();
 
 // region [Privates]
 const ONBOARDING_KEY = '@af_has_seen_onboarding';
@@ -107,8 +75,6 @@ async function saveOnboardingComplete(): Promise<void> {
 
 const useAppStore = create<AppState>((set) => ({
   deviceId: '',
-  birthForm: DEFAULT_BIRTH_FORM,
-  fortuneResult: null,
   hasSeenOnboarding: false,
   isOnboardingChecked: false,
   globalLoading: { visible: false },
@@ -118,13 +84,6 @@ const useAppStore = create<AppState>((set) => ({
     const deviceId = await getOrCreateDeviceId();
     set({ deviceId });
   },
-
-  setBirthForm: (form) =>
-    set((state) => ({ birthForm: { ...state.birthForm, ...form } })),
-
-  resetBirthForm: () => set({ birthForm: getDefaultBirthForm() }),
-
-  setFortuneResult: (result) => set({ fortuneResult: result }),
 
   initOnboarding: async () => {
     const hasSeenOnboarding = await checkOnboardingStatus();

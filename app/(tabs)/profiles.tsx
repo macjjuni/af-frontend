@@ -1,11 +1,10 @@
 import React, { useCallback } from 'react';
-import { View, Text, FlatList, TouchableOpacity, useColorScheme } from 'react-native';
+import { FlatList, Text, TouchableOpacity, useColorScheme, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 import { useFocusEffect } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
 import useProfileStore, { type Profile } from '@/store/useProfileStore';
-import useAppStore from '@/store/useAppStore';
 
 export default function ProfilesScreen() {
   // region [hooks]
@@ -14,7 +13,6 @@ export default function ProfilesScreen() {
   const colorScheme = useColorScheme();
   const isDark = colorScheme === 'dark';
   const profiles = useProfileStore((s) => s.profiles);
-  const setBirthForm = useAppStore((s) => s.setBirthForm);
   // endregion
 
   // region [Privates]
@@ -23,10 +21,13 @@ export default function ProfilesScreen() {
   }
 
   function formatBirthSummary(profile: Profile): string {
-    const { year, month, day, gender, cityName } = profile.birthForm;
+    const { year, month, day, hour, minute, unknownTime, gender, cityName } = profile.birthForm;
+    const date = `${year}.${String(month).padStart(2, '0')}.${String(day).padStart(2, '0')}`;
+    const time = unknownTime ? '-' : `${String(hour).padStart(2, '0')}:${String(minute).padStart(2, '0')}`;
     const genderLabel = gender === 'M' ? '남성' : '여성';
-    return `${year}.${String(month).padStart(2, '0')}.${String(day).padStart(2, '0')} / ${genderLabel} / ${cityName}`;
+    return `${date} ${time} / ${genderLabel} / ${cityName}`;
   }
+
   // endregion
 
   // region [Events]
@@ -38,10 +39,6 @@ export default function ProfilesScreen() {
     router.push(`/profiles/${profile.id}`);
   }
 
-  function onPressAnalyze(profile: Profile) {
-    setBirthForm(profile.birthForm);
-    router.push('/result');
-  }
   // endregion
 
   // region [Life Cycles]
@@ -59,13 +56,13 @@ export default function ProfilesScreen() {
       >
         <Text className="text-2xl font-bold text-gray-900 dark:text-white">프로필 목록</Text>
         <TouchableOpacity onPress={onPressAddProfile} activeOpacity={0.7}>
-          <Ionicons name="add" size={28} color={isDark ? '#c084fc' : '#7c3aed'} />
+          <Ionicons name="add" size={28} color={isDark ? '#c084fc' : '#7c3aed'}/>
         </TouchableOpacity>
       </View>
 
       {profiles.length === 0 ? (
         <View className="flex-1 items-center justify-center px-8">
-          <Ionicons name="people-outline" size={56} color={isDark ? '#4b5563' : '#d1d5db'} />
+          <Ionicons name="people-outline" size={56} color={isDark ? '#4b5563' : '#d1d5db'}/>
           <Text className="text-lg font-semibold text-gray-400 dark:text-gray-500 mt-4 text-center">
             저장된 프로필이 없습니다
           </Text>
@@ -95,22 +92,15 @@ export default function ProfilesScreen() {
                 elevation: 2,
               }}
             >
-              <View className="flex-row items-center justify-between mb-3">
+              <View className="flex-row items-center justify-between">
                 <Text className="text-lg font-bold text-gray-900 dark:text-white">
                   {getProfileDisplayName(item, index)}
                 </Text>
-                <Ionicons name="chevron-forward" size={18} color={isDark ? '#4b5563' : '#d1d5db'} />
+                <Ionicons name="chevron-forward" size={18} color={isDark ? '#4b5563' : '#d1d5db'}/>
               </View>
-              <Text className="text-sm text-gray-500 dark:text-gray-400 mb-4">
+              <Text className="text-sm text-gray-500 dark:text-gray-400 mt-1">
                 {formatBirthSummary(item)}
               </Text>
-              <TouchableOpacity
-                onPress={() => onPressAnalyze(item)}
-                className="bg-purple-600 py-2.5 rounded-xl items-center"
-                activeOpacity={0.85}
-              >
-                <Text className="text-white font-semibold text-base">분석하기</Text>
-              </TouchableOpacity>
             </TouchableOpacity>
           )}
         />

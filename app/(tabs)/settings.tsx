@@ -1,8 +1,9 @@
 import React from 'react';
-import { View, Text, ScrollView, TouchableOpacity, useColorScheme, Linking } from 'react-native';
+import { View, Text, ScrollView, TouchableOpacity, useColorScheme, Linking, Alert } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
+import useProfileStore from '@/store/useProfileStore';
 
 type SettingItem = {
   id: string;
@@ -24,6 +25,7 @@ export default function SettingsScreen() {
   const insets = useSafeAreaInsets();
   const colorScheme = useColorScheme();
   const isDark = colorScheme === 'dark';
+  const clearProfiles = useProfileStore((s) => s.clearProfiles);
   // endregion
 
   // region [Events]
@@ -33,6 +35,21 @@ export default function SettingsScreen() {
     } else if (item.url) {
       Linking.openURL(item.url);
     }
+  }
+
+  function onPressClearProfiles() {
+    Alert.alert(
+      '프로필 전체 삭제',
+      '저장된 모든 프로필이 삭제됩니다.\n이 작업은 되돌릴 수 없습니다.',
+      [
+        { text: '취소', style: 'cancel' },
+        {
+          text: '전체 삭제',
+          style: 'destructive',
+          onPress: () => clearProfiles(),
+        },
+      ]
+    );
   }
   // endregion
 
@@ -50,7 +67,39 @@ export default function SettingsScreen() {
           <Text className="text-2xl font-bold text-gray-900 dark:text-white">설정</Text>
         </View>
 
-        {/* 설정 목록 */}
+        {/* 데이터 관리 */}
+        <Text className="text-sm font-semibold text-gray-400 dark:text-gray-500 mb-3 px-1">데이터 관리</Text>
+        <View
+          className="rounded-2xl overflow-hidden"
+          style={{
+            backgroundColor: isDark ? '#1f2937' : '#ffffff',
+            shadowColor: '#000',
+            shadowOffset: { width: 0, height: 2 },
+            shadowOpacity: 0.05,
+            shadowRadius: 8,
+            elevation: 2,
+          }}
+        >
+          <TouchableOpacity
+            onPress={onPressClearProfiles}
+            activeOpacity={0.7}
+            className="flex-row items-center px-4 py-4"
+          >
+            <View className="w-9 h-9 rounded-xl items-center justify-center mr-3 bg-red-100 dark:bg-red-900/30">
+              <Ionicons
+                name="trash-outline"
+                size={20}
+                color={isDark ? '#f87171' : '#ef4444'}
+              />
+            </View>
+            <Text className="flex-1 text-base font-medium text-red-600 dark:text-red-400">
+              프로필 전체 초기화
+            </Text>
+          </TouchableOpacity>
+        </View>
+
+        {/* 약관 및 안내 */}
+        <Text className="text-sm font-semibold text-gray-400 dark:text-gray-500 mt-8 mb-3 px-1">약관 및 안내</Text>
         <View
           className="rounded-2xl overflow-hidden"
           style={{

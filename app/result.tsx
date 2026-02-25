@@ -7,6 +7,7 @@ import { calculateSaju, createChart, calculateNatal, type SajuResult } from '@or
 import { useSaju, useRewardedAd } from '@/hooks'
 import { useShouldShowAds, useTemplates, useFortune, type PromptTemplate } from '@/query'
 import useAppStore from '@/store/useAppStore'
+import useFortuneStore from '@/store/useFortuneStore'
 import {
   BottomSheet, PillarTable, RelationList, SinsalList, DaewoonList, SewoonList, LoadingView,
 } from '@/components'
@@ -16,7 +17,8 @@ import { sajuToText, ziweiToText, natalToText } from '@/utils/textExport'
 export default function ResultScreen() {
 
   // region [hooks]
-  const { birthForm, deviceId, setFortuneResult } = useAppStore()
+  const { birthForm, deviceId } = useAppStore()
+  const setFortuneResult = useFortuneStore((s) => s.setFortuneResult)
   const { saju, error: sajuError } = useSaju(birthForm)
   const fortune = useFortune()
   const { data: templatesData, isLoading: templatesLoading } = useTemplates()

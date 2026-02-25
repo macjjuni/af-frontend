@@ -17,6 +17,7 @@ interface ProfileState {
   addProfile: (name: string | undefined, birthForm: BirthForm) => Promise<void>;
   updateProfile: (id: string, name: string | undefined, birthForm: BirthForm) => Promise<void>;
   deleteProfile: (id: string) => Promise<void>;
+  clearProfiles: () => Promise<void>;
 }
 // endregion
 
@@ -74,6 +75,11 @@ const useProfileStore = create<ProfileState>((set, get) => ({
     const updated = get().profiles.filter((p) => p.id !== id);
     set({ profiles: updated });
     await saveProfiles(updated);
+  },
+
+  clearProfiles: async () => {
+    set({ profiles: [] });
+    await saveProfiles([]);
   },
   // endregion
 }));

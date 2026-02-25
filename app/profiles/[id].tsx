@@ -1,12 +1,11 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, Alert, useColorScheme } from 'react-native';
+import { Alert, Text, TouchableOpacity, useColorScheme, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { useRouter, useLocalSearchParams } from 'expo-router';
+import { useLocalSearchParams, useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { ProfileForm } from '@/components';
 import type { BirthForm } from '@/store/useAppStore';
 import useProfileStore from '@/store/useProfileStore';
-import useAppStore from '@/store/useAppStore';
 
 export default function EditProfileScreen() {
   // region [hooks]
@@ -18,7 +17,6 @@ export default function EditProfileScreen() {
   const profiles = useProfileStore((s) => s.profiles);
   const updateProfile = useProfileStore((s) => s.updateProfile);
   const deleteProfile = useProfileStore((s) => s.deleteProfile);
-  const setBirthForm = useAppStore((s) => s.setBirthForm);
   // endregion
 
   // region [Privates]
@@ -58,12 +56,6 @@ export default function EditProfileScreen() {
       ]
     );
   }
-
-  function onPressAnalyze() {
-    if (!profile) return;
-    setBirthForm(profile.birthForm);
-    router.push('/result');
-  }
   // endregion
 
   if (!profile) {
@@ -99,22 +91,6 @@ export default function EditProfileScreen() {
         submitLabel="변경사항 저장"
         onSave={onSave}
       />
-
-      {/* 분석하기 버튼 */}
-      <View style={{
-        paddingHorizontal: 20,
-        paddingBottom: insets.bottom + 16,
-        paddingTop: 0,
-        backgroundColor: isDark ? '#111827' : '#f9fafb',
-      }}>
-        <TouchableOpacity
-          onPress={onPressAnalyze}
-          className="flex-row justify-center items-center border border-purple-600 py-3.5 rounded-2xl"
-          activeOpacity={0.85}
-        >
-          <Text className="text-lg text-purple-600 font-bold">이 프로필로 분석하기</Text>
-        </TouchableOpacity>
-      </View>
     </View>
   );
 }

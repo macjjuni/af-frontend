@@ -3,12 +3,12 @@ import { View, Text, ScrollView, TouchableOpacity, useColorScheme } from 'react-
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useRouter } from 'expo-router'
 import Markdown from 'react-native-markdown-display'
-import useAppStore from '@/store/useAppStore'
+import useFortuneStore from '@/store/useFortuneStore'
 
 export default function FortuneScreen() {
 
   // region [hooks]
-  const fortuneResult = useAppStore((s) => s.fortuneResult)
+  const fortuneResult = useFortuneStore((s) => s.fortuneResult)
   const router = useRouter()
   const insets = useSafeAreaInsets()
   const colorScheme = useColorScheme()

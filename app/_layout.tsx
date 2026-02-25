@@ -4,13 +4,14 @@ import { Stack } from 'expo-router';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import * as SplashScreen from 'expo-splash-screen';
 import useAppStore from '@/store/useAppStore';
+import useProfileStore from '@/store/useProfileStore';
 import { GlobalLoadingOverlay } from '@/components';
 import '../global.css';
 
 export { ErrorBoundary } from 'expo-router';
 
 export const unstable_settings = {
-  initialRouteName: 'index',
+  initialRouteName: '(tabs)',
 };
 
 SplashScreen.preventAutoHideAsync();
@@ -26,6 +27,7 @@ export default function RootLayout() {
   // region [hooks]
   const initDeviceId = useAppStore((s) => s.initDeviceId);
   const initOnboarding = useAppStore((s) => s.initOnboarding);
+  const loadProfiles = useProfileStore((s) => s.loadProfiles);
   // endregion
 
   // region [Life Cycles]
@@ -37,6 +39,7 @@ export default function RootLayout() {
       }
       await initDeviceId();
       await initOnboarding();
+      await loadProfiles();
       SplashScreen.hideAsync();
     };
 
@@ -61,13 +64,15 @@ export default function RootLayout() {
             gestureEnabled: false,
           }}
         />
-        <Stack.Screen name="index" options={{ headerShown: false, title: 'AI 운세 분석' }} />
+        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen name="category/[id]" options={{ headerShown: false }} />
         <Stack.Screen name="result" options={{ headerShown: false }} />
         <Stack.Screen name="fortune" options={{ headerShown: false }} />
         <Stack.Screen name="terms" options={{ headerShown: false }} />
         <Stack.Screen name="privacy" options={{ headerShown: false }} />
         <Stack.Screen name="ai-notice" options={{ headerShown: false }} />
+        <Stack.Screen name="profiles/new" options={{ headerShown: false }} />
+        <Stack.Screen name="profiles/[id]" options={{ headerShown: false }} />
         <Stack.Screen name="+not-found" />
       </Stack>
       <GlobalLoadingOverlay />
