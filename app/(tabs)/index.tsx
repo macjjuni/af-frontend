@@ -40,11 +40,12 @@ export default function HomeScreen() {
 
   return (
     <View className="flex-1 bg-gray-50 dark:bg-gray-900">
-      <TabHeader title="🔮 궁금한 주제를 선택하세요" />
+      <TabHeader title="🔮 궁금한 주제를 선택하세요!" />
       <ScrollView
         contentContainerStyle={{
           padding: 20,
-          paddingBottom: 20,
+          paddingTop: 8,
+          paddingBottom: 8,
         }}
       >
         {/* 카테고리 그리드 */}

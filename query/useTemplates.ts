@@ -5,6 +5,7 @@ import { apiFetch } from '@/lib/api';
 export interface PromptTemplate {
   promptTemplateId: number;
   title: string;
+  description: string;
   parentId: string;
 }
 

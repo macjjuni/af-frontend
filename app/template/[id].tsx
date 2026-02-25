@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { View, Text, ScrollView, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { View, Text, ScrollView, TouchableOpacity, ActivityIndicator, useColorScheme } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useLocalSearchParams } from 'expo-router';
 import { useRouter } from 'expo-router';
+import { Ionicons } from '@expo/vector-icons';
 import { useCategories, useTemplates } from '@/query';
 import { ProfileSelectSheet, ScreenHeader } from '@/components';
 import type { Profile } from '@/store/useProfileStore';
@@ -12,6 +13,8 @@ export default function TemplateDetailScreen() {
   const router = useRouter();
   const { id } = useLocalSearchParams<{ id: string }>();
   const insets = useSafeAreaInsets();
+  const colorScheme = useColorScheme();
+  const isDark = colorScheme === 'dark';
   const { data: categoriesData } = useCategories();
   const { data: templatesData, isLoading: templatesLoading, isError: templatesError } = useTemplates(id);
   const [profileSheetVisible, setProfileSheetVisible] = useState(false);
@@ -20,9 +23,7 @@ export default function TemplateDetailScreen() {
 
   // region [Privates]
   const currentCategory = categoriesData?.categories.find((cat) => cat.id === id);
-  let categoryTitle: any
-  categoryTitle = currentCategory?.title || '카테고리'
-  console.log('currentCategory', currentCategory)
+  const categoryTitle = currentCategory?.title || '카테고리'
   // endregion
 
   // region [Events]
@@ -67,10 +68,10 @@ export default function TemplateDetailScreen() {
             <Text className="text-gray-500 dark:text-gray-400">등록된 템플릿이 없습니다.</Text>
           </View>
         ) : (
-          templatesData?.templates.map((template) => (
+          templatesData?.templates.map(({title, description, promptTemplateId}) => (
             <TouchableOpacity
-              key={template.promptTemplateId}
-              onPress={() => onPressTemplate(template.promptTemplateId)}
+              key={promptTemplateId}
+              onPress={() => onPressTemplate(promptTemplateId)}
               className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 px-5 justify-center"
               style={{
                 height: 100,
@@ -80,11 +81,19 @@ export default function TemplateDetailScreen() {
                 shadowRadius: 8,
                 elevation: 2,
               }}
-              activeOpacity={0.8}
+              activeOpacity={0.7}
             >
-              <Text className="text-lg font-semibold text-gray-900 dark:text-white">
-                {template.title}
-              </Text>
+              <View className="flex-row items-center justify-between">
+                <View className="flex-1 gap-1 pr-3">
+                  <Text className="text-2xl font-semibold text-gray-900 dark:text-white">{title}</Text>
+                  <Text className="text-md font-semibold text-gray-400 dark:text-gray-400">{description}</Text>
+                </View>
+                <Ionicons
+                  name="chevron-forward"
+                  size={24}
+                  color={isDark ? '#9ca3af' : '#d1d5db'}
+                />
+              </View>
             </TouchableOpacity>
           ))
         )}
