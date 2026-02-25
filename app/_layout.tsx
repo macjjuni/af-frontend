@@ -1,27 +1,40 @@
 import { useEffect } from 'react';
 import { Platform } from 'react-native';
 import { Stack } from 'expo-router';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import * as SplashScreen from 'expo-splash-screen';
 import useAppStore from '@/store/useAppStore';
 import useProfileStore from '@/store/useProfileStore';
+import { QueryProvider } from '@/providers';
 import { GlobalLoadingOverlay } from '@/components';
 import '../global.css';
 
 export { ErrorBoundary } from 'expo-router';
 
-export const unstable_settings = {
-  initialRouteName: '(tabs)',
-};
 
 SplashScreen.preventAutoHideAsync();
 
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: { retry: 1, staleTime: 1000 * 60 * 5 },
-    mutations: { retry: 0 },
-  },
-});
+type ScreenConfig = {
+  name: string;
+  options?: {
+    headerShown?: boolean;
+    gestureEnabled?: boolean;
+  };
+};
+
+const SCREEN_CONFIGS: ScreenConfig[] = [
+  { name: 'onboarding', options: { headerShown: false, gestureEnabled: false } },
+  { name: 'consent', options: { headerShown: false, gestureEnabled: false } },
+  { name: '(tabs)', options: { headerShown: false } },
+  { name: 'template/[id]', options: { headerShown: false } },
+  { name: 'result', options: { headerShown: false } },
+  { name: 'fortune', options: { headerShown: false } },
+  { name: 'terms', options: { headerShown: false } },
+  { name: 'privacy', options: { headerShown: false } },
+  { name: 'ai-notice', options: { headerShown: false } },
+  { name: 'profiles/new', options: { headerShown: false } },
+  { name: 'profiles/[id]', options: { headerShown: false } },
+  { name: '+not-found' },
+];
 
 export default function RootLayout() {
   // region [hooks]
@@ -33,49 +46,44 @@ export default function RootLayout() {
   // region [Life Cycles]
   useEffect(() => {
     const initialize = async () => {
-      if (Platform.OS === 'ios') {
-        const { requestTrackingPermissionsAsync } = await import('expo-tracking-transparency');
-        await requestTrackingPermissionsAsync();
+      try {
+        // iOS 추적 권한 요청 (실패해도 계속 진행)
+        if (Platform.OS === 'ios') {
+          try {
+            const { requestTrackingPermissionsAsync } = await import('expo-tracking-transparency');
+            await requestTrackingPermissionsAsync();
+          } catch (error) {
+            console.warn('Failed to request tracking permissions:', error);
+          }
+        }
+
+        // 독립적인 초기화 작업들을 병렬로 실행
+        await Promise.all([
+          initDeviceId(),
+          initOnboarding(),
+          loadProfiles(),
+        ]);
+      } catch (error) {
+        console.error('Failed to initialize app:', error);
+        // 에러 발생 시에도 스플래시를 숨기고 앱 진행
+      } finally {
+        // 초기화 성공/실패 여부와 관계없이 스플래시 숨김
+        await SplashScreen.hideAsync();
       }
-      await initDeviceId();
-      await initOnboarding();
-      await loadProfiles();
-      SplashScreen.hideAsync();
     };
 
-    initialize();
-  }, []);
+    initialize().then();
+  }, [initDeviceId, initOnboarding, loadProfiles]);
   // endregion
 
   return (
-    <QueryClientProvider client={queryClient}>
+    <QueryProvider>
       <Stack>
-        <Stack.Screen
-          name="onboarding"
-          options={{
-            headerShown: false,
-            gestureEnabled: false,
-          }}
-        />
-        <Stack.Screen
-          name="consent"
-          options={{
-            headerShown: false,
-            gestureEnabled: false,
-          }}
-        />
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="category/[id]" options={{ headerShown: false }} />
-        <Stack.Screen name="result" options={{ headerShown: false }} />
-        <Stack.Screen name="fortune" options={{ headerShown: false }} />
-        <Stack.Screen name="terms" options={{ headerShown: false }} />
-        <Stack.Screen name="privacy" options={{ headerShown: false }} />
-        <Stack.Screen name="ai-notice" options={{ headerShown: false }} />
-        <Stack.Screen name="profiles/new" options={{ headerShown: false }} />
-        <Stack.Screen name="profiles/[id]" options={{ headerShown: false }} />
-        <Stack.Screen name="+not-found" />
+        {SCREEN_CONFIGS.map((screen) => (
+          <Stack.Screen key={screen.name} {...screen} />
+        ))}
       </Stack>
       <GlobalLoadingOverlay />
-    </QueryClientProvider>
+    </QueryProvider>
   );
 }
