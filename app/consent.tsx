@@ -17,19 +17,19 @@ const CONSENT_ITEMS: ConsentItem[] = [
     id: 'terms',
     title: '서비스 이용약관 동의',
     required: true,
-    detailLink: '/terms',
+    detailLink: '/legal/terms',
   },
   {
     id: 'privacy',
     title: '개인정보 처리방침 동의',
     required: true,
-    detailLink: '/privacy',
+    detailLink: '/legal/privacy',
   },
   {
     id: 'aiNotice',
     title: 'AI 콘텐츠 이용 안내 및 한계점 고지',
     required: true,
-    detailLink: '/ai-notice',
+    detailLink: '/legal/ai-notice',
   },
   {
     id: 'age',

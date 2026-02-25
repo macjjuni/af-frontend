@@ -97,7 +97,7 @@ export default function BirthInputScreen() {
             <Text className="text-md text-gray-400 dark:text-gray-500 mt-1">생년월일시와 성별을 입력하세요</Text>
           </View>
           <TouchableOpacity
-            onPress={() => router.push('/privacy')}
+            onPress={() => router.push('/legal/privacy')}
             activeOpacity={0.7}
           >
             <Ionicons name="information-circle-outline" size={28} color={isDark ? '#9ca3af' : '#6b7280'} />

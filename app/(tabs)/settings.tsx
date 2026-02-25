@@ -15,9 +15,9 @@ type SettingItem = {
 };
 
 const SETTING_ITEMS: SettingItem[] = [
-  { id: 'terms', label: '이용약관', icon: 'document-text-outline', route: '/terms' },
-  { id: 'privacy', label: '개인정보 처리방침', icon: 'shield-checkmark-outline', route: '/privacy' },
-  { id: 'ai-notice', label: 'AI 서비스 안내', icon: 'information-circle-outline', route: '/ai-notice' },
+  { id: 'terms', label: '이용약관', icon: 'document-text-outline', route: '/legal/terms' },
+  { id: 'privacy', label: '개인정보 처리방침', icon: 'shield-checkmark-outline', route: '/legal/privacy' },
+  { id: 'ai-notice', label: 'AI 서비스 안내', icon: 'information-circle-outline', route: '/legal/ai-notice' },
 ];
 
 export default function SettingsScreen() {
