@@ -29,27 +29,24 @@ export default function TabLayout() {
         name="index"
         options={{
           title: '홈',
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons name="home" size={size} color={color} />
-          ),
+          tabBarIcon: (iconProps) =>
+            <Ionicons name="home" {...iconProps} />,
         }}
       />
       <Tabs.Screen
         name="profiles"
         options={{
           title: '프로필',
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons name="people" size={size} color={color} />
-          ),
+          tabBarIcon: (iconProps) =>
+            <Ionicons name="people" {...iconProps} />,
         }}
       />
       <Tabs.Screen
         name="settings"
         options={{
           title: '설정',
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons name="settings" size={size} color={color} />
-          ),
+          tabBarIcon: (iconProps) =>
+            <Ionicons name="settings" {...iconProps} />,
         }}
       />
     </Tabs>

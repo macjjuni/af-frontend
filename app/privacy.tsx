@@ -1,41 +1,21 @@
 import React from 'react'
-import { ScrollView, useColorScheme, View, Text, TouchableOpacity } from 'react-native'
-import { useRouter } from 'expo-router'
+import { ScrollView, useColorScheme, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
-import { Ionicons } from '@expo/vector-icons'
 import Markdown from 'react-native-markdown-display'
+import { ScreenHeader } from '@/components'
 import { PRIVACY_POLICY_TEXT } from '@/constants/privacyPolicy'
 
 export default function PrivacyPolicy() {
 
   // region [hooks]
-  const router = useRouter()
   const insets = useSafeAreaInsets()
   const colorScheme = useColorScheme()
   const isDark = colorScheme === 'dark'
   // endregion
 
-  // region [Events]
-  function onPressBack() {
-    router.back()
-  }
-  // endregion
-
   return (
     <View className="flex-1 bg-gray-50 dark:bg-gray-900">
-      {/* Header */}
-      <View
-        className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700"
-        style={{ paddingTop: insets.top + 16, paddingBottom: 16, paddingHorizontal: 20 }}
-      >
-        <View className="flex-row items-center justify-between">
-          <TouchableOpacity onPress={onPressBack} activeOpacity={0.7}>
-            <Ionicons name="chevron-back" size={28} color="#7c3aed" />
-          </TouchableOpacity>
-          <Text className="text-xl font-bold text-gray-900 dark:text-white">개인정보처리방침</Text>
-          <View style={{ width: 28 }} />
-        </View>
-      </View>
+      <ScreenHeader title="개인정보처리방침" centerTitle />
 
       <ScrollView
         className="flex-1 px-4"

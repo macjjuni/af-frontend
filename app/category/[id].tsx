@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { View, Text, ScrollView, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { useRouter, useLocalSearchParams } from 'expo-router';
-import { Ionicons } from '@expo/vector-icons';
+import { useLocalSearchParams } from 'expo-router';
+import { useRouter } from 'expo-router';
 import { useCategories, useTemplates } from '@/query';
-import { ProfileSelectSheet } from '@/components';
+import { ProfileSelectSheet, ScreenHeader } from '@/components';
 import type { Profile } from '@/store/useProfileStore';
 
 export default function CategoryDetailScreen() {
@@ -24,14 +24,6 @@ export default function CategoryDetailScreen() {
   // endregion
 
   // region [Events]
-  function onPressBack() {
-    if (router.canGoBack()) {
-      router.back();
-    } else {
-      router.replace('/');
-    }
-  }
-
   function onPressTemplate(templateId: number) {
     setSelectedTemplateId(templateId);
     setProfileSheetVisible(true);
@@ -49,16 +41,8 @@ export default function CategoryDetailScreen() {
   // endregion
 
   return (
-    <View className="flex-1 bg-gray-50 dark:bg-gray-900" style={{ paddingTop: insets.top }}>
-      {/* 헤더 */}
-      <View className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 px-4 py-3 flex-row items-center">
-        <TouchableOpacity onPress={onPressBack} className="mr-3" activeOpacity={0.7}>
-          <Ionicons name="arrow-back" size={24} color="#6b7280" />
-        </TouchableOpacity>
-        <Text className="text-xl font-bold text-gray-900 dark:text-white flex-1">
-          {categoryTitle}
-        </Text>
-      </View>
+    <View className="flex-1 bg-gray-50 dark:bg-gray-900">
+      <ScreenHeader title={categoryTitle} />
 
       {/* 템플릿 리스트 */}
       <ScrollView

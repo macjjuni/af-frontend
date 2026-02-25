@@ -1,39 +1,19 @@
-import { View, Text, ScrollView, TouchableOpacity, useColorScheme } from 'react-native';
-import { useRouter } from 'expo-router';
+import { View, ScrollView, useColorScheme } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { Ionicons } from '@expo/vector-icons';
 import Markdown from 'react-native-markdown-display';
+import { ScreenHeader } from '@/components';
 import { TERMS_TEXT } from '@/constants/terms';
 
 export default function TermsScreen() {
   // region [hooks]
-  const router = useRouter();
   const insets = useSafeAreaInsets();
   const colorScheme = useColorScheme();
   const isDark = colorScheme === 'dark';
   // endregion
 
-  // region [Events]
-  function onPressBack() {
-    router.back();
-  }
-  // endregion
-
   return (
     <View className="flex-1 bg-gray-50 dark:bg-gray-900">
-      {/* Header */}
-      <View
-        className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700"
-        style={{ paddingTop: insets.top + 16, paddingBottom: 16, paddingHorizontal: 20 }}
-      >
-        <View className="flex-row items-center justify-between">
-          <TouchableOpacity onPress={onPressBack} activeOpacity={0.7}>
-            <Ionicons name="chevron-back" size={28} color="#7c3aed" />
-          </TouchableOpacity>
-          <Text className="text-xl font-bold text-gray-900 dark:text-white">서비스 이용약관</Text>
-          <View style={{ width: 28 }} />
-        </View>
-      </View>
+      <ScreenHeader title="서비스 이용약관" centerTitle />
 
       <ScrollView
         className="flex-1 px-4"

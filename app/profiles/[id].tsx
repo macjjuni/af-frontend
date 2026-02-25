@@ -1,16 +1,14 @@
 import React from 'react';
 import { Alert, Text, TouchableOpacity, useColorScheme, View } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
-import { ProfileForm } from '@/components';
+import { ProfileForm, ScreenHeader } from '@/components';
 import type { BirthForm } from '@/store/useAppStore';
 import useProfileStore from '@/store/useProfileStore';
 
 export default function EditProfileScreen() {
   // region [hooks]
   const router = useRouter();
-  const insets = useSafeAreaInsets();
   const colorScheme = useColorScheme();
   const isDark = colorScheme === 'dark';
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -71,19 +69,15 @@ export default function EditProfileScreen() {
 
   return (
     <View className="flex-1 bg-gray-50 dark:bg-gray-900">
-      {/* 헤더 */}
-      <View
-        style={{ paddingTop: insets.top + 8 }}
-        className="px-4 pb-3 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 flex-row items-center"
-      >
-        <TouchableOpacity onPress={onPressBack} className="mr-3" activeOpacity={0.7}>
-          <Ionicons name="arrow-back" size={24} color={isDark ? '#9ca3af' : '#6b7280'} />
-        </TouchableOpacity>
-        <Text className="text-xl font-bold text-gray-900 dark:text-white flex-1">프로필 수정</Text>
-        <TouchableOpacity onPress={onPressDelete} activeOpacity={0.7}>
-          <Ionicons name="trash-outline" size={22} color={isDark ? '#f87171' : '#ef4444'} />
-        </TouchableOpacity>
-      </View>
+      <ScreenHeader
+        title="프로필 수정"
+        onBack={onPressBack}
+        rightAction={
+          <TouchableOpacity onPress={onPressDelete} activeOpacity={0.7}>
+            <Ionicons name="trash-outline" size={22} color={isDark ? '#f87171' : '#ef4444'} />
+          </TouchableOpacity>
+        }
+      />
 
       <ProfileForm
         initialName={profile.name}
