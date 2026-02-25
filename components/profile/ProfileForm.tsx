@@ -11,8 +11,9 @@ import type { BirthForm } from '@/store/useAppStore';
 interface ProfileFormProps {
   initialName?: string;
   initialBirthForm: BirthForm;
+  initialIsSelf?: boolean;
   submitLabel: string;
-  onSave: (name: string | undefined, birthForm: BirthForm) => void;
+  onSave: (name: string | undefined, birthForm: BirthForm, isSelf: boolean) => void;
 }
 // endregion
 
@@ -44,13 +45,14 @@ function getDaysInMonth(year: number, month: number): number {
 }
 // endregion
 
-export default function ProfileForm({ initialName, initialBirthForm, submitLabel, onSave }: ProfileFormProps) {
+export default function ProfileForm({ initialName, initialBirthForm, initialIsSelf = false, submitLabel, onSave }: ProfileFormProps) {
   // region [hooks]
   const insets = useSafeAreaInsets();
   const colorScheme = useColorScheme();
   const isDark = colorScheme === 'dark';
   const [name, setName] = useState(initialName ?? '');
   const [birthForm, setBirthForm] = useState<BirthForm>(initialBirthForm);
+  const [isSelf, setIsSelf] = useState(initialIsSelf);
   // endregion
 
   // region [Privates]
@@ -85,19 +87,31 @@ export default function ProfileForm({ initialName, initialBirthForm, submitLabel
 
   function onPressSave() {
     const trimmedName = name.trim();
-    onSave(trimmedName.length > 0 ? trimmedName : undefined, birthForm);
+    onSave(trimmedName.length > 0 ? trimmedName : undefined, birthForm, isSelf);
   }
   // endregion
 
   return (
     <View className="flex-1 bg-gray-50 dark:bg-gray-900">
-      <ScrollView contentContainerStyle={{ padding: 20, paddingTop: 12, paddingBottom: 16 }}>
+      <ScrollView contentContainerStyle={{ padding: 20, paddingBottom: 0 }}>
 
         {/* 이름 (선택) */}
         <View className="bg-white dark:bg-gray-800 rounded-2xl p-5 mb-4 border border-gray-100 dark:border-gray-700">
-          <View className="flex-row items-center mb-4">
-            <View style={{ width: 6, height: 6, backgroundColor: '#7c3aed', borderRadius: 3, marginRight: 8 }} />
-            <Text className="text-lg font-bold text-gray-700 dark:text-gray-200">이름 (선택)</Text>
+          <View className="flex-row items-center justify-between mb-4">
+            <View className="flex-row items-center">
+              <View style={{ width: 6, height: 6, backgroundColor: '#7c3aed', borderRadius: 3, marginRight: 8 }} />
+              <Text className="text-lg font-bold text-gray-700 dark:text-gray-200">이름 (선택)</Text>
+            </View>
+            <View className="flex-row items-center gap-2">
+              <Text className="text-md text-gray-500 dark:text-gray-400">본인여부</Text>
+              <Switch
+                value={isSelf}
+                onValueChange={setIsSelf}
+                trackColor={{ true: '#7c3aed' }}
+                thumbColor="#fff"
+                style={{ transform: [{ scaleX: 0.8 }, { scaleY: 0.8 }] }}
+              />
+            </View>
           </View>
           <TextInput
             className="h-12 px-3 py-0 rounded-xl border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-lg text-gray-800 dark:text-gray-100"

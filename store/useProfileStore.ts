@@ -7,6 +7,7 @@ export interface Profile {
   id: string;
   name?: string;
   birthForm: BirthForm;
+  isSelf: boolean;
   createdAt: number;
   updatedAt: number;
 }
@@ -14,8 +15,8 @@ export interface Profile {
 interface ProfileState {
   profiles: Profile[];
   loadProfiles: () => Promise<void>;
-  addProfile: (name: string | undefined, birthForm: BirthForm) => Promise<void>;
-  updateProfile: (id: string, name: string | undefined, birthForm: BirthForm) => Promise<void>;
+  addProfile: (name: string | undefined, birthForm: BirthForm, isSelf: boolean) => Promise<void>;
+  updateProfile: (id: string, name: string | undefined, birthForm: BirthForm, isSelf: boolean) => Promise<void>;
   deleteProfile: (id: string) => Promise<void>;
   clearProfiles: () => Promise<void>;
 }
@@ -49,24 +50,33 @@ const useProfileStore = create<ProfileState>((set, get) => ({
     }
   },
 
-  addProfile: async (name, birthForm) => {
+  addProfile: async (name, birthForm, isSelf) => {
     const now = Date.now();
     const newProfile: Profile = {
       id: `${now}-${Math.random().toString(36).slice(2, 7)}`,
       name,
       birthForm,
+      isSelf,
       createdAt: now,
       updatedAt: now,
     };
-    const updated = [...get().profiles, newProfile];
+    // isSelf가 true면 기존 프로필들의 isSelf를 false로 변경
+    const existingProfiles = isSelf
+      ? get().profiles.map((p) => ({ ...p, isSelf: false }))
+      : get().profiles;
+    const updated = [...existingProfiles, newProfile];
     set({ profiles: updated });
     await saveProfiles(updated);
   },
 
-  updateProfile: async (id, name, birthForm) => {
-    const updated = get().profiles.map((p) =>
-      p.id === id ? { ...p, name, birthForm, updatedAt: Date.now() } : p
-    );
+  updateProfile: async (id, name, birthForm, isSelf) => {
+    const updated = get().profiles.map((p) => {
+      if (p.id === id) {
+        return { ...p, name, birthForm, isSelf, updatedAt: Date.now() };
+      }
+      // 현재 프로필을 본인으로 설정하면 다른 프로필들은 false로
+      return isSelf ? { ...p, isSelf: false } : p;
+    });
     set({ profiles: updated });
     await saveProfiles(updated);
   },

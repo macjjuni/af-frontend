@@ -92,9 +92,14 @@ export default function ProfilesScreen() {
               }}
             >
               <View className="flex-row items-center justify-between">
-                <Text className="text-lg font-bold text-gray-900 dark:text-white">
-                  {getProfileDisplayName(item, index)}
-                </Text>
+                <View className="flex-row items-center gap-2">
+                  {item.isSelf && (
+                    <Ionicons name="checkmark-circle" size={18} color={isDark ? '#c084fc' : '#7c3aed'}/>
+                  )}
+                  <Text className="text-lg font-bold text-gray-900 dark:text-white">
+                    {getProfileDisplayName(item, index)}
+                  </Text>
+                </View>
                 <Ionicons name="chevron-forward" size={18} color={isDark ? '#4b5563' : '#d1d5db'}/>
               </View>
               <Text className="text-sm text-gray-500 dark:text-gray-400 mt-1">
