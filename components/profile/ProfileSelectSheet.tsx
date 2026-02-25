@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, ScrollView, TouchableOpacity, useColorScheme } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import BottomSheet from '../common/BottomSheet';
 import useProfileStore, { type Profile } from '@/store/useProfileStore';
@@ -45,7 +44,6 @@ export default function ProfileSelectSheet({
   // region [hooks]
   const colorScheme = useColorScheme();
   const isDark = colorScheme === 'dark';
-  const insets = useSafeAreaInsets();
   const profiles = useProfileStore((s) => s.profiles);
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
   // endregion
@@ -103,7 +101,7 @@ export default function ProfileSelectSheet({
     <BottomSheet
       visible={visible}
       onClose={onClose}
-      title={multiple ? "프로필 선택 (최대 2명)" : "프로필 선택 (1명)"}
+      title={multiple ? "프로필 2명 선택" : "프로필 선택 (1명)"}
       maxHeight="50%"
     >
       {profiles.length === 0 ? (
@@ -128,7 +126,7 @@ export default function ProfileSelectSheet({
             contentContainerStyle={{
               padding: 16,
               gap: 10,
-              paddingBottom: insets.bottom,
+              paddingBottom: 16,
             }}
             showsVerticalScrollIndicator={false}
           >
@@ -196,7 +194,7 @@ export default function ProfileSelectSheet({
 
           <View
             className="border-t border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 px-4"
-            style={{ paddingTop: 12 }}
+            style={{ paddingTop: 12, paddingBottom: 12 }}
           >
             <TouchableOpacity
               onPress={onPressConfirm}

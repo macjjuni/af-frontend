@@ -3,7 +3,7 @@ import { View, Text, ScrollView, TouchableOpacity, ActivityIndicator } from 'rea
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useRouter } from 'expo-router'
 import { useFocusEffect } from '@react-navigation/native'
-import { calculateSaju, createChart, calculateNatal, type SajuResult } from '@orrery/core'
+import type { SajuResult } from '@orrery/core'
 import { useSaju, useRewardedAd } from '@/hooks'
 import { useShouldShowAds, useTemplates, useFortune, type PromptTemplate } from '@/query'
 import useAppStore from '@/store/useAppStore'
@@ -11,7 +11,7 @@ import useFortuneStore from '@/store/useFortuneStore'
 import {
   BottomSheet, PillarTable, RelationList, SinsalList, DaewoonList, SewoonList, LoadingView,
 } from '@/components'
-import { sajuToText, ziweiToText, natalToText } from '@/utils/textExport'
+import { buildChartData } from '@/utils/buildChartData'
 
 
 export default function ResultScreen() {
@@ -37,22 +37,6 @@ export default function ResultScreen() {
     const time = unknownTime ? '시간 미상' : `${String(hour).padStart(2, '0')}:${String(minute).padStart(2, '0')}`
     return `${base} ${time} / ${gender === 'M' ? '남성' : '여성'} / ${cityName}`
   }
-
-  async function buildChartData(): Promise<string> {
-    const sajuData = calculateSaju(birthForm)
-    const parts = [sajuToText(sajuData)]
-    if (!birthForm.unknownTime) {
-      const chart = createChart(
-        birthForm.year, birthForm.month, birthForm.day,
-        birthForm.hour, birthForm.minute, birthForm.gender === 'M',
-      )
-      parts.push(ziweiToText(chart))
-    }
-    const natal = await calculateNatal(birthForm)
-    parts.push(natalToText(natal))
-    return parts.join('\n\n')
-  }
-
   // endregion
 
   // region [Events]
@@ -73,7 +57,7 @@ export default function ResultScreen() {
     const showAds = shouldShowAds.data?.isShowAds ?? false
 
     const executeFortuneAnalysis = async () => {
-      const chartData = await buildChartData()
+      const chartData = await buildChartData(birthForm)
       fortune.mutate({ chartData, deviceID: deviceId, promptTemplateId: templateId })
     }
 
@@ -88,7 +72,7 @@ export default function ResultScreen() {
 
   async function onPressDebugChart() {
     try {
-      const text = await buildChartData()
+      const text = await buildChartData(birthForm)
       setDevChartText(text)
     } catch (e) {
       setDevChartText(`[ERROR]\n${e instanceof Error ? e.stack ?? e.message : String(e)}`)

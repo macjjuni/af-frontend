@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { View, Text, TouchableOpacity, Modal, Animated, Platform, type DimensionValue } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const USE_NATIVE_DRIVER = Platform.OS !== 'web';
 
@@ -20,6 +20,7 @@ export default function BottomSheet({
   children,
 }: BottomSheetProps) {
   // region [hooks]
+  const insets = useSafeAreaInsets();
   const overlayOpacity = useRef(new Animated.Value(0)).current;
   const sheetTranslateY = useRef(new Animated.Value(600)).current;
   // endregion
@@ -72,7 +73,10 @@ export default function BottomSheet({
             transform: [{ translateY: sheetTranslateY }],
           }}
         >
-          <SafeAreaView edges={['bottom']} className="bg-white dark:bg-gray-800 rounded-t-3xl h-full">
+          <View
+            className="bg-white dark:bg-gray-800 rounded-t-3xl h-full"
+            style={{ paddingBottom: insets.bottom }}
+          >
             {/* 헤더 */}
             <View className="flex-row items-center justify-between px-5 pt-4 pb-2 border-b border-gray-100 dark:border-gray-700">
               <Text className="text-xl font-bold text-gray-900 dark:text-white">{title}</Text>
@@ -81,7 +85,7 @@ export default function BottomSheet({
               </TouchableOpacity>
             </View>
             {children}
-          </SafeAreaView>
+          </View>
         </Animated.View>
       </View>
     </Modal>

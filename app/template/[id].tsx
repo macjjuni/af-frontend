@@ -1,12 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { View, Text, ScrollView, TouchableOpacity, ActivityIndicator, useColorScheme } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useLocalSearchParams } from 'expo-router';
 import { useRouter } from 'expo-router';
+import { useFocusEffect } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
-import { useCategories, useTemplates } from '@/query';
+import { useCategories, useTemplates, useFortune, useShouldShowAds } from '@/query';
+import { useRewardedAd } from '@/hooks';
+import useAppStore from '@/store/useAppStore';
+import useFortuneStore from '@/store/useFortuneStore';
 import { ProfileSelectSheet, ScreenHeader } from '@/components';
 import type { Profile } from '@/store/useProfileStore';
+import { buildChartData } from '@/utils/buildChartData';
+
 
 export default function TemplateDetailScreen() {
   // region [hooks]
@@ -15,8 +21,13 @@ export default function TemplateDetailScreen() {
   const insets = useSafeAreaInsets();
   const colorScheme = useColorScheme();
   const isDark = colorScheme === 'dark';
+  const { deviceId } = useAppStore();
+  const setFortuneResult = useFortuneStore((s) => s.setFortuneResult);
   const { data: categoriesData } = useCategories();
   const { data: templatesData, isLoading: templatesLoading, isError: templatesError } = useTemplates(id);
+  const fortune = useFortune();
+  const shouldShowAds = useShouldShowAds();
+  const { showAd } = useRewardedAd();
   const [profileSheetVisible, setProfileSheetVisible] = useState(false);
   const [selectedTemplateId, setSelectedTemplateId] = useState<number | null>(null);
   const [isMultipleSelect, setIsMultipleSelect] = useState(false);
@@ -34,19 +45,91 @@ export default function TemplateDetailScreen() {
     setProfileSheetVisible(true);
   }
 
+  function handleSingleProfile(profile: Profile) {
+    if (!selectedTemplateId) return;
+
+    // shouldShowAds API 로딩 중이면 대기
+    if (shouldShowAds.isLoading) return;
+
+    const showAds = shouldShowAds.data?.isShowAds ?? false;
+
+    const executeFortuneAnalysis = async () => {
+      const chartData = await buildChartData(profile.birthForm);
+      fortune.mutate({
+        chartData,
+        deviceID: deviceId,
+        promptTemplateId: selectedTemplateId,
+      });
+    };
+
+    if (showAds) {
+      showAd(executeFortuneAnalysis);
+    } else {
+      executeFortuneAnalysis().then();
+    }
+  }
+
+  function handleMultipleProfiles(profiles: Profile[]) {
+    if (!selectedTemplateId) return;
+
+    // shouldShowAds API 로딩 중이면 대기
+    if (shouldShowAds.isLoading) return;
+
+    const showAds = shouldShowAds.data?.isShowAds ?? false;
+
+    const executeFortuneAnalysis = async () => {
+
+      const [chartDataA, chartDataB] = await Promise.all([
+        buildChartData(profiles[0].birthForm),
+        buildChartData(profiles[1].birthForm),
+      ]);
+
+      const firstDes = profiles[0].isSelf ? '아래는 내 데이터야. \n' : '';
+      const secondDes = profiles[1].isSelf ? '아래는 내 데이터야. \n' : '';
+      const chartData = firstDes + chartDataA + '\n\n' + secondDes + chartDataB;
+
+      console.log(chartData)
+
+      fortune.mutate({
+        chartData,
+        deviceID: deviceId,
+        promptTemplateId: selectedTemplateId,
+      });
+    };
+
+    if (showAds) {
+      showAd(executeFortuneAnalysis);
+    } else {
+      executeFortuneAnalysis();
+    }
+  }
+
   function onSelectProfile(profile: Profile | Profile[]) {
     setProfileSheetVisible(false);
-    // TODO: 선택된 프로필(profile)과 템플릿(selectedTemplateId)으로 운세 분석 플로우 진행
+
     if (Array.isArray(profile)) {
-      console.log('Selected profiles:', profile.map(p => p.id), 'template:', selectedTemplateId);
+      handleMultipleProfiles(profile);
     } else {
-      console.log('Selected profile:', profile.id, 'template:', selectedTemplateId);
+      handleSingleProfile(profile);
     }
   }
 
   function onAddProfile() {
     router.push('/profiles/new');
   }
+  // endregion
+
+  // region [Life Cycles]
+  useEffect(() => {
+    if (fortune.isSuccess) {
+      setFortuneResult(fortune.data);
+      router.push('/fortune');
+    }
+  }, [fortune.isSuccess]);
+
+  useFocusEffect(useCallback(() => {
+    fortune.reset();
+  }, []));
   // endregion
 
   return (
@@ -61,6 +144,15 @@ export default function TemplateDetailScreen() {
           gap: 12,
         }}
       >
+        {/* 운세 분석 에러 */}
+        {fortune.isError && (
+          <View className="bg-red-50 dark:bg-red-900/20 rounded-xl p-4 border border-red-200 dark:border-red-800 mb-2">
+            <Text className="text-red-600 dark:text-red-400 text-sm">
+              {fortune.error instanceof Error ? fortune.error.message : '오류가 발생했습니다.'}
+            </Text>
+          </View>
+        )}
+
         {templatesLoading ? (
           <View className="py-12 items-center">
             <ActivityIndicator size="large" color="#7c3aed" />
