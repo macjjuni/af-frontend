@@ -22,9 +22,9 @@ export default function EditProfileScreen() {
   // endregion
 
   // region [Events]
-  async function onSave(name: string | undefined, birthForm: BirthForm, isSelf: boolean) {
+  async function onSave(name: string | undefined, birthForm: BirthForm) {
     if (!id) return;
-    await updateProfile(id, name, birthForm, isSelf);
+    await updateProfile(id, name, birthForm);
     router.back();
   }
 
@@ -82,7 +82,6 @@ export default function EditProfileScreen() {
       <ProfileForm
         initialName={profile.name}
         initialBirthForm={profile.birthForm}
-        initialIsSelf={profile.isSelf}
         submitLabel="변경사항 저장"
         onSave={onSave}
       />

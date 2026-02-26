@@ -7,7 +7,6 @@ export interface Profile {
   id: string;
   name?: string;
   birthForm: BirthForm;
-  isSelf: boolean;
   createdAt: number;
   updatedAt: number;
 }
@@ -15,8 +14,8 @@ export interface Profile {
 interface ProfileState {
   profiles: Profile[];
   loadProfiles: () => Promise<void>;
-  addProfile: (name: string | undefined, birthForm: BirthForm, isSelf: boolean) => Promise<void>;
-  updateProfile: (id: string, name: string | undefined, birthForm: BirthForm, isSelf: boolean) => Promise<void>;
+  addProfile: (name: string | undefined, birthForm: BirthForm) => Promise<void>;
+  updateProfile: (id: string, name: string | undefined, birthForm: BirthForm) => Promise<void>;
   deleteProfile: (id: string) => Promise<void>;
   clearProfiles: () => Promise<void>;
 }
@@ -50,32 +49,26 @@ const useProfileStore = create<ProfileState>((set, get) => ({
     }
   },
 
-  addProfile: async (name, birthForm, isSelf) => {
+  addProfile: async (name, birthForm) => {
     const now = Date.now();
     const newProfile: Profile = {
       id: `${now}-${Math.random().toString(36).slice(2, 7)}`,
       name,
       birthForm,
-      isSelf,
       createdAt: now,
       updatedAt: now,
     };
-    // isSelf가 true면 기존 프로필들의 isSelf를 false로 변경
-    const existingProfiles = isSelf
-      ? get().profiles.map((p) => ({ ...p, isSelf: false }))
-      : get().profiles;
-    const updated = [...existingProfiles, newProfile];
+    const updated = [...get().profiles, newProfile];
     set({ profiles: updated });
     await saveProfiles(updated);
   },
 
-  updateProfile: async (id, name, birthForm, isSelf) => {
+  updateProfile: async (id, name, birthForm) => {
     const updated = get().profiles.map((p) => {
       if (p.id === id) {
-        return { ...p, name, birthForm, isSelf, updatedAt: Date.now() };
+        return { ...p, name, birthForm, updatedAt: Date.now() };
       }
-      // 현재 프로필을 본인으로 설정하면 다른 프로필들은 false로
-      return isSelf ? { ...p, isSelf: false } : p;
+      return p;
     });
     set({ profiles: updated });
     await saveProfiles(updated);

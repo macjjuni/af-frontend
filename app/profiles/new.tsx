@@ -28,8 +28,8 @@ export default function NewProfileScreen() {
   // endregion
 
   // region [Events]
-  async function onSave(name: string | undefined, birthForm: BirthForm, isSelf: boolean) {
-    await addProfile(name, birthForm, isSelf);
+  async function onSave(name: string | undefined, birthForm: BirthForm) {
+    await addProfile(name, birthForm);
     router.back();
   }
   // endregion
