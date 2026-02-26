@@ -4,7 +4,7 @@ import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import useAppStore from '@/store/useAppStore';
 import useProfileStore from '@/store/useProfileStore';
-import { QueryProvider } from '@/providers';
+import { QueryProvider, RewardedAdProvider } from '@/providers';
 import { GlobalLoadingOverlay } from '@/components';
 import '../global.css';
 
@@ -28,6 +28,7 @@ const SCREEN_CONFIGS: ScreenConfig[] = [
   { name: 'template/[id]', options: { headerShown: false } },
   { name: 'result', options: { headerShown: false } },
   { name: 'fortune', options: { headerShown: false } },
+  { name: 'legal/index', options: { headerShown: false } },
   { name: 'legal/terms', options: { headerShown: false } },
   { name: 'legal/privacy', options: { headerShown: false } },
   { name: 'legal/ai-notice', options: { headerShown: false } },
@@ -78,12 +79,14 @@ export default function RootLayout() {
 
   return (
     <QueryProvider>
-      <Stack>
-        {SCREEN_CONFIGS.map((screen) => (
-          <Stack.Screen key={screen.name} {...screen} />
-        ))}
-      </Stack>
-      <GlobalLoadingOverlay />
+      <RewardedAdProvider>
+        <Stack>
+          {SCREEN_CONFIGS.map((screen) => (
+            <Stack.Screen key={screen.name} {...screen} />
+          ))}
+        </Stack>
+        <GlobalLoadingOverlay />
+      </RewardedAdProvider>
     </QueryProvider>
   );
 }
