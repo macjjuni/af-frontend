@@ -1,43 +1,20 @@
 import React from 'react';
-import { View, Text, ScrollView, TouchableOpacity, useColorScheme, Linking, Alert } from 'react-native';
+import { View, ScrollView, Linking, Alert } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
-import { Ionicons } from '@expo/vector-icons';
 import useProfileStore from '@/store/useProfileStore';
 import { TabHeader } from '@/components/layout';
-
-type SettingItem = {
-  id: string;
-  label: string;
-  icon: keyof typeof Ionicons.glyphMap;
-  route?: string;
-  url?: string;
-};
-
-const SETTING_ITEMS: SettingItem[] = [
-  { id: 'terms', label: '이용약관', icon: 'document-text-outline', route: '/legal/terms' },
-  { id: 'privacy', label: '개인정보 처리방침', icon: 'shield-checkmark-outline', route: '/legal/privacy' },
-  { id: 'ai-notice', label: 'AI 서비스 안내', icon: 'information-circle-outline', route: '/legal/ai-notice' },
-];
+import { SettingSectionTitle, SettingCard } from '@/components/settings';
+import type { SettingCardItem } from '@/components/settings';
 
 export default function SettingsScreen() {
   // region [hooks]
   const router = useRouter();
   const insets = useSafeAreaInsets();
-  const colorScheme = useColorScheme();
-  const isDark = colorScheme === 'dark';
   const clearProfiles = useProfileStore((s) => s.clearProfiles);
   // endregion
 
   // region [Events]
-  function onPressSetting(item: SettingItem) {
-    if (item.route) {
-      router.push(item.route as never);
-    } else if (item.url) {
-      Linking.openURL(item.url);
-    }
-  }
-
   function onPressClearProfiles() {
     Alert.alert(
       '프로필 전체 삭제',
@@ -54,6 +31,34 @@ export default function SettingsScreen() {
   }
   // endregion
 
+  // region [Privates]
+  const dataItems: SettingCardItem[] = [
+    {
+      icon: 'trash-outline',
+      label: '프로필 전체 초기화',
+      onPress: onPressClearProfiles,
+      showArrow: false,
+      iconBgClassName: 'bg-red-100 dark:bg-red-900/30',
+      iconColor: { light: '#ef4444', dark: '#f87171' },
+      labelClassName: 'text-red-600 dark:text-red-400',
+    },
+  ];
+
+  const feedbackItems: SettingCardItem[] = [
+    {
+      icon: 'mail-outline',
+      label: '피드백 보내기',
+      onPress: () => Linking.openURL('mailto:macjjuni@gmail.com'),
+    },
+  ];
+
+  const legalItems: SettingCardItem[] = [
+    { icon: 'document-text-outline', label: '이용약관', onPress: () => router.push('/legal/terms' as never) },
+    { icon: 'shield-checkmark-outline', label: '개인정보 처리방침', onPress: () => router.push('/legal/privacy' as never) },
+    { icon: 'information-circle-outline', label: 'AI 서비스 안내', onPress: () => router.push('/legal/ai-notice' as never) },
+  ];
+  // endregion
+
   return (
     <View className="flex-1 bg-gray-50 dark:bg-gray-900">
       <TabHeader title="설정" />
@@ -64,114 +69,16 @@ export default function SettingsScreen() {
         }}
       >
         {/* 데이터 관리 */}
-        <Text className="text-sm font-semibold text-gray-400 dark:text-gray-500 mb-3 px-1">데이터 관리</Text>
-        <View
-          className="rounded-2xl overflow-hidden"
-          style={{
-            backgroundColor: isDark ? '#1f2937' : '#ffffff',
-            shadowColor: '#000',
-            shadowOffset: { width: 0, height: 2 },
-            shadowOpacity: 0.05,
-            shadowRadius: 8,
-            elevation: 2,
-          }}
-        >
-          <TouchableOpacity
-            onPress={onPressClearProfiles}
-            activeOpacity={0.7}
-            className="flex-row items-center px-4 py-4"
-          >
-            <View className="w-9 h-9 rounded-xl items-center justify-center mr-3 bg-red-100 dark:bg-red-900/30">
-              <Ionicons
-                name="trash-outline"
-                size={20}
-                color={isDark ? '#f87171' : '#ef4444'}
-              />
-            </View>
-            <Text className="flex-1 text-base font-medium text-red-600 dark:text-red-400">
-              프로필 전체 초기화
-            </Text>
-          </TouchableOpacity>
-        </View>
+        <SettingSectionTitle title="데이터 관리" isFirst />
+        <SettingCard items={dataItems} />
 
         {/* 개선 및 피드백 */}
-        <Text className="text-sm font-semibold text-gray-400 dark:text-gray-500 mt-8 mb-3 px-1">개선 및 피드백</Text>
-        <View
-          className="rounded-2xl overflow-hidden"
-          style={{
-            backgroundColor: isDark ? '#1f2937' : '#ffffff',
-            shadowColor: '#000',
-            shadowOffset: { width: 0, height: 2 },
-            shadowOpacity: 0.05,
-            shadowRadius: 8,
-            elevation: 2,
-          }}
-        >
-          <TouchableOpacity
-            onPress={() => Linking.openURL('mailto:macjjuni@gmail.com')}
-            activeOpacity={0.7}
-            className="flex-row items-center px-4 py-4"
-          >
-            <View className="w-9 h-9 rounded-xl items-center justify-center mr-3 bg-purple-100 dark:bg-purple-900">
-              <Ionicons
-                name="mail-outline"
-                size={20}
-                color={isDark ? '#c084fc' : '#7c3aed'}
-              />
-            </View>
-            <Text className="flex-1 text-base font-medium text-gray-800 dark:text-gray-100">
-              피드백 보내기
-            </Text>
-            <Ionicons
-              name="chevron-forward"
-              size={18}
-              color={isDark ? '#4b5563' : '#d1d5db'}
-            />
-          </TouchableOpacity>
-        </View>
+        <SettingSectionTitle title="개선 및 피드백" />
+        <SettingCard items={feedbackItems} />
 
         {/* 약관 및 안내 */}
-        <Text className="text-sm font-semibold text-gray-400 dark:text-gray-500 mt-8 mb-3 px-1">약관 및 안내</Text>
-        <View
-          className="rounded-2xl overflow-hidden"
-          style={{
-            backgroundColor: isDark ? '#1f2937' : '#ffffff',
-            shadowColor: '#000',
-            shadowOffset: { width: 0, height: 2 },
-            shadowOpacity: 0.05,
-            shadowRadius: 8,
-            elevation: 2,
-          }}
-        >
-          {SETTING_ITEMS.map((item, index) => (
-            <TouchableOpacity
-              key={item.id}
-              onPress={() => onPressSetting(item)}
-              activeOpacity={0.7}
-              className={`flex-row items-center px-4 py-4 ${
-                index < SETTING_ITEMS.length - 1
-                  ? 'border-b border-gray-100 dark:border-gray-700'
-                  : ''
-              }`}
-            >
-              <View className="w-9 h-9 rounded-xl items-center justify-center mr-3 bg-purple-100 dark:bg-purple-900">
-                <Ionicons
-                  name={item.icon}
-                  size={20}
-                  color={isDark ? '#c084fc' : '#7c3aed'}
-                />
-              </View>
-              <Text className="flex-1 text-base font-medium text-gray-800 dark:text-gray-100">
-                {item.label}
-              </Text>
-              <Ionicons
-                name="chevron-forward"
-                size={18}
-                color={isDark ? '#4b5563' : '#d1d5db'}
-              />
-            </TouchableOpacity>
-          ))}
-        </View>
+        <SettingSectionTitle title="약관 및 안내" />
+        <SettingCard items={legalItems} />
       </ScrollView>
     </View>
   );
