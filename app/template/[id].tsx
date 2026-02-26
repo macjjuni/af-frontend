@@ -154,7 +154,7 @@ export default function TemplateDetailScreen() {
         )}
 
         {templatesLoading ? (
-          <View className="py-12 items-center">
+          <View className="flex-1 justify-center items-center">
             <ActivityIndicator size="large" color="#7c3aed" />
           </View>
         ) : templatesError ? (

@@ -53,10 +53,7 @@ export default function SettingsScreen() {
   ];
 
   const legalItems: SettingCardItem[] = [
-    { icon: 'document-text-outline', label: '이용약관', onPress: () => router.push('/legal/terms' as never) },
-    { icon: 'shield-checkmark-outline', label: '개인정보 처리방침', onPress: () => router.push('/legal/privacy' as never) },
-    { icon: 'information-circle-outline', label: 'AI 서비스 안내', onPress: () => router.push('/legal/ai-notice' as never) },
-    { icon: 'code-slash-outline', label: '오픈소스 라이센스', onPress: () => Linking.openURL('https://github.com/macjjuni/af-frontend/blob/main/LICENSES.md') },
+    { icon: 'document-text-outline', label: '약관 및 안내', onPress: () => router.push('/legal' as never) },
   ];
   // endregion
 
