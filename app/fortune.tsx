@@ -61,6 +61,7 @@ function getMarkdownStyles(isDark: boolean) {
     },
     heading1: {
       fontSize: 24,
+      lineHeight: 30,
       fontWeight: '700' as const,
       color: isDark ? '#f9fafb' : '#1f2937',
       marginTop: 8,
@@ -68,6 +69,7 @@ function getMarkdownStyles(isDark: boolean) {
     },
     heading2: {
       fontSize: 22,
+      lineHeight: 28,
       fontWeight: '700' as const,
       color: isDark ? '#a5b4fc' : '#3730a3',
       marginTop: 16,
@@ -75,6 +77,7 @@ function getMarkdownStyles(isDark: boolean) {
     },
     heading3: {
       fontSize: 20,
+      lineHeight: 26,
       fontWeight: '600' as const,
       color: isDark ? '#9ca3af' : '#4b5563',
       marginTop: 12,
@@ -90,11 +93,13 @@ function getMarkdownStyles(isDark: boolean) {
     },
     paragraph: {
       fontSize: 18,
+      lineHeight: 24,
       marginTop: 4,
       marginBottom: 6,
     },
     bullet_list: {
       fontSize: 16,
+      lineHeight: 22,
       marginVertical: 4,
     },
     ordered_list: {
@@ -123,6 +128,7 @@ function getMarkdownStyles(isDark: boolean) {
       borderRadius: 4,
       paddingHorizontal: 4,
       fontSize: 16,
+      lineHeight: 20,
     },
   }
 }

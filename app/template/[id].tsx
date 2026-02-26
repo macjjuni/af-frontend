@@ -54,7 +54,15 @@ export default function TemplateDetailScreen() {
     const showAds = shouldShowAds.data?.isShowAds ?? false;
 
     const executeFortuneAnalysis = async () => {
+
       const chartData = await buildChartData(profile.birthForm);
+
+      if (__DEV__) {
+        console.log('--------------------------------------')
+        console.log('chartData \n\n', chartData)
+        console.log('--------------------------------------')
+      }
+
       fortune.mutate({
         chartData,
         deviceID: deviceId,
@@ -84,11 +92,13 @@ export default function TemplateDetailScreen() {
         buildChartData(profiles[1].birthForm),
       ]);
 
-      const firstDes = profiles[0].isSelf ? '아래는 내 데이터야. \n' : '';
-      const secondDes = profiles[1].isSelf ? '아래는 내 데이터야. \n' : '';
-      const chartData = firstDes + chartDataA + '\n\n' + secondDes + chartDataB;
+      const chartData = chartDataA + '\n\n' + chartDataB;
 
-      console.log(chartData)
+      if (__DEV__) {
+        console.log('--------------------------------------')
+        console.log('chartData \n\n', chartData)
+        console.log('--------------------------------------')
+      }
 
       fortune.mutate({
         chartData,

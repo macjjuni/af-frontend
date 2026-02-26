@@ -23,7 +23,7 @@ export default function GlobalLoadingOverlay() {
             style={{ width: 150, height: 150, marginTop: -20, marginBottom: -12 }}
           />
           {globalLoading.message && (
-            <Text className="mt-1 text-center text-base text-gray-600 dark:text-gray-300 px-2">
+            <Text className="mt-1 text-center text-lg text-gray-500 dark:text-gray-400 px-2">
               {globalLoading.message}
             </Text>
           )}
