@@ -1,6 +1,6 @@
 # Open Source Licenses
 
-이 프로젝트는 676개의 오픈소스 라이브러리를 사용하고 있으며, 17종류의 라이센스가 적용되어 있습니다.
+이 프로젝트는 677개의 오픈소스 라이브러리를 사용하고 있으며, 17종류의 라이센스가 적용되어 있습니다.
 
 **생성일:** 2026. 2. 27.
 
@@ -81,7 +81,7 @@ AGPL-3.0 라이센스에 따라 위 링크에서 관련 소스 코드를 확인�
 
 </details>
 
-### MIT (574개)
+### MIT (575개)
 
 매우 허용적인 라이센스입니다. 저작권 표시만 필요합니다.
 
@@ -388,6 +388,7 @@ AGPL-3.0 라이센스에 따라 위 링크에서 관련 소스 코드를 확인�
 - **expo-font** v14.0.11 · 650 Industries, Inc. · [homepage](https://docs.expo.dev/versions/latest/sdk/font/)
 - **expo-json-utils** v0.15.0 · 650 Industries, Inc. · [homepage](https://docs.expo.dev)
 - **expo-keep-awake** v15.0.8 · 650 Industries, Inc. · [homepage](https://docs.expo.dev/versions/latest/sdk/keep-awake/)
+- **expo-linear-gradient** v15.0.8 · 650 Industries, Inc. · [homepage](https://docs.expo.dev/versions/latest/sdk/linear-gradient/)
 - **expo-linking** v8.0.11 · 650 Industries, Inc. · [homepage](https://docs.expo.dev/versions/latest/sdk/linking)
 - **expo-manifests** v1.0.10 · 650 Industries, Inc. · [homepage](https://docs.expo.dev/versions/latest/sdk/manifests/)
 - **expo-modules-autolinking** v3.0.24 · 650 Industries, Inc. · [homepage](https://github.com/expo/expo/tree/main/packages/expo-modules-autolinking#readme)
