@@ -15,7 +15,7 @@ export default function GlobalLoadingOverlay() {
       statusBarTranslucent
     >
       <View className="flex-1 items-center justify-center bg-black/55">
-        <View className="items-center rounded-2xl bg-white dark:bg-gray-800 px-8 py-6">
+        <View className="items-center rounded-2xl bg-white dark:bg-gray-900 px-8 py-6">
           <LottieView
             source={require('@/assets/lotties/ai.json')}
             autoPlay

@@ -149,6 +149,7 @@ export default function TemplateDetailScreen() {
       {/* 템플릿 리스트 */}
       <ScrollView
         contentContainerStyle={{
+          flexGrow: 1,
           padding: 20,
           paddingBottom: insets.bottom + 20,
           gap: 12,
@@ -164,7 +165,7 @@ export default function TemplateDetailScreen() {
         )}
 
         {templatesLoading ? (
-          <View className="flex-1 justify-center items-center">
+          <View className="flex-1 justify-center items-center pb-24">
             <ActivityIndicator size="large" color="#7c3aed" />
           </View>
         ) : templatesError ? (

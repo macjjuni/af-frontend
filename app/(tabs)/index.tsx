@@ -43,6 +43,7 @@ export default function HomeScreen() {
       <TabHeader title="🔮 궁금한 주제를 선택하세요!" />
       <ScrollView
         contentContainerStyle={{
+          flexGrow: 1,
           padding: 20,
           paddingTop: 8,
           paddingBottom: 8,
@@ -50,7 +51,7 @@ export default function HomeScreen() {
       >
         {/* 카테고리 그리드 */}
         {categoriesLoading ? (
-          <View className="py-12 items-center">
+          <View className="flex-1 justify-center items-center pb-24">
             <ActivityIndicator size="large" color="#7c3aed" />
           </View>
         ) : categoriesError ? (
