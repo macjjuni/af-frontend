@@ -92,12 +92,12 @@ export default function ProfilesScreen() {
               }}
             >
               <View className="flex-row items-center justify-between">
-                <Text className="text-lg font-bold text-gray-900 dark:text-white">
+                <Text className="text-xl font-bold text-gray-900 dark:text-white">
                   {getProfileDisplayName(item, index)}
                 </Text>
                 <Ionicons name="chevron-forward" size={18} color={isDark ? '#4b5563' : '#d1d5db'}/>
               </View>
-              <Text className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+              <Text className="text-md text-gray-500 dark:text-gray-400 mt-1">
                 {formatBirthSummary(item)}
               </Text>
             </TouchableOpacity>

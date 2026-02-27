@@ -62,9 +62,6 @@ export default function TemplateDetailScreen() {
       clearFortuneResult();
       setFortuneLoading(true);
 
-      // 즉시 fortune 화면으로 이동
-      router.push('/fortune');
-
       const chartData = await buildChartData(profile.birthForm);
 
       if (__DEV__) {
@@ -99,9 +96,6 @@ export default function TemplateDetailScreen() {
       // 이전 결과 초기화 및 로딩 시작
       clearFortuneResult();
       setFortuneLoading(true);
-
-      // 즉시 fortune 화면으로 이동
-      router.push('/fortune');
 
       const [chartDataA, chartDataB] = await Promise.all([
         buildChartData(profiles[0].birthForm),
@@ -150,6 +144,8 @@ export default function TemplateDetailScreen() {
     if (fortune.isSuccess) {
       setFortuneResult(fortune.data);
       setFortuneLoading(false);
+      // API 성공 후 fortune 화면으로 이동
+      router.push('/fortune');
     } else if (fortune.isError) {
       setFortuneError(fortune.error instanceof Error ? fortune.error.message : '오류가 발생했습니다.');
       setFortuneLoading(false);
@@ -177,7 +173,7 @@ export default function TemplateDetailScreen() {
         {/* 운세 분석 에러 */}
         {fortune.isError && (
           <View className="bg-red-50 dark:bg-red-900/20 rounded-xl p-4 border border-red-200 dark:border-red-800 mb-2">
-            <Text className="text-red-600 dark:text-red-400 text-sm">
+            <Text className="text-red-600 dark:text-red-400 text-md">
               {fortune.error instanceof Error ? fortune.error.message : '오류가 발생했습니다.'}
             </Text>
           </View>
