@@ -25,9 +25,8 @@ export async function buildChartData(birthForm: BirthForm): Promise<string> {
 
   // 2. 압축 함수 호출 (Transactions 영역 함수 사용)
   const compressedResult = getCompressedFortuneText(sajuRaw, ziweiRaw, natalRaw);
-
   // 성별 태그가 필요하다면 붙여서 반환
-  const prefix = birthForm.gender === 'M' ? '# M_' : '# F_';
+  const prefix = birthForm.gender === 'M' ? '# 남성' : '# 여성';
 
   return `${prefix}\n${compressedResult}`;
 }
