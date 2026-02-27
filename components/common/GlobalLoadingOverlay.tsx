@@ -20,7 +20,7 @@ export default function GlobalLoadingOverlay() {
             source={require('@/assets/lotties/ai.json')}
             autoPlay
             loop
-            style={{ width: 150, height: 150, marginTop: -20, marginBottom: -12 }}
+            style={{ width: 180, height: 180, marginTop: -20, marginBottom: -16 }}
           />
           {globalLoading.message && (
             <Text className="mt-1 text-center text-lg text-gray-500 dark:text-gray-400 px-2">

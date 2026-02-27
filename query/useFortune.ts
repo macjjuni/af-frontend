@@ -38,7 +38,7 @@ export function useFortune() {
   // region [Life Cycles]
   useEffect(() => {
     if (mutation.isPending) {
-      showGlobalLoading('AI 분석 중... (약 1~2분 소요)');
+      showGlobalLoading('AI 분석 중... (약 1분 소요)');
     } else {
       hideGlobalLoading();
     }
