@@ -1,10 +1,11 @@
 import React, { useEffect } from 'react';
-import { View, Text, ScrollView, TouchableOpacity, Dimensions, ActivityIndicator } from 'react-native';
+import { View, Text, ScrollView, TouchableOpacity, Dimensions } from 'react-native';
 import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import useAppStore from '@/store/useAppStore';
 import { useCategories } from '@/query';
 import { TabHeader } from '@/components/layout';
+import { CategoryGridSkeleton } from '@/components/common';
 
 export default function HomeScreen() {
   // region [hooks]
@@ -51,9 +52,7 @@ export default function HomeScreen() {
       >
         {/* 카테고리 그리드 */}
         {categoriesLoading ? (
-          <View className="flex-1 justify-center items-center pb-24">
-            <ActivityIndicator size="large" color="#7c3aed" />
-          </View>
+          <CategoryGridSkeleton count={6} cardWidth={cardWidth} />
         ) : categoriesError ? (
           <View className="py-12 items-center">
             <Text className="text-red-500 dark:text-red-400">카테고리를 불러오는데 실패했습니다.</Text>

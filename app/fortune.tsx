@@ -4,11 +4,14 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useRouter } from 'expo-router'
 import Markdown from 'react-native-markdown-display'
 import useFortuneStore from '@/store/useFortuneStore'
+import { MarkdownSkeleton } from '@/components/common'
 
 export default function FortuneScreen() {
 
   // region [hooks]
   const fortuneResult = useFortuneStore((s) => s.fortuneResult)
+  const isLoading = useFortuneStore((s) => s.isLoading)
+  const error = useFortuneStore((s) => s.error)
   const router = useRouter()
   const insets = useSafeAreaInsets()
   const colorScheme = useColorScheme()
@@ -22,8 +25,6 @@ export default function FortuneScreen() {
       .replace(/\*\*'/g, '\'**').replace(/'\*\*/g, '**\'')
   // endregion
 
-  if (!fortuneResult) return null
-
   return (
     <View className="flex-1 bg-gray-50 dark:bg-gray-950" style={{ paddingTop: insets.top }}>
       <ScrollView
@@ -35,7 +36,19 @@ export default function FortuneScreen() {
           <Text className="text-[20px] font-bold text-center text-gray-900 dark:text-gray-100">AI 분석 결과</Text>
         </View>
         <View className="bg-white dark:bg-gray-800 rounded-xl px-5 pt-4 pb-5 border border-purple-100 dark:border-purple-900">
-          <Markdown style={getMarkdownStyles(isDark)}>{fixBoldAroundQuotes(fortuneResult.result)}</Markdown>
+          {isLoading ? (
+            <MarkdownSkeleton />
+          ) : error ? (
+            <View className="py-8 items-center">
+              <Text className="text-red-500 dark:text-red-400 text-center">{error}</Text>
+            </View>
+          ) : fortuneResult ? (
+            <Markdown style={getMarkdownStyles(isDark)}>{fixBoldAroundQuotes(fortuneResult.result)}</Markdown>
+          ) : (
+            <View className="py-8 items-center">
+              <Text className="text-gray-500 dark:text-gray-400 text-center">분석 결과가 없습니다.</Text>
+            </View>
+          )}
         </View>
       </ScrollView>
 

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { View, Text, ScrollView, TouchableOpacity, ActivityIndicator, useColorScheme } from 'react-native';
+import { View, Text, ScrollView, TouchableOpacity, useColorScheme } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useLocalSearchParams } from 'expo-router';
 import { useRouter } from 'expo-router';
@@ -10,6 +10,7 @@ import { useRewardedAd } from '@/hooks';
 import useAppStore from '@/store/useAppStore';
 import useFortuneStore from '@/store/useFortuneStore';
 import { ProfileSelectSheet, ScreenHeader } from '@/components';
+import { TemplateListSkeleton } from '@/components/common';
 import type { Profile } from '@/store/useProfileStore';
 import { buildChartData } from '@/utils/buildChartData';
 
@@ -23,6 +24,9 @@ export default function TemplateDetailScreen() {
   const isDark = colorScheme === 'dark';
   const { deviceId } = useAppStore();
   const setFortuneResult = useFortuneStore((s) => s.setFortuneResult);
+  const setFortuneLoading = useFortuneStore((s) => s.setFortuneLoading);
+  const setFortuneError = useFortuneStore((s) => s.setFortuneError);
+  const clearFortuneResult = useFortuneStore((s) => s.clearFortuneResult);
   const { data: categoriesData } = useCategories();
   const { data: templatesData, isLoading: templatesLoading, isError: templatesError } = useTemplates(id);
   const fortune = useFortune();
@@ -54,6 +58,12 @@ export default function TemplateDetailScreen() {
     const showAds = shouldShowAds.data?.isShowAds ?? false;
 
     const executeFortuneAnalysis = async () => {
+      // 이전 결과 초기화 및 로딩 시작
+      clearFortuneResult();
+      setFortuneLoading(true);
+
+      // 즉시 fortune 화면으로 이동
+      router.push('/fortune');
 
       const chartData = await buildChartData(profile.birthForm);
 
@@ -86,6 +96,12 @@ export default function TemplateDetailScreen() {
     const showAds = shouldShowAds.data?.isShowAds ?? false;
 
     const executeFortuneAnalysis = async () => {
+      // 이전 결과 초기화 및 로딩 시작
+      clearFortuneResult();
+      setFortuneLoading(true);
+
+      // 즉시 fortune 화면으로 이동
+      router.push('/fortune');
 
       const [chartDataA, chartDataB] = await Promise.all([
         buildChartData(profiles[0].birthForm),
@@ -133,9 +149,12 @@ export default function TemplateDetailScreen() {
   useEffect(() => {
     if (fortune.isSuccess) {
       setFortuneResult(fortune.data);
-      router.push('/fortune');
+      setFortuneLoading(false);
+    } else if (fortune.isError) {
+      setFortuneError(fortune.error instanceof Error ? fortune.error.message : '오류가 발생했습니다.');
+      setFortuneLoading(false);
     }
-  }, [fortune.isSuccess]);
+  }, [fortune.isSuccess, fortune.isError]);
 
   useFocusEffect(useCallback(() => {
     fortune.reset();
@@ -165,9 +184,7 @@ export default function TemplateDetailScreen() {
         )}
 
         {templatesLoading ? (
-          <View className="flex-1 justify-center items-center pb-24">
-            <ActivityIndicator size="large" color="#7c3aed" />
-          </View>
+          <TemplateListSkeleton count={2} />
         ) : templatesError ? (
           <View className="py-12 items-center">
             <Text className="text-red-500 dark:text-red-400">템플릿을 불러오는데 실패했습니다.</Text>
