@@ -51,7 +51,7 @@ export default function SettingCard({ items }: SettingCardProps) {
               index < items.length - 1 ? 'border-b border-gray-100 dark:border-gray-700' : ''
             }`}
           >
-            <View className={`w-9 h-9 rounded-xl items-center justify-center mr-3 ${iconBgClassName}`}>
+            <View className={`w-9 h-9 rounded-xl items-center justify-center mr-4 ${iconBgClassName}`}>
               <Ionicons
                 name={icon}
                 size={20}

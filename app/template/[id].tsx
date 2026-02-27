@@ -206,9 +206,9 @@ export default function TemplateDetailScreen() {
               activeOpacity={0.7}
             >
               <View className="flex-row items-center justify-between">
-                <View className="flex-1 gap-1 pr-3">
+                <View className="flex-1 gap-1.5 pr-3">
                   <Text className="text-2xl font-semibold text-gray-900 dark:text-white">{title}</Text>
-                  <Text className="text-md font-semibold text-gray-400 dark:text-gray-400">{description}</Text>
+                  <Text className="text-md font-normal text-gray-400 dark:text-gray-400">{description}</Text>
                 </View>
                 <Ionicons
                   name="chevron-forward"
