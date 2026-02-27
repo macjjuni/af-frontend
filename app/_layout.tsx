@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { Platform } from 'react-native';
 import { Stack } from 'expo-router';
+import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import useAppStore from '@/store/useAppStore';
 import useProfileStore from '@/store/useProfileStore';
@@ -39,6 +40,11 @@ const SCREEN_CONFIGS: ScreenConfig[] = [
 
 export default function RootLayout() {
   // region [hooks]
+  const [fontsLoaded, fontError] = useFonts({
+    'Pretendard-Regular': require('../assets/fonts/Pretendard-Regular.ttf'),
+    'Pretendard-Medium': require('../assets/fonts/Pretendard-Medium.ttf'),
+    'Pretendard-Bold': require('../assets/fonts/Pretendard-Bold.ttf'),
+  });
   const initDeviceId = useAppStore((s) => s.initDeviceId);
   const initOnboarding = useAppStore((s) => s.initOnboarding);
   const loadProfiles = useProfileStore((s) => s.loadProfiles);
@@ -103,6 +109,11 @@ export default function RootLayout() {
     initialize().then();
   }, [initDeviceId, initOnboarding, loadProfiles]);
   // endregion
+
+  // 폰트 로딩 중에는 null 반환 (스플래시 스크린 유지)
+  if (!fontsLoaded && !fontError) {
+    return null;
+  }
 
   return (
     <QueryProvider>

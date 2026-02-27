@@ -4,7 +4,14 @@ module.exports = {
     content: ["./app/**/*.{js,jsx,ts,tsx}", "./components/**/*.{js,jsx,ts,tsx}"],
     presets: [require("nativewind/preset")],
     theme: {
-        extend: {},
+        extend: {
+            fontFamily: {
+                sans: ['Pretendard-Regular'], // 기본 폰트
+                pretendard: ['Pretendard-Regular'],
+                'pretendard-medium': ['Pretendard-Medium'],
+                'pretendard-bold': ['Pretendard-Bold'],
+            },
+        },
     },
     plugins: [],
 };

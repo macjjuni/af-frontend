@@ -1,4 +1,3 @@
-export { default as ZiweiView } from './ZiweiView';
 export { default as SihuaSummary } from './SihuaSummary';
 export { default as DaxianTable } from './DaxianTable';
 export { default as LiunianView } from './LiunianView';

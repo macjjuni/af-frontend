@@ -1,4 +1,3 @@
-export { default as EditScreenInfo } from './EditScreenInfo';
 export { Text, View } from './Themed';
 
 export * from './common';
