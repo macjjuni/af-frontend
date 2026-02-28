@@ -21,6 +21,16 @@ if (!API_URL) {
   throw new Error('EXPO_PUBLIC_API_URL 환경변수가 설정되지 않았습니다. .env 파일을 확인하세요.');
 }
 
+// 프로덕션 빌드 시 광고 ID 환경변수 체크
+if (IS_PROD) {
+  if (!process.env.EXPO_PUBLIC_ADMOB_REWARDED_IOS) {
+    throw new Error('EXPO_PUBLIC_ADMOB_REWARDED_IOS 환경변수가 설정되지 않았습니다.');
+  }
+  if (!process.env.EXPO_PUBLIC_ADMOB_REWARDED_ANDROID) {
+    throw new Error('EXPO_PUBLIC_ADMOB_REWARDED_ANDROID 환경변수가 설정되지 않았습니다.');
+  }
+}
+
 console.log('[app.config.js] APP_ENV:', process.env.APP_ENV);
 console.log('[app.config.js] EXPO_PUBLIC_API_URL:', process.env.EXPO_PUBLIC_API_URL);
 console.log('[app.config.js] API_URL:', API_URL);

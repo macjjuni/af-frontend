@@ -2,12 +2,26 @@ import { useState, useEffect, useRef } from 'react'
 import { Platform } from 'react-native'
 import { RewardedAd, RewardedAdEventType, AdEventType, TestIds } from 'react-native-google-mobile-ads'
 
-const adUnitId = __DEV__
-  ? TestIds.REWARDED
-  : Platform.select({
-      ios: process.env.EXPO_PUBLIC_ADMOB_REWARDED_IOS ?? TestIds.REWARDED,
-      android: process.env.EXPO_PUBLIC_ADMOB_REWARDED_ANDROID ?? TestIds.REWARDED,
-    }) ?? TestIds.REWARDED
+const getAdUnitId = () => {
+  if (__DEV__) {
+    return TestIds.REWARDED
+  }
+
+  const adId = Platform.select({
+    ios: process.env.EXPO_PUBLIC_ADMOB_REWARDED_IOS,
+    android: process.env.EXPO_PUBLIC_ADMOB_REWARDED_ANDROID,
+  })
+
+  if (!adId) {
+    throw new Error(
+      `광고 ID가 설정되지 않았습니다. (Platform: ${Platform.OS})`
+    )
+  }
+
+  return adId
+}
+
+const adUnitId = getAdUnitId()
 
 /**
  * 리워드 광고 훅
