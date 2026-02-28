@@ -46,7 +46,7 @@ export default function FortuneScreen() {
 
       await Share.share({
         message: shareContent,
-        title: 'AI 운세 분석 결과',  // Android only
+        title: '{{AppName}} 결과',  // Android only
       })
     } catch (error) {
       console.error('Share failed:', error)

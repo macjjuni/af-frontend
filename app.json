@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "AI 운세 분석",
+    "name": "{{AppName}}",
     "slug": "af-frontend",
     "version": "1.0.0",
     "orientation": "portrait",
