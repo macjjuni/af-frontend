@@ -1,3 +1,6 @@
+// .env 파일 로드
+require('dotenv').config();
+
 const IS_PROD = process.env.APP_ENV === 'production';
 
 // Google 공식 테스트용 App ID
