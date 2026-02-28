@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "{{AppName}}",
+    "name": "알고사주",
     "slug": "af-frontend",
     "version": "1.0.0",
     "orientation": "portrait",

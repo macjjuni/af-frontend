@@ -42,11 +42,11 @@ export default function FortuneScreen() {
 
     try {
       const plainText = convertMarkdownToPlainText(fortuneResult.result)
-      const shareContent = `✨ AI 분석 결과 ✨\n\n${plainText}\n\n#{{AppName}}`
+      const shareContent = `✨ AI 분석 결과 ✨\n\n${plainText}\n\n#알고사주`
 
       await Share.share({
         message: shareContent,
-        title: '{{AppName}} 결과',  // Android only
+        title: '알고사주 결과',  // Android only
       })
     } catch (error) {
       console.error('Share failed:', error)

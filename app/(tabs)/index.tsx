@@ -54,7 +54,7 @@ export default function HomeScreen() {
         {categoriesLoading ? (
           <CategoryGridSkeleton count={6} cardWidth={cardWidth} />
         ) : categoriesError ? (
-          <View className="py-12 items-center">
+          <View className="py-14 items-center">
             <Text className="text-red-500 dark:text-red-400">카테고리를 불러오는데 실패했습니다.</Text>
           </View>
         ) : (
@@ -75,7 +75,7 @@ export default function HomeScreen() {
                 activeOpacity={0.8}
               >
                 <View
-                  className="w-14 h-14 rounded-xl items-center justify-center mb-3"
+                  className="w-14 h-16 rounded-xl items-center justify-center mb-3"
                   style={{ backgroundColor: category.color + '20' }}
                 >
                   <Ionicons name={category.icon as keyof typeof Ionicons.glyphMap} size={24} color={category.color} />

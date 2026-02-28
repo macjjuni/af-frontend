@@ -1,8 +1,8 @@
 # Open Source Licenses
 
-이 프로젝트는 677개의 오픈소스 라이브러리를 사용하고 있으며, 17종류의 라이센스가 적용되어 있습니다.
+이 프로젝트는 678개의 오픈소스 라이브러리를 사용하고 있으며, 17종류의 라이센스가 적용되어 있습니다.
 
-**생성일:** 2026. 2. 28.
+**생성일:** 2026. 3. 1.
 
 ---
 
@@ -81,7 +81,7 @@ AGPL-3.0 라이센스에 따라 위 링크에서 관련 소스 코드를 확인�
 
 </details>
 
-### MIT (575개)
+### MIT (577개)
 
 매우 허용적인 라이센스입니다. 저작권 표시만 필요합니다.
 
@@ -246,7 +246,7 @@ AGPL-3.0 라이센스에 따라 위 링크에서 관련 소스 코드를 확인�
 - **@radix-ui/react-use-effect-event** v0.0.2 · [homepage](https://radix-ui.com/primitives)
 - **@radix-ui/react-use-escape-keydown** v1.1.1 · [homepage](https://radix-ui.com/primitives)
 - **@radix-ui/react-use-layout-effect** v1.1.1 · [homepage](https://radix-ui.com/primitives)
-- **@react-native-async-storage/async-storage** v3.0.1 · Krzysztof Borowy · [homepage](https://github.com/react-native-async-storage/async-storage#readme)
+- **@react-native-async-storage/async-storage** v2.2.0 · Krzysztof Borowy · [homepage](https://github.com/react-native-async-storage/async-storage#readme)
 - **@react-native/assets-registry** v0.81.5 · [homepage](https://github.com/facebook/react-native/tree/HEAD/packages/assets#readme)
 - **@react-native/babel-plugin-codegen** v0.81.5 · [homepage](https://github.com/facebook/react-native/tree/HEAD/packages/babel-plugin-codegen#readme)
 - **@react-native/babel-preset** v0.81.5 · [homepage](https://github.com/facebook/react-native#readme)
@@ -439,6 +439,7 @@ AGPL-3.0 라이센스에 따라 위 링크에서 관련 소스 코드를 확인�
 - **is-fullwidth-code-point** v3.0.0 · Sindre Sorhus · [homepage](https://github.com/sindresorhus/is-fullwidth-code-point#readme)
 - **is-glob** v4.0.3 · Jon Schlinkert · [homepage](https://github.com/micromatch/is-glob)
 - **is-number** v7.0.0 · Jon Schlinkert · [homepage](https://github.com/jonschlinkert/is-number)
+- **is-plain-obj** v2.1.0 · Sindre Sorhus · [homepage](https://github.com/sindresorhus/is-plain-obj#readme)
 - **is-wsl** v2.2.0 · Sindre Sorhus · [homepage](https://github.com/sindresorhus/is-wsl#readme)
 - **jest-environment-node** v29.7.0 · [homepage](https://github.com/jestjs/jest#readme)
 - **jest-get-type** v29.6.3 · [homepage](https://github.com/jestjs/jest#readme)
@@ -471,6 +472,7 @@ AGPL-3.0 라이센스에 따라 위 링크에서 관련 소스 코드를 확인�
 - **markdown-it** v10.0.0 · [homepage](https://github.com/markdown-it/markdown-it#readme)
 - **mdurl** v1.0.1 · [homepage](https://github.com/markdown-it/mdurl#readme)
 - **memoize-one** v5.2.1 · Alex Reardon · [homepage](https://github.com/alexreardon/memoize-one#readme)
+- **merge-options** v3.0.4 · Michael Mayer · [homepage](https://github.com/schnittstabil/merge-options#readme)
 - **merge-stream** v2.0.0 · Stephen Sugden · [homepage](https://github.com/grncdr/merge-stream#readme)
 - **merge2** v1.4.1 · [homepage](https://github.com/teambition/merge2)
 - **metro** v0.83.3 · [homepage](https://github.com/facebook/metro#readme)
@@ -709,7 +711,7 @@ AGPL-3.0 라이센스에 따라 위 링크에서 관련 소스 코드를 확인�
 
 </details>
 
-### ISC (40개)
+### ISC (39개)
 
 MIT와 유사한 매우 허용적인 라이센스입니다.
 
@@ -731,7 +733,6 @@ MIT와 유사한 매우 허용적인 라이센스입니다.
 - **glob-parent** v5.1.2 · Gulp Team · [homepage](https://github.com/gulpjs/glob-parent#readme)
 - **graceful-fs** v4.2.11 · [homepage](https://github.com/isaacs/node-graceful-fs#readme)
 - **hosted-git-info** v7.0.2 · GitHub Inc. · [homepage](https://github.com/npm/hosted-git-info)
-- **idb** v8.0.3 · Jake Archibald · [homepage](https://github.com/jakearchibald/idb#readme)
 - **inflight** v1.0.6 · Isaac Z. Schlueter · [homepage](https://github.com/isaacs/inflight)
 - **inherits** v2.0.4 · [homepage](https://github.com/isaacs/inherits#readme)
 - **ini** v1.3.8 · Isaac Z. Schlueter · [homepage](https://github.com/isaacs/ini#readme)

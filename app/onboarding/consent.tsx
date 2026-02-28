@@ -129,7 +129,7 @@ export default function ConsentScreen() {
         </TouchableOpacity>
 
         {/* 개별 동의 항목 */}
-        <View className="bg-white dark:bg-gray-800 rounded-2xl p-5 mb-4 border border-gray-100 dark:border-gray-700">
+        <View className="bg-white dark:bg-gray-800 rounded-2xl px-5 py-2 mb-4 border border-gray-100 dark:border-gray-700">
           {CONSENT_ITEMS.map((item, index) => (
             <View key={item.id}>
               <View className="flex-row items-center justify-between py-3">
