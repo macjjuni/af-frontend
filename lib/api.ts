@@ -2,12 +2,15 @@ import Constants from 'expo-constants';
 
 /**
  * API 기본 URL
- * 우선순위: EXPO_PUBLIC_API_URL > Constants.extra.apiUrl > 폴백
+ * app.config.js의 extra.apiUrl에서 주입됨 (.env의 EXPO_PUBLIC_API_URL)
  */
-export const API_URL =
-  process.env.EXPO_PUBLIC_API_URL ||
-  Constants.expoConfig?.extra?.apiUrl ||
-  'https://af-fortune-api-301118051125.asia-northeast3.run.app';
+const apiUrl = Constants.expoConfig?.extra?.apiUrl;
+
+if (!apiUrl) {
+  throw new Error('API URL이 설정되지 않았습니다. app.config.js를 확인하세요.');
+}
+
+export const API_URL = apiUrl;
 
 /**
  * API 공통 fetch 함수

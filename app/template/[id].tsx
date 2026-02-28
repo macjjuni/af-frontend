@@ -49,13 +49,12 @@ export default function TemplateDetailScreen() {
     setProfileSheetVisible(true);
   }
 
-  function handleSingleProfile(profile: Profile) {
+  async function handleSingleProfile(profile: Profile) {
     if (!selectedTemplateId) return;
 
-    // shouldShowAds API 로딩 중이면 대기
-    if (shouldShowAds.isLoading) return;
-
-    const showAds = shouldShowAds.data?.isShowAds ?? false;
+    // 광고 표시 여부 확인 (운세 분석 시작 시점에 호출)
+    const adsResult = await shouldShowAds.refetch();
+    const showAds = adsResult.data?.isShowAds ?? false;
 
     const executeFortuneAnalysis = async () => {
       // 이전 결과 초기화 및 로딩 시작
@@ -84,13 +83,12 @@ export default function TemplateDetailScreen() {
     }
   }
 
-  function handleMultipleProfiles(profiles: Profile[]) {
+  async function handleMultipleProfiles(profiles: Profile[]) {
     if (!selectedTemplateId) return;
 
-    // shouldShowAds API 로딩 중이면 대기
-    if (shouldShowAds.isLoading) return;
-
-    const showAds = shouldShowAds.data?.isShowAds ?? false;
+    // 광고 표시 여부 확인 (운세 분석 시작 시점에 호출)
+    const adsResult = await shouldShowAds.refetch();
+    const showAds = adsResult.data?.isShowAds ?? false;
 
     const executeFortuneAnalysis = async () => {
       // 이전 결과 초기화 및 로딩 시작

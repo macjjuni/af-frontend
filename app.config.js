@@ -11,8 +11,12 @@ const ADMOB_PROD_IOS_APP_ID = 'ca-app-pub-7285750037307016~8209732584';
 const androidAppId = IS_PROD ? ADMOB_PROD_ANDROID_APP_ID : ADMOB_TEST_ANDROID_APP_ID;
 const iosAppId = IS_PROD ? ADMOB_PROD_IOS_APP_ID : ADMOB_TEST_IOS_APP_ID;
 
-// API URL (환경변수 또는 기본값)
-const API_URL = process.env.EXPO_PUBLIC_API_URL || 'https://af-fortune-api-301118051125.asia-northeast3.run.app';
+// API URL (환경변수 필수)
+const API_URL = process.env.EXPO_PUBLIC_API_URL;
+
+if (!API_URL) {
+  throw new Error('EXPO_PUBLIC_API_URL 환경변수가 설정되지 않았습니다. .env 파일을 확인하세요.');
+}
 
 console.log('[app.config.js] APP_ENV:', process.env.APP_ENV);
 console.log('[app.config.js] EXPO_PUBLIC_API_URL:', process.env.EXPO_PUBLIC_API_URL);
