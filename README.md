@@ -114,54 +114,6 @@ pnpm prebuild
 
 ---
 
-## 📂 프로젝트 구조
-
-```
-af-frontend/
-├── app/                          # Expo Router 라우트
-│   ├── (tabs)/                  # 탭 네비게이션
-│   │   ├── index.tsx           # 홈 (템플릿 목록)
-│   │   ├── profiles.tsx        # 프로필 관리
-│   │   └── settings.tsx        # 설정
-│   ├── legal/                   # 약관 및 안내
-│   │   ├── index.tsx           # 약관 목록 (2뎁스)
-│   │   ├── terms.tsx           # 이용약관
-│   │   ├── privacy.tsx         # 개인정보처리방침
-│   │   └── ai-notice.tsx       # AI 서비스 안내
-│   ├── profiles/                # 프로필 상세
-│   │   ├── new.tsx             # 프로필 생성
-│   │   └── [id].tsx            # 프로필 편집
-│   ├── template/
-│   │   └── [id].tsx            # 템플릿 상세 & 프로필 선택
-│   ├── fortune.tsx              # 운세 분석 화면
-│   ├── result.tsx               # 만세력 결과
-│   ├── onboarding/              # 온보딩
-│   ├── _layout.tsx              # 루트 레이아웃
-│   └── +not-found.tsx           # 404
-├── components/                   # 재사용 컴포넌트
-│   ├── layout/                  # 레이아웃 컴포넌트
-│   ├── settings/                # 설정 공통 컴포넌트
-│   └── [...]
-├── store/                        # Zustand 스토어
-│   ├── useAppStore.ts           # 앱 전역 상태
-│   └── useProfileStore.ts       # 프로필 관리
-├── hooks/                        # 커스텀 훅
-├── providers/                    # Context Providers
-├── constants/                    # 상수 (자동 생성 포함)
-├── scripts/                      # 빌드 스크립트
-│   ├── generate-privacy-policy.js
-│   ├── generate-terms.js
-│   ├── generate-ai-notice.js
-│   └── generate-licenses-md.js
-├── patches/                      # pnpm 패치 파일
-│   └── @orrery__core@0.3.0.patch  # iOS 성능 패치
-├── assets/                       # 정적 파일
-├── CLAUDE.md                     # Claude Code 가이드
-├── LICENSES.md                   # 오픈소스 라이센스 (자동 생성)
-└── tailwind.config.js
-```
-
----
 
 ## 💻 개발 가이드라인
 
@@ -194,35 +146,6 @@ export default function Component() {
 
   return (/* JSX */);
 }
-```
-
-### 핵심 로직
-
-#### 1. Device ID 관리
-```typescript
-// 앱 시작 시 고유 ID 생성 및 저장
-const deviceID = await initDeviceId();
-
-// 모든 API 요청에 포함 (Rate Limiting)
-POST /api/v1/fortune
-Body: { deviceID, ...fortuneData }
-```
-
-#### 2. 운세 분석 플로우
-1. **프로필 선택** → 저장된 프로필 또는 신규 입력
-2. **로컬 계산** → `@orrery/core`로 사주/작명 데이터 계산
-3. **API 요청** → 계산 결과 + deviceID를 백엔드 전송
-4. **결과 표시** → AI 분석 결과 렌더링
-
-#### 3. 새 화면 추가 시
-```typescript
-// 1. 파일 생성: app/example/index.tsx
-// 2. _layout.tsx에 등록:
-const SCREEN_CONFIGS = [
-  // ...
-  { name: 'example/index', options: { headerShown: false } },
-];
-// 3. 커스텀 헤더 사용: <ScreenHeader title="..." />
 ```
 
 ### Path Alias

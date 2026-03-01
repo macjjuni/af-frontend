@@ -63,7 +63,7 @@ export default function HomeScreen() {
               <TouchableOpacity
                 key={category.id}
                 onPress={() => onPressCategory(category.id)}
-                className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700 items-center justify-center py-7"
+                className="bg-white dark:bg-gray-800 rounded-3xl border border-gray-100 dark:border-gray-700 items-center justify-center py-5"
                 style={{
                   width: cardWidth,
                   shadowColor: '#000',
@@ -75,7 +75,7 @@ export default function HomeScreen() {
                 activeOpacity={0.8}
               >
                 <View
-                  className="w-14 h-16 rounded-xl items-center justify-center mb-3"
+                  className="w-16 h-16 rounded-2xl items-center justify-center mb-2"
                   style={{ backgroundColor: category.color + '20' }}
                 >
                   <Ionicons name={category.icon as keyof typeof Ionicons.glyphMap} size={24} color={category.color} />
