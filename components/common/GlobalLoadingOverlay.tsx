@@ -15,16 +15,16 @@ export default function GlobalLoadingOverlay() {
       statusBarTranslucent
     >
       <View className="flex-1 items-center justify-center bg-black/55">
-        <View className="items-center rounded-2xl bg-white dark:bg-gray-900 px-8 py-6">
+        <View className="items-center rounded-2xl p-6 bg-white dark:bg-gray-800">
           <LottieView
             source={require('@/assets/lotties/ai.json')}
             autoPlay
             loop
-            style={{ width: 180, height: 180, marginTop: -20, marginBottom: -16 }}
+            style={{ width: 180, height: 180, marginTop: -30, marginBottom: -16 }}
           />
           {globalLoading.message && (
-            <Text className="mt-1 text-center text-lg text-gray-500 dark:text-gray-400 px-2">
-              {globalLoading.message}
+            <Text className="mt-1 text-center text-lg text-gray-700 dark:text-gray-300 px-4">
+              {globalLoading?.message}
             </Text>
           )}
         </View>
