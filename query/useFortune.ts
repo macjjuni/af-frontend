@@ -32,6 +32,7 @@ export function useFortune() {
   const hideGlobalLoading = useAppStore((s) => s.hideGlobalLoading);
   const mutation = useMutation({
     mutationFn: fetchFortune,
+    retry: 0, // 운세 분석은 쿼터 차감 API — 재시도 절대 불가
   });
   // endregion
 

@@ -24,6 +24,8 @@ export function useCategories() {
   return useQuery({
     queryKey: ['fortune', 'categories'],
     queryFn: fetchCategories,
-    staleTime: 1000 * 60 * 30, // 30분 (카테고리는 자주 변경되지 않음)
+    staleTime: 1000 * 60 * 60,       // 1시간 (정적 데이터)
+    gcTime: 1000 * 60 * 60 * 24,    // 24시간
+    retry: 2,
   });
 }

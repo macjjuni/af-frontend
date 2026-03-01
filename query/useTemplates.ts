@@ -26,6 +26,7 @@ export function useTemplates(categoryId?: string) {
   return useQuery({
     queryKey: ['fortune', 'templates', categoryId],
     queryFn: () => fetchTemplates(categoryId),
-    staleTime: 1000 * 60 * 10,
+    staleTime: 1000 * 60 * 30,    // 30분
+    gcTime: 1000 * 60 * 60,      // 1시간 (카테고리 간 이동 시 캐시 유지)
   });
 }
